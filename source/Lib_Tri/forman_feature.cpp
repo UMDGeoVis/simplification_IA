@@ -243,7 +243,7 @@ void FormanGradientVector::ascending_1cells_extraction(bool with_geometry){
                             if(with_geometry){
                                 int v=-1;
                                 for(int j=0; j<3; j++){
-                                    if(v==-1 || mesh->getVertex(v).getZ() < mesh->getVertex(mesh->getTopSimplex(i).TV(j)).getZ())
+                                    if(v==-1 || filtration[v] < filtration[mesh->getTopSimplex(i).TV(j)])
                                         v=mesh->getTopSimplex(i).TV(j);
                                 }
                             }
@@ -274,7 +274,7 @@ void FormanGradientVector::ascending_1cells_extraction(bool with_geometry){
 pair<double, double> FormanGradientVector::compute_incidence_graph(){
 
     forman_ig=IG();
-    int arc_saddle_minimum=0, arc_saddle_maximum=0;
+    int arc_saddle_minimum=0, arc_saddle_maximum=0,level2=0;
     pair<double, double> pers = pair<double, double>(100,0);
 
     vector<bool> visited = vector<bool>(mesh->getTopSimplexesNum(),false);
@@ -297,7 +297,7 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(){
                 if(is_edge_critical(edge->EV(0), edge->EV(1))){
                     critical_edge++;
                     iNode* saddle_node;
-                    if(mesh->getVertex(edge->EV(0)).getZ() > mesh->getVertex(edge->EV(1)).getZ()){
+                    if(filtration[edge->EV(0)] > filtration[edge->EV(1)]){
                         vert_saddle = edge->EV(0);
                     }
                     else{
@@ -326,17 +326,19 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(){
                             if(is_face_critical(t)){
                                 if(maxima_nodes.find(t) == maxima_nodes.end()){
                                     maxima_nodes[t]=new nNode(mesh->getTopSimplexHighestVertex(t));
+                                  //  cout<<"[FOR DEBUG] tid:"<<t<<"; highest vertex"<<mesh->getTopSimplexHighestVertex(t)<<endl;
                                     forman_ig.addNode(maxima_nodes[t],2);
                                 }
                                 Arc* arc = forman_ig.already_connected(maxima_nodes[t],saddle_node);
                                 if(arc == NULL){
                                     forman_ig.addArc(saddle_node, et[k],maxima_nodes[t], last_t, 1);
-                                    pers = update_persistence(saddle_node->getCriticalIndex(), mesh->getTopSimplexHighestVertex(maxima_nodes[t]->getCriticalIndex()) ,pers);
+                                    pers = update_persistence(saddle_node->getCriticalIndex(), maxima_nodes[t]->getCriticalIndex() ,pers);
                                 arc_saddle_maximum++;
                                 }
                                 else
-                                    arc->setLabel(2);
-                                
+                                   { arc->setLabel(2);
+                                   level2++;
+                                   }
                             }
                             else{
                                 for(int k=0; k<3; k++){
@@ -381,8 +383,9 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(){
                                 arc_saddle_minimum++;
                                 }
                                 else
-                                    arc->setLabel(2);
-                                
+                                   { arc->setLabel(2);
+                                   level2++;
+                                   }
                             }
                             delete edge2;
                         }
@@ -401,6 +404,7 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(){
     cout<<"Number of arcs:"<<endl;
     cout<<"Saddle - Maximum: "<<arc_saddle_maximum<<endl;
     cout<<"Saddle - Minimum: "<< arc_saddle_minimum<<endl;
+    cout<<"Level 2 arcs:"<<level2<<endl;
 
     return pers;
 }
@@ -418,7 +422,7 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(map<int, nNod
 //        (*it).second->clear_arcs();
 
     forman_ig=IG();
-    int arc_saddle_minimum=0, arc_saddle_maximum=0;
+    int arc_saddle_minimum=0, arc_saddle_maximum=0, level2=0;
 
     //assert(forman_ig.getLevelArcs(0).size() == 0 && forman_ig.getLevelArcs(1).size() ==0 );
 
@@ -466,15 +470,19 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(map<int, nNod
                             if(is_face_critical(t)){ //TODO: add an arc count
                                 nNode* maximum = (*maxima_nodes)[t];
                                 //assert(maximum != NULL);
+                                //  cout<<"[FOR DEBUG] tid:"<<t<<"; highest vertex"<<mesh->getTopSimplexHighestVertex(t)<<endl;
+                                //  cout<<"Critical index"<<maximum->getCriticalIndex()<<endl;
+                                //  cout<<"Number of vertices:"<<mesh->getNumVertex()<<endl;
                                 Arc* arc = forman_ig.already_connected(maximum,saddle_node);
                                 if(arc == NULL){
                                     forman_ig.addArc(saddle_node, et[k],maximum, last_t, 1);
-                                    pers = update_persistence(saddle_node->getCriticalIndex(), mesh->getTopSimplexHighestVertex(maximum->getCriticalIndex()) ,pers);
+                                    pers = update_persistence(saddle_node->getCriticalIndex(), getTriangleHighestVertex(maximum->getCriticalIndex()) ,pers);
                                 arc_saddle_maximum++;
                                 }
                                 else
-                                    arc->setLabel(2);
-
+                                   { arc->setLabel(2);
+                                    level2++;
+                                   }
                                 
                             }
                             else{
@@ -526,8 +534,9 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(map<int, nNod
                                  arc_saddle_minimum++;
                                 }
                                 else
-                                    arc->setLabel(2);
-
+                                    {arc->setLabel(2);
+                                    level2++;
+                                    }
                                
                             }
                             delete edge2;
@@ -544,6 +553,7 @@ pair<double, double> FormanGradientVector::compute_incidence_graph(map<int, nNod
     cout<<"Number of arcs:"<<endl;
     cout<<"Saddle - Maximum: "<<arc_saddle_maximum<<endl;
     cout<<"Saddle - Minimum: "<< arc_saddle_minimum<<endl;
+        cout<<"Level 2 arcs:"<<level2<<endl;
     return pers;
 }
 
@@ -561,7 +571,7 @@ void FormanGradientVector::compute_critical_simplexes(map<int, nNode *> *min, ma
                 int vert_saddle;
                 //assert(mesh->is_v_alive(edge->EV(0)) && mesh->is_v_alive(edge->EV(1)));
                 if(is_edge_critical(edge->EV(0), edge->EV(1))){
-                    if(mesh->getVertex(edge->EV(0)).getZ() > mesh->getVertex(edge->EV(1)).getZ()){
+                    if(filtration[edge->EV(0)] > filtration[edge->EV(1)]){
                         vert_saddle = edge->EV(0);
                     }
                     else{

@@ -323,7 +323,10 @@ void FormanGradientVector::removal(nNode *extrema, iNode *saddle, priority_queue
             if(forman_ig.already_connected(other_extrema,node_saddle1)==NULL){
                 Arc* arco = forman_ig.addArc(node_saddle1, starting_path_simplex, other_extrema, ending_path_simplex, 1);
                 if(arco->getLabel() == 1){  //when will the label be 1 and when is 0
-                    double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[mesh->getTopSimplexHighestVertex(arco->getNode_j()->getCriticalIndex())]);
+                // cout<<"Checking the critical index"<<endl;
+                // cout<<arco->getNode_j()->getCriticalIndex()<<endl;
+                // cout<<mesh->getTopSimplexHighestVertex(arco->getNode_j()->getCriticalIndex())<<endl;
+                    double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[getTriangleHighestVertex(arco->getNode_j()->getCriticalIndex())]);
                 }
             }
             else{
