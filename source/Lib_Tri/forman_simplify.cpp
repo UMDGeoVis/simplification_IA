@@ -28,8 +28,8 @@ void FormanGradientVector::simplify_persistence(float pers_limit){
         if(sempl->arc->getLabel() != 1 ){
             if(sempl->arc->getLabel() == -1)
                 delete sempl->arc;
-
-            lvl2++;
+            else
+                lvl2++;
             delete sempl; // if label==2? don't simplify
             continue;
         }
@@ -177,7 +177,9 @@ void FormanGradientVector::contraction(nNode *extrema, iNode *saddle, priority_q
                 Arc* arco = forman_ig.addArc(other_extrema, ending_path_simplex, node_saddle1, starting_index, 0);
 
                 if(arco->getLabel() == 1){
+                //    cout<<"contraction label=1"<<endl;
                     double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[arco->getNode_j()->getCriticalIndex()]);
+                   //   queue->push(new Topo_Sempl(arco, val, 0,filtration[arco->getNode_i()->getCriticalIndex()],filtration[arco->getNode_j()->getCriticalIndex()]));
                 }//Q:Should arco be added to persistence queue? val here is not used. 
             }   //A: If next step is to simplify the geometry, then here no need to update the queue. A new queue will be generated when simplify the gradient again. 
             else{
@@ -198,7 +200,16 @@ void FormanGradientVector::contraction(nNode *extrema, iNode *saddle, priority_q
         minima->removeArc(minima_arcs[i]);
         saddle->removeArc(true, minima_arcs[i]);
     }
+//     if(filtration[saddle->getCriticalIndex()]==260261)
+//         {
+// cout<<"CONTRATION SADDLE:"<<saddle->get_edge_id().first<<" and "<<saddle->get_edge_id().second<<endl;
+// cout<<"First triangle: ["<<mesh->getTopSimplex(saddle->get_edge_id().first).TV(0)<<", "<<mesh->getTopSimplex(saddle->get_edge_id().first).TV(1)<<", "<<mesh->getTopSimplex(saddle->get_edge_id().first).TV(2)<<endl;
+// cout<<"Second triangle: ["<<mesh->getTopSimplex(saddle->get_edge_id().second).TV(0)<<", "<<mesh->getTopSimplex(saddle->get_edge_id().second).TV(1)<<", "<<mesh->getTopSimplex(saddle->get_edge_id().second).TV(2)<<endl;
+// cout<<"DEBUG:"<<filtration[676951]<<"; "<<filtration[677852]<<"; "<<filtration[676950]<<endl;
 
+//         }
+                cout<<"[CONTRACTION SADDLE] Filtration value:"<<filtration[saddle->getCriticalIndex()]<<endl;
+     //   cout<<"[CONTRACTION MINIMA] Filtration value"<<filtration[extrema->getCriticalIndex()]<<endl;
     forman_ig.removeNode(saddle,1);
     forman_ig.removeNode(extrema,0);
 
@@ -327,6 +338,8 @@ void FormanGradientVector::removal(nNode *extrema, iNode *saddle, priority_queue
                 // cout<<arco->getNode_j()->getCriticalIndex()<<endl;
                 // cout<<mesh->getTopSimplexHighestVertex(arco->getNode_j()->getCriticalIndex())<<endl;
                     double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[getTriangleHighestVertex(arco->getNode_j()->getCriticalIndex())]);
+               /////JUST FOR DEBUG
+              //  queue->push(new Topo_Sempl(arco, val, 1,filtration[arco->getNode_i()->getCriticalIndex()],filtration[getTriangleHighestVertex(arco->getNode_j()->getCriticalIndex())]));
                 }
             }
             else{
@@ -346,6 +359,8 @@ void FormanGradientVector::removal(nNode *extrema, iNode *saddle, priority_queue
         saddle->removeArc(false, maxima_arcs[i]);
 
     }
+    cout<<"[REMOVAL SADDLE] Filtration value:"<<filtration[saddle->getCriticalIndex()]<<endl;
+  //  cout<<"[REMOVAL MAXIMA] Filtration value"<<filtration[getTriangleHighestVertex(extrema->getCriticalIndex())]<<endl;
 
     forman_ig.removeNode(saddle,1);
     forman_ig.removeNode(extrema,2);

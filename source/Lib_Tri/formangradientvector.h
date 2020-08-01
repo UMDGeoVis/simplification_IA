@@ -46,13 +46,31 @@ public:
     Arc* arc;
     double val;
     int lvl;
+    int filt_s0,filt_s1,filt_ex;
 
-    inline Topo_Sempl(Arc* arc, double val, int lvl){ this->arc = arc; this->val=val; this->lvl=lvl;}
+    inline Topo_Sempl(Arc* arc, double val, int lvl,int filt_s0,int filt_s1,int filt_ex){ this->arc = arc; this->val=val; this->lvl=lvl;this->filt_s0=filt_s0;this->filt_s1=filt_s1;this->filt_ex=filt_ex;}
 };
 
 struct sort_arcs_topo{
     bool operator()(Topo_Sempl* s1, Topo_Sempl* s2){
-        return s1->val > s2->val;
+        if(s1->val != s2->val)
+            return s1->val > s2->val;
+         else if(s1->lvl!=s2->lvl)
+             return s1->lvl >s2->lvl;
+       /* else if(s1->arc->getNode_i()->getCriticalIndex()!=s2->arc->getNode_i()->getCriticalIndex())
+            return s1->arc->getNode_i()->getCriticalIndex()>s2->arc->getNode_i()->getCriticalIndex();
+        else
+            return s1->arc->getNode_j()->getCriticalIndex()>s2->arc->getNode_j()->getCriticalIndex();
+        */
+         else if(s1->filt_s0!=s2->filt_s0)
+            return s1->filt_s0>s2->filt_s0;
+        else if(s1->filt_s1!=s2->filt_s1)
+            {//cout<<"All the same"<<"s1 index"<<s1->arc->getNode_j()->getCriticalIndex()<<" s2 index"<<s2->arc->getNode_j()->getCriticalIndex()<<endl;
+                   return s1->filt_s1>s2->filt_s1;
+            }
+        else    
+        return s1->filt_ex>s2->filt_ex;
+        
     }
 };
 
@@ -124,6 +142,8 @@ public:
     void ascending_1cells_extraction(bool);
     pair<double, double> compute_incidence_graph();
     void compute_critical_simplexes(map<int, nNode*>* min, map<pair<int,int>, iNode*>* sad, map<int, nNode*>* max);
+    void compute_critical_simplexes_new(map<int, nNode *> *min, map<pair<int, int>, iNode *> *sad, map<int, nNode *> *max);
+    
     pair<double, double> compute_incidence_graph(map<int, nNode*>* min, map<pair<int,int>, iNode*>* sad, map<int, nNode*>* max);
 
     void writeVTK_1cells(char*, set<int>, set<pair<int, bool> >, set<pair<int,int> >);

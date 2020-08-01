@@ -137,18 +137,60 @@ void FormanGradientVector::build_persistence_queue(priority_queue<Topo_Sempl*, v
         for(set<Arc*>::iterator it = arcs.begin(); it != arcs.end(); it++){
             if((*it)->getLabel() == 1){
                 double val;
+                int index_ex;
+                Edge* critical_edge=NULL;
                 if(i==1){
                     //val = euclidean_distance((*it)->getNode_i()->getCriticalIndex(), mesh->getTopSimplexHighestVertex((*it)->getNode_j()->getCriticalIndex()));
-                    val = abs(field[((*it))->getNode_i()->getCriticalIndex()] - field[ mesh->getTopSimplexHighestVertex(((*it))->getNode_j()->getCriticalIndex())]);
+                    
+                        pair<int,int> critical_edge_tetra=((iNode*)((*it))->getNode_i())->get_edge_id();
+                        
+                        if(critical_edge_tetra.second<0){ //Only one side
+                            critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(-critical_edge_tetra.second-1);
+                        }
+                        else{
+                            for(int i=0; i<3; i++){
+                                if(!(mesh->getTopSimplex(critical_edge_tetra.second).contains(mesh->getTopSimplex(critical_edge_tetra.first).TV(i)))){
+                                    critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(i);
+                                    break;
+                                }
+                            }
+                        }
+                    
+                    
+                    int index_i=((*it))->getNode_i()->getCriticalIndex();
+                    index_ex=mesh->getTopSimplexHighestVertex(((*it))->getNode_j()->getCriticalIndex());
+                    val = abs(field[index_i] - field[index_ex]);
                 }
                 else{
+
+                        pair<int,int> critical_edge_tetra=((iNode*)((*it))->getNode_j())->get_edge_id();
+                        
+                        if(critical_edge_tetra.second<0){ //Only one side
+                            critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(-critical_edge_tetra.second-1);
+                        }
+                        else{
+                            for(int i=0; i<3; i++){
+                                if(!(mesh->getTopSimplex(critical_edge_tetra.second).contains(mesh->getTopSimplex(critical_edge_tetra.first).TV(i)))){
+                                    critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(i);
+                                    break;
+                                }
+                            }
+                        }
+
+
+                     index_ex=((*it))->getNode_i()->getCriticalIndex();
+                    int index_j=((*it))->getNode_j()->getCriticalIndex();
                     //val = euclidean_distance((*it)->getNode_i()->getCriticalIndex(), (*it)->getNode_j()->getCriticalIndex());
-                    val = abs(field[((*it))->getNode_i()->getCriticalIndex()] - field[((*it))->getNode_j()->getCriticalIndex()]);
+                    val = abs(field[index_j] - field[index_ex]);
                 }
-                queue->push(new Topo_Sempl(*it, val, i));
+                double filt0=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(0)]:filtration[critical_edge->EV(1)];
+                 double filt1=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(1)]:filtration[critical_edge->EV(0)];
+
+                queue->push(new Topo_Sempl(*it, val, i,filt0,filt1,filtration[index_ex]));
             }
         }
     }
+    cout<<"============FINISHED BUILD QUEUE============="<<endl;
 }
 
 

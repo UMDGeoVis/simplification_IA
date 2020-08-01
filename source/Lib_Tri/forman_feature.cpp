@@ -610,3 +610,57 @@ void FormanGradientVector::compute_critical_simplexes(map<int, nNode *> *min, ma
     }
 
 }
+
+void FormanGradientVector::compute_critical_simplexes_new(map<int, nNode *> *min, map<pair<int, int>, iNode *> *sad, map<int, nNode *> *max){
+
+    vector<bool> visited = vector<bool>(mesh->getTopSimplexesNum(),false);
+
+    for(int i=0; i<mesh->getTopSimplexesNum(); i++){
+        visited[i]=true;
+        if(!mesh->is_alive(i))continue;
+        for(int j=0; j<3; j++){
+            if(mesh->getTopSimplex(i).TT(j) == -1 || !visited[mesh->getTopSimplex(i).TT(j)]){
+
+                Edge* edge = mesh->getTopSimplex(i).TE(j);
+                int vert_saddle;
+                //assert(mesh->is_v_alive(edge->EV(0)) && mesh->is_v_alive(edge->EV(1)));
+                if(is_edge_critical(edge->EV(0), edge->EV(1))){
+                    if(filtration[edge->EV(0)] > filtration[edge->EV(1)]){
+                        vert_saddle = edge->EV(0);
+                    }
+                    else{
+                        vert_saddle = edge->EV(1);
+                    }
+
+
+                    iNode* node = new iNode(vert_saddle);
+                    if(mesh->getTopSimplex(i).TT(j) != -1){
+                        if(mesh->getTopSimplex(i).TT(j) < i){
+                            (*sad)[pair<int,int>(i,mesh->getTopSimplex(i).TT(j))]=node;
+                            node->add_edge_id(i,mesh->getTopSimplex(i).TT(j)); //So edge id are the two adjacent triangle?
+                        }
+                        else{
+                            (*sad)[pair<int,int>(mesh->getTopSimplex(i).TT(j),i)]=node;
+                            node->add_edge_id(mesh->getTopSimplex(i).TT(j),i);
+                        }
+                    }
+                    else{
+                        (*sad)[pair<int,int>(i,-j-1)]=node;
+                        node->add_edge_id(i,-j-1);
+                    }
+                }
+                delete edge;
+            }
+        }
+
+        if(is_face_critical(i)){
+            (*max)[i]=new nNode(i);
+        }
+    }
+
+    for(int i=0;i<mesh->getNumVertex();i++){
+        if(mesh->is_v_alive(i) && is_vertex_critical(i))
+            (*min)[i]=new nNode(i);
+    }
+
+}
