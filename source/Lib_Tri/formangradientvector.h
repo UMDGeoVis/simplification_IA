@@ -7,6 +7,8 @@
 #include <map>
 #include <set>
 #include <list>
+#include <vector>
+#include <algorithm>
 #include "assert.h"
 
 #include "Mesh.h"
@@ -46,9 +48,10 @@ public:
     Arc* arc;
     double val;
     int lvl;
-    int filt_s0,filt_s1,filt_ex;
+    int filt_s0,filt_s1;
+    vector<int> filt_ex;
 
-    inline Topo_Sempl(Arc* arc, double val, int lvl,int filt_s0,int filt_s1,int filt_ex){ this->arc = arc; this->val=val; this->lvl=lvl;this->filt_s0=filt_s0;this->filt_s1=filt_s1;this->filt_ex=filt_ex;}
+    inline Topo_Sempl(Arc* arc, double val, int lvl,int filt_s0,int filt_s1,vector<int> filt_ex){ this->arc = arc; this->val=val; this->lvl=lvl;this->filt_s0=filt_s0;this->filt_s1=filt_s1;this->filt_ex=filt_ex;}
 };
 
 struct sort_arcs_topo{
@@ -68,8 +71,15 @@ struct sort_arcs_topo{
             {//cout<<"All the same"<<"s1 index"<<s1->arc->getNode_j()->getCriticalIndex()<<" s2 index"<<s2->arc->getNode_j()->getCriticalIndex()<<endl;
                    return s1->filt_s1>s2->filt_s1;
             }
-        else    
-        return s1->filt_ex>s2->filt_ex;
+        else
+        {
+            for (int i=0;i<s1->filt_ex.size();i++)
+            {
+                   if( s1->filt_ex[i]!=s2->filt_ex[i])
+                    return s1->filt_ex[i] > s2->filt_ex[i];
+            }
+            return s1->filt_ex[s1->filt_ex.size()-1] > s2->filt_ex[s1->filt_ex.size()-1];
+        }
         
     }
 };

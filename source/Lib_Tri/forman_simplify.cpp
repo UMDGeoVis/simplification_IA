@@ -43,6 +43,8 @@ void FormanGradientVector::simplify_persistence(float pers_limit){
                 delete sempl;
                 continue;
             }
+           //  cout<<"[Contraction] persistence value:"<<sempl->val<<" edge filtration: "<<sempl->filt_s0<<", "<<sempl->filt_s1<<"; extreme filtration: "<<sempl->filt_ex<<endl;
+
             contraction(extrema, saddle, queue);
             refined_topo++;
 
@@ -56,6 +58,9 @@ void FormanGradientVector::simplify_persistence(float pers_limit){
                 delete sempl;
                 continue;
             }
+         //   cout<<"[Removal] persistence value:"<<sempl->val<<" edge filtration: "<<sempl->filt_s0<<", "<<sempl->filt_s1<<endl;
+         //   cout<<"extreme filtration: "<<sempl->filt_ex[0]<<"; "<<sempl->filt_ex[1]<<"; "<<sempl->filt_ex[2]<<endl;
+
             removal(extrema,saddle, queue);
             refined_topo++;
         }
@@ -179,7 +184,31 @@ void FormanGradientVector::contraction(nNode *extrema, iNode *saddle, priority_q
                 if(arco->getLabel() == 1){
                 //    cout<<"contraction label=1"<<endl;
                     double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[arco->getNode_j()->getCriticalIndex()]);
-                   //   queue->push(new Topo_Sempl(arco, val, 0,filtration[arco->getNode_i()->getCriticalIndex()],filtration[arco->getNode_j()->getCriticalIndex()]));
+                   //FOR DEBUG
+
+                   {  
+                       Edge * critical_edge_new=NULL;
+                        pair<int,int> critical_edge_tetra=((iNode*)arco->getNode_j())->get_edge_id();
+                        
+                        if(critical_edge_tetra.second<0){ //Only one side
+                            critical_edge_new = mesh->getTopSimplex(critical_edge_tetra.first).TE(-critical_edge_tetra.second-1);
+                        }
+                        else{
+                            for(int i=0; i<3; i++){
+                                if(!(mesh->getTopSimplex(critical_edge_tetra.second).contains(mesh->getTopSimplex(critical_edge_tetra.first).TV(i)))){
+                                    critical_edge_new = mesh->getTopSimplex(critical_edge_tetra.first).TE(i);
+                                    break;
+                                }
+                            }
+                        }
+                int filt0=(filtration[critical_edge_new->EV(0)]>filtration[critical_edge_new->EV(1)])?filtration[critical_edge_new->EV(0)]:filtration[critical_edge_new->EV(1)];
+                 int filt1=(filtration[critical_edge_new->EV(0)]>filtration[critical_edge_new->EV(1)])?filtration[critical_edge_new->EV(1)]:filtration[critical_edge_new->EV(0)];
+                       vector<int> filt_ex;
+                       filt_ex.push_back(filtration[arco->getNode_i()->getCriticalIndex()]);
+                        queue->push(new Topo_Sempl(arco, val, 0,filt0,filt1,filt_ex));
+                   }
+                
+                
                 }//Q:Should arco be added to persistence queue? val here is not used. 
             }   //A: If next step is to simplify the geometry, then here no need to update the queue. A new queue will be generated when simplify the gradient again. 
             else{
@@ -339,7 +368,36 @@ void FormanGradientVector::removal(nNode *extrema, iNode *saddle, priority_queue
                 // cout<<mesh->getTopSimplexHighestVertex(arco->getNode_j()->getCriticalIndex())<<endl;
                     double val = abs(field[arco->getNode_i()->getCriticalIndex()] - field[getTriangleHighestVertex(arco->getNode_j()->getCriticalIndex())]);
                /////JUST FOR DEBUG
-              //  queue->push(new Topo_Sempl(arco, val, 1,filtration[arco->getNode_i()->getCriticalIndex()],filtration[getTriangleHighestVertex(arco->getNode_j()->getCriticalIndex())]));
+                {
+                    Edge* critical_edge=NULL;
+                pair<int,int> critical_edge_tetra=((iNode*)arco->getNode_i())->get_edge_id(); 
+                        if(critical_edge_tetra.second<0){ //Only one side
+                            critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(-critical_edge_tetra.second-1);
+                        }
+                        else{
+                            for(int i=0; i<3; i++){
+                                if(!(mesh->getTopSimplex(critical_edge_tetra.second).contains(mesh->getTopSimplex(critical_edge_tetra.first).TV(i)))){
+                                    critical_edge = mesh->getTopSimplex(critical_edge_tetra.first).TE(i);
+                                    break;
+                                }
+                            }
+                        }
+                int filt0=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(0)]:filtration[critical_edge->EV(1)];
+                 int filt1=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(1)]:filtration[critical_edge->EV(0)];
+
+                vector<int> filt_ex;
+                Triangle t=mesh->getTopSimplex(arco->getNode_j()->getCriticalIndex());
+                for(int i=0;i<3;i++)
+                {
+                    filt_ex.push_back(filtration[t.TV(i)]);
+                }
+                sort(filt_ex.begin(), filt_ex.end(), greater<int>()); 
+                queue->push(new Topo_Sempl(arco, val, 1,filt0,filt1,filt_ex));
+                }
+
+
+
+              //  
                 }
             }
             else{

@@ -139,6 +139,7 @@ void FormanGradientVector::build_persistence_queue(priority_queue<Topo_Sempl*, v
                 double val;
                 int index_ex;
                 Edge* critical_edge=NULL;
+                vector<int> filt_ex;
                 if(i==1){
                     //val = euclidean_distance((*it)->getNode_i()->getCriticalIndex(), mesh->getTopSimplexHighestVertex((*it)->getNode_j()->getCriticalIndex()));
                     
@@ -160,6 +161,12 @@ void FormanGradientVector::build_persistence_queue(priority_queue<Topo_Sempl*, v
                     int index_i=((*it))->getNode_i()->getCriticalIndex();
                     index_ex=mesh->getTopSimplexHighestVertex(((*it))->getNode_j()->getCriticalIndex());
                     val = abs(field[index_i] - field[index_ex]);
+
+                    Triangle t=mesh->getTopSimplex(((*it))->getNode_j()->getCriticalIndex());
+                    for (int i=0;i<3;i++)
+                            filt_ex.push_back(filtration[t.TV(i)]);
+                        sort(filt_ex.begin(), filt_ex.end(), greater<int>()); 
+
                 }
                 else{
 
@@ -177,16 +184,16 @@ void FormanGradientVector::build_persistence_queue(priority_queue<Topo_Sempl*, v
                             }
                         }
 
-
                      index_ex=((*it))->getNode_i()->getCriticalIndex();
                     int index_j=((*it))->getNode_j()->getCriticalIndex();
                     //val = euclidean_distance((*it)->getNode_i()->getCriticalIndex(), (*it)->getNode_j()->getCriticalIndex());
                     val = abs(field[index_j] - field[index_ex]);
+                    filt_ex.push_back(filtration[index_ex]);
                 }
-                double filt0=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(0)]:filtration[critical_edge->EV(1)];
-                 double filt1=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(1)]:filtration[critical_edge->EV(0)];
+                int filt0=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(0)]:filtration[critical_edge->EV(1)];
+                 int filt1=(filtration[critical_edge->EV(0)]>filtration[critical_edge->EV(1)])?filtration[critical_edge->EV(1)]:filtration[critical_edge->EV(0)];
 
-                queue->push(new Topo_Sempl(*it, val, i,filt0,filt1,filtration[index_ex]));
+                queue->push(new Topo_Sempl(*it, val, i,filt0,filt1,filt_ex));
             }
         }
     }
