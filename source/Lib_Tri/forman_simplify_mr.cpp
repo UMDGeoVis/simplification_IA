@@ -275,24 +275,25 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
     int done=0;
     priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue = new priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>();
     list<DAG_GeomNode*>* performed_simpl = new list<DAG_GeomNode*>();
-
+     QEM_based=true;
 
     float edg_lenght=-1;
     vector<bool> visited;
     vector<bool> visited_vertex;
-
+    vector<Matrix> initialQuadric;
+    if(QEM_based==true){
     cout << "inizio i piani " << endl;
 
     vector<vector<double> > trianglePlane = vector<vector<double> >(mesh->getTopSimplexesNum(),vector<double>(4,0));
     mesh->computeTrianglesPlane(&trianglePlane);
 
     cout << "piani costruiti " << endl;
-
-    vector<Matrix> initialQuadric = vector<Matrix>(mesh->getNumVertex(),Matrix(0.0));
+  
+    initialQuadric = vector<Matrix>(mesh->getNumVertex(),Matrix(0.0));
     mesh->computeInitialQEM(&initialQuadric, &trianglePlane);
 
     cout << "setup finito " << endl;
-
+    }
     while(true){
 
         visited = vector<bool>(mesh->getTopSimplexesNum(), false);
@@ -310,14 +311,35 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
 //                    }
                     if(getVE(edge->EV(0)) != NULL ){
                       vector<double> new_vertex(3,0);
+                      if(QEM_based==true){
                       double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
                       queue->push(new Geom_Sempl(edge, error,new_vertex));
-
+                      }
+                      else
+                      {
+                          double length;
+                          Vertex3D v1=mesh->getVertex(edge->EV(0));
+                          Vertex3D v2=mesh->getVertex(edge->EV(1));
+                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
+                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
+                          queue->push(new Geom_Sempl(edge, length,new_vertex));
+                      }
                     }
                     else if(getVE(edge->EV(1)) != NULL){
                         vector<double> new_vertex(3,0);
+                        if(QEM_based==true){
                         double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
                         queue->push(new Geom_Sempl(edge, error,new_vertex));
+                        }
+                        else
+                      {
+                          double length;
+                          Vertex3D v1=mesh->getVertex(edge->EV(0));
+                          Vertex3D v2=mesh->getVertex(edge->EV(1));
+                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
+                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
+                          queue->push(new Geom_Sempl(edge, length,new_vertex));
+                      }
                     }
                     else{
                         delete edge;

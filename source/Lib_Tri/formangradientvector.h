@@ -119,6 +119,8 @@ class FormanGradientVector
     //For filtering. NEW
     vector<unsigned> filtration;
 
+    bool QEM_based;
+
 public:
     int refined_topo;
     int refined_geometry;

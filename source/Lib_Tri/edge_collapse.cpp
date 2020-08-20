@@ -84,7 +84,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     getTopSimplex(t3_des).setTT(getTopSimplex(t3_des).vertex_index(v_destro_sopra), t3_adj_des);
     getTopSimplex(t3_adj_des).setTT(getTopSimplex(t3_adj_des).vertex_index(v5_des), t3_des);
 
-
+        //Set the TV of VT(v2) to replace v2 with v1
     for(int i=0; i<vt.size(); i++){
         if(vt[i] != t1 && vt[i] != t2){
             //assert(getTopSimplex(vt[i]).contains(v2) && !getTopSimplex(vt[i]).contains(v1));
