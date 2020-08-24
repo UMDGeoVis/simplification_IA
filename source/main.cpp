@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
             cout << "   - simplification step" << endl;
             gradient->simplify(true, argv[4]);
             cout << "   - simplification ended" << endl;
-
+{
 //            Timer time_refine_geom, time_refine_topo;
 //            if(strcmp(argv[4],"uniform")==0){
 
@@ -140,6 +140,13 @@ int main(int argc, char* argv[])
 //            cout << "Tempo per i raffinamenti " << endl;
 //            cout << "-topologiche: " << time_refine_topo.getElapsedTime() << endl;
 //            cout << "-geometriche: " << time_refine_geom.getElapsedTime() << endl;
+       }
+        }
+        else if(strcmp("-c",argv[3])==0){
+             cout << "   Geometry simplification" << endl;
+
+        gradient->simplify_geometry(false, atoi(argv[4]));  
+
         }
     }
 

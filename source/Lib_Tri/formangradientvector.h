@@ -23,23 +23,7 @@ struct Simplex_Graph{
     vector<Simplex_Graph*> coboundary;
 };
 
-struct Geom_Sempl{
 
-public:
-    Edge* edge;
-    double val;
-    vector<double> new_v;
-
-    inline Geom_Sempl(Edge* edge, double val, vector<double> new_v){ this->edge = edge; this->val=val; this->new_v = new_v;}
-};
-
-struct sort_arcs_geom{
-    bool operator()(Geom_Sempl* a1, Geom_Sempl* a2){
-
-        return a1->val > a2->val;
-
-    }
-};
 
 
 struct Topo_Sempl{
@@ -176,6 +160,7 @@ public:
     //simplify for multiresolution
     void simplify(bool, char*);
     list<DAG_GeomNode*>* simplify_geometry(vector<DAG_GeomNode*>*);
+    void simplify_geometry(bool QEM_setting, int limit);
     list<DAG_TopoNode*>* simplify_persistence(map<Node*, DAG_TopoNode*>* ,map<Node*, DAG_TopoNode*>* ,map<Node*, DAG_TopoNode*>*);
     void build_persistence_queue(priority_queue<Topo_Sempl*, vector<Topo_Sempl*>, sort_arcs_topo>*);
     bool valid_gradient_configuration(int v1,int v2,int t1,int t2, bool*,bool*);

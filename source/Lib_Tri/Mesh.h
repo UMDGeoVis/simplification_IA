@@ -21,6 +21,26 @@ Ritorna vero sse v e' un estremo del lato v1-v2
 #define is_endpoint(v,v1,v2) ( ( (v)==(v1) ) || ( (v)==(v2) ) )
 enum versus { CW=0 , CCW=1 };
 using namespace std;
+
+struct Geom_Sempl{
+
+public:
+    Edge* edge;
+    double val;
+    vector<double> new_v;
+
+    inline Geom_Sempl(Edge* edge, double val, vector<double> new_v){ this->edge = edge; this->val=val; this->new_v = new_v;}
+};
+
+struct sort_arcs_geom{
+    bool operator()(Geom_Sempl* a1, Geom_Sempl* a2){
+
+        return a1->val > a2->val;
+
+    }
+};
+
+
 ///A class representing a generic mesh parametrized by the type of top simplexes
 template<class V, class T>
 class Mesh
@@ -76,6 +96,7 @@ public:
     void build();
 
     DAG_GeomNode* half_edge_collapse(int v1, int v2, int t1, int t2, vector<double> new_v);
+    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue);
     bool convex_neighborhood(int v1, int v2, int t1, int t2);
 
 
@@ -956,18 +977,18 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 //    else{
 
 
-        double vx3 = double (vx1+vx2)/2.0;
-        double vy3 = double (vy1+vy2)/2.0;
-        double vz3 = double (vz1+vz2)/2.0;
+        // double vx3 = double (vx1+vx2)/2.0;
+        // double vy3 = double (vy1+vy2)/2.0;
+        // double vz3 = double (vz1+vz2)/2.0;
 
         double error1 = vertex_error(q_bar, vx1, vy1, vz1);
         double error2 = vertex_error(q_bar, vx2, vy2, vz2);
-        double error3 = vertex_error(q_bar, vx3, vy3, vz3);
+        //double error3 = vertex_error(q_bar, vx3, vy3, vz3);
 
-        min_error = std::min(error1, std::min(error2, error3));
+        min_error = std::min(error1, error2);
         if (error1 == min_error) { (*new_vertex)[0] = vx1; (*new_vertex)[1] = vy1, (*new_vertex)[2] = vz1; }
         else if (error2 == min_error) { (*new_vertex)[0] = vx2; (*new_vertex)[1] = vy2, (*new_vertex)[2] = vz2; }
-        else{ (*new_vertex)[0] = vx3; (*new_vertex)[1] = vy3, (*new_vertex)[2] = vz3; }
+       // else{ (*new_vertex)[0] = vx3; (*new_vertex)[1] = vy3, (*new_vertex)[2] = vz3; }
 
 //    }
 

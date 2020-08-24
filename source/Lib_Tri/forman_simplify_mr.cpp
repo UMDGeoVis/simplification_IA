@@ -270,6 +270,140 @@ list<DAG_TopoNode*>* FormanGradientVector::simplify_persistence(map<Node*, DAG_T
     return ordered_topo;
 }
 
+void FormanGradientVector::simplify_geometry(bool QEM_setting, int limit){
+int done=0;
+ priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue = new priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>();
+QEM_based=QEM_setting;
+    vector<bool> visited;
+    vector<bool> visited_vertex;
+    vector<Matrix> initialQuadric;
+
+        while(true){
+
+        visited = vector<bool>(mesh->getTopSimplexesNum(), false);
+        visited_vertex = vector<bool>(mesh->getNumVertex(), false);
+
+        for(int i=0; i<mesh->getTopSimplexesNum(); i++){
+            visited[i]=true;
+            if(!mesh->is_alive(i)) continue;
+            for(int j=0; j<3; j++){
+                if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
+                    Edge* edge = mesh->getTopSimplex(i).TE(j);
+
+                    if(getVE(edge->EV(0)) != NULL ){
+                      vector<double> new_vertex(3,0);
+       
+                          double length;
+                          Vertex3D v1=mesh->getVertex(edge->EV(0));
+                          Vertex3D v2=mesh->getVertex(edge->EV(1));
+                          if(v1.getZ()>v2.getZ())
+                            { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
+                            else
+                             { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
+                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
+                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
+                          queue->push(new Geom_Sempl(edge, length,new_vertex));
+                      
+                    }
+                    else if(getVE(edge->EV(1)) != NULL){
+                        vector<double> new_vertex(3,0);
+
+                          double length;
+                          Vertex3D v1=mesh->getVertex(edge->EV(0));
+                          Vertex3D v2=mesh->getVertex(edge->EV(1));
+                          if(v1.getZ()>v2.getZ())
+                            { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
+                            else
+                             { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
+                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
+                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
+                          queue->push(new Geom_Sempl(edge, length,new_vertex));
+                      
+                    }
+                    else{
+                        delete edge;
+                    }
+                }
+            }
+        }
+
+        int done_new = 0;
+        vector<int> et;
+        vector<int> vv;
+        cout<<"****edges enqueued. Start simplification.****"<<endl;
+        while(!queue->empty()){
+
+            Geom_Sempl* sempl = queue->top();
+            Edge* edge = sempl->edge;
+            double qem_value = sempl->val;
+            vector<double> new_v = sempl->new_v;
+            queue->pop();
+            delete sempl;
+
+
+            if(!mesh->is_v_alive(edge->EV(0)) || !mesh->is_v_alive(edge->EV(1))){
+                delete edge;
+                continue;
+            }
+
+            Edge* e1 = getVE(edge->EV(0));
+            int v1,v2; v1=v2=-1;
+
+            if(e1 != NULL && *e1 == *edge){
+                v2 = edge->EV(0);
+                v1 = edge->EV(1);
+                delete e1;
+            }
+            else{
+                delete e1;
+                e1 = getVE(edge->EV(1));
+                if(e1 != NULL && *e1 == *edge){
+                    v2 = edge->EV(1);
+                    v1 = edge->EV(0);
+                }
+                delete e1;
+            }
+
+
+            if(v1 != -1){
+
+                int t1,t2;
+                et = mesh->ET(*edge);
+                if(et.size() < 2){
+                    delete edge;
+                    continue;
+                }
+                t1 = et[0];
+                t2 = et[1];
+
+                //assert(t1 > -1 && t2 > -1);
+                bool to_switch_sin,to_switch_des;
+                to_switch_des=to_switch_sin=false;
+
+
+                if(!visited_vertex[v2] && mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+
+                   mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,*queue);
+                
+                        done_new++;
+
+                        vv = mesh->VV(v1);
+                        for(int k=0; k<vv.size(); k++){
+                            visited_vertex[vv[k]]=true;
+                        }
+                    
+                }
+            }
+
+            delete edge;
+        }
+
+        if(done_new == 0) break;
+        done += done_new;
+    }
+}
+
+
 list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode*>* dag_per_vertex){
 
     int done=0;
@@ -311,35 +445,18 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
 //                    }
                     if(getVE(edge->EV(0)) != NULL ){
                       vector<double> new_vertex(3,0);
-                      if(QEM_based==true){
+         
                       double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
                       queue->push(new Geom_Sempl(edge, error,new_vertex));
-                      }
-                      else
-                      {
-                          double length;
-                          Vertex3D v1=mesh->getVertex(edge->EV(0));
-                          Vertex3D v2=mesh->getVertex(edge->EV(1));
-                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
-                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                          queue->push(new Geom_Sempl(edge, length,new_vertex));
-                      }
+                      
+
                     }
                     else if(getVE(edge->EV(1)) != NULL){
                         vector<double> new_vertex(3,0);
-                        if(QEM_based==true){
+
                         double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
                         queue->push(new Geom_Sempl(edge, error,new_vertex));
-                        }
-                        else
-                      {
-                          double length;
-                          Vertex3D v1=mesh->getVertex(edge->EV(0));
-                          Vertex3D v2=mesh->getVertex(edge->EV(1));
-                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
-                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                          queue->push(new Geom_Sempl(edge, length,new_vertex));
-                      }
+                    
                     }
                     else{
                         delete edge;
@@ -402,15 +519,15 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
 
 
                 if(!visited_vertex[v2] && mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/
-                    && valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des) ){
+                  && valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des)){
 
                     DAG_GeomNode* dagnode = mesh->half_edge_collapse(v1,v2,t1,t2,new_v);
                     if(dagnode != NULL){
                         edg_lenght=qem_value;
-                        initialQuadric[v1] = initialQuadric[v1] + initialQuadric[v2];
+                      initialQuadric[v1] = initialQuadric[v1] + initialQuadric[v2];
                         done_new++;
-                        dagnode->set_edge_lenght(edg_lenght);
-                        dagnode->set_to_switch(to_switch_sin,to_switch_des);
+                      dagnode->set_edge_lenght(edg_lenght);
+                     dagnode->set_to_switch(to_switch_sin,to_switch_des);
 
                         (*dag_per_vertex)[v2] = dagnode;
 
@@ -431,7 +548,7 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
     }
 
     cout << "Total simplification geom" << done << endl;
-    cout << "Greater Edge Lenght " << edg_lenght << endl;
+ //   cout << "Greater Edge Lenght " << edg_lenght << endl;
 
     return performed_simpl;
 }
