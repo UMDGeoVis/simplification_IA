@@ -10,6 +10,10 @@
 #include <vector>
 #include <algorithm>
 #include "assert.h"
+#include <fstream>
+#include <sstream>  
+#include <queue>
+#include <iostream>
 
 #include "Mesh.h"
 #include "Vertex3D.h"
@@ -105,6 +109,8 @@ class FormanGradientVector
 
     bool QEM_based;
 
+    double length_limit;
+
 public:
     int refined_topo;
     int refined_geometry;
@@ -150,6 +156,8 @@ public:
     void writeVTK_2cells_on_vert(char* nome_file_output, set<pair<int, bool> > critici, vector<int> triangles);
     void writeVTK_1cells_on_tri(char*,  set<pair<int, bool> >, map<int,int>);
 
+    void write_mesh_VTK(string mesh_name );
+
     void output_mm(list<DAG_TopoNode*>* , list<DAG_GeomNode*>* , char* filename);
 
     //simplification process
@@ -160,7 +168,7 @@ public:
     //simplify for multiresolution
     void simplify(bool, char*);
     list<DAG_GeomNode*>* simplify_geometry(vector<DAG_GeomNode*>*);
-    void simplify_geometry(bool QEM_setting, int limit);
+    void simplify_geometry(bool QEM_setting, double limit);
     list<DAG_TopoNode*>* simplify_persistence(map<Node*, DAG_TopoNode*>* ,map<Node*, DAG_TopoNode*>* ,map<Node*, DAG_TopoNode*>*);
     void build_persistence_queue(priority_queue<Topo_Sempl*, vector<Topo_Sempl*>, sort_arcs_topo>*);
     bool valid_gradient_configuration(int v1,int v2,int t1,int t2, bool*,bool*);

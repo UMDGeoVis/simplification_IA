@@ -143,9 +143,12 @@ int main(int argc, char* argv[])
        }
         }
         else if(strcmp("-c",argv[3])==0){
+            output_required=false;
              cout << "   Geometry simplification" << endl;
+        gradient->write_mesh_VTK("orig_mesh");
+        gradient->simplify_geometry(false, atof(argv[4]));  
 
-        gradient->simplify_geometry(false, atoi(argv[4]));  
+        gradient->write_mesh_VTK("simplified_mesh");
 
         }
     }

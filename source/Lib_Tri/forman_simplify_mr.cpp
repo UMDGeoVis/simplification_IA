@@ -270,67 +270,78 @@ list<DAG_TopoNode*>* FormanGradientVector::simplify_persistence(map<Node*, DAG_T
     return ordered_topo;
 }
 
-void FormanGradientVector::simplify_geometry(bool QEM_setting, int limit){
+void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit){
 int done=0;
  priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue = new priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>();
 QEM_based=QEM_setting;
     vector<bool> visited;
     vector<bool> visited_vertex;
     vector<Matrix> initialQuadric;
-
+    map<vector<int>, double> lengths;
+    vector<int> e;
+    length_limit=limit;
         while(true){
 
         visited = vector<bool>(mesh->getTopSimplexesNum(), false);
         visited_vertex = vector<bool>(mesh->getNumVertex(), false);
-
+        
         for(int i=0; i<mesh->getTopSimplexesNum(); i++){
             visited[i]=true;
             if(!mesh->is_alive(i)) continue;
             for(int j=0; j<3; j++){
-                if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
+             //   if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
+                // Previous version: Used TT relation to avoid checking an edge repeatedly. Consider to be added later. 
                     Edge* edge = mesh->getTopSimplex(i).TE(j);
 
-                    if(getVE(edge->EV(0)) != NULL ){
+                   // if((getVE(edge->EV(0)) != NULL)||(getVE(edge->EV(1)) != NULL) ){
                       vector<double> new_vertex(3,0);
-       
-                          double length;
-                          Vertex3D v1=mesh->getVertex(edge->EV(0));
-                          Vertex3D v2=mesh->getVertex(edge->EV(1));
-                          if(v1.getZ()>v2.getZ())
-                            { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
-                            else
-                             { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
-                          vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
-                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                          queue->push(new Geom_Sempl(edge, length,new_vertex));
-                      
-                    }
-                    else if(getVE(edge->EV(1)) != NULL){
-                        vector<double> new_vertex(3,0);
 
                           double length;
-                          Vertex3D v1=mesh->getVertex(edge->EV(0));
-                          Vertex3D v2=mesh->getVertex(edge->EV(1));
-                          if(v1.getZ()>v2.getZ())
+
+                        e={edge->EV(0),edge->EV(1)};
+                        sort(e.begin(),e.end());
+                        Vertex3D v1=mesh->getVertex(e[0]);
+                        Vertex3D v2=mesh->getVertex(e[1]);
+
+                        // if(v1.getZ()>v2.getZ()){
+                        //     int tmp=e[1];
+                        //     e[1]=e[0];
+                        //     e[0]=tmp;
+
+                        // }
+
+
+                          map<vector<int>, double>::iterator it = lengths.find(e);
+                        if(it==lengths.end()){    
+                          
+
+
+
+                     //     if(v1.getZ()>v2.getZ())
                             { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
-                            else
-                             { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
+                       //     else
+                         //    { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
                           vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
                           length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                          queue->push(new Geom_Sempl(edge, length,new_vertex));
-                      
+                        cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<length<<endl;   
+
+                           lengths[e]=length;
+                        if(length<limit){
+                            Edge * insert_edge=new Edge(e[0],e[1]);
+                          queue->push(new Geom_Sempl(insert_edge, length,new_vertex));
+                         //cout<<"ENQUEUE"<<endl;
+                         }
+                            delete edge;
+                        
                     }
-                    else{
-                        delete edge;
-                    }
-                }
+               // }
             }
         }
 
         int done_new = 0;
         vector<int> et;
         vector<int> vv;
-        cout<<"****edges enqueued. Start simplification.****"<<endl;
+        cout<<"**** [Number] "<<queue->size()<<" edges enqueued. Start simplification.****"<<endl;
         while(!queue->empty()){
 
             Geom_Sempl* sempl = queue->top();
@@ -346,51 +357,64 @@ QEM_based=QEM_setting;
                 continue;
             }
 
-            Edge* e1 = getVE(edge->EV(0));
+            //Edge* e1 = getVE(edge->EV(0));
             int v1,v2; v1=v2=-1;
 
-            if(e1 != NULL && *e1 == *edge){
-                v2 = edge->EV(0);
-                v1 = edge->EV(1);
-                delete e1;
-            }
-            else{
-                delete e1;
-                e1 = getVE(edge->EV(1));
-                if(e1 != NULL && *e1 == *edge){
-                    v2 = edge->EV(1);
-                    v1 = edge->EV(0);
-                }
-                delete e1;
-            }
+            v2 = edge->EV(1);
+            v1 = edge->EV(0);
 
 
             if(v1 != -1){
 
                 int t1,t2;
                 et = mesh->ET(*edge);
-                if(et.size() < 2){
+                if(et.size()==0){
                     delete edge;
                     continue;
                 }
+                else if(et.size() ==1){
+                  //  cout<<v1<<" and "<<v2<<" are ignored due to no triangles"<<endl;
+                    //delete edge;
+                    //continue;
+                    t1=et[0];
+                    t2=-1;
+                }
+                else{
                 t1 = et[0];
                 t2 = et[1];
+                }
 
                 //assert(t1 > -1 && t2 > -1);
                 bool to_switch_sin,to_switch_des;
                 to_switch_des=to_switch_sin=false;
 
+                if(v1==616||v2==616)
+                {
+                    vv=mesh->VV(v1);
+                         for(int k=0; k<vv.size(); k++){
+                        //   // if(vv[k]==-1)
+                        cout<<"VV of "<<v1<< ": "<<vv[k]<<endl;
+                         }
+                 vector<int> vv2=mesh->VV(v2);
+                         for(int k=0; k<vv2.size(); k++){
+                        //   // if(vv[k]==-1)
+                        cout<<"VV of "<<v2<< ": "<<vv2[k]<<endl;
+                         }
 
-                if(!visited_vertex[v2] && mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+                }
+                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
-                   mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,*queue);
+                   mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,*queue,limit);
                 
                         done_new++;
 
-                        vv = mesh->VV(v1);
-                        for(int k=0; k<vv.size(); k++){
-                            visited_vertex[vv[k]]=true;
-                        }
+                       vv = mesh->VV(v1);
+                        
+                        // for(int k=0; k<vv.size(); k++){
+                        //   // if(vv[k]==-1)
+                        // cout<<"VV of "<<v1<< ": "<<vv[k]<<endl;
+                        // //     visited_vertex[vv[k]]=true;
+                        // }
                     
                 }
             }
@@ -400,7 +424,12 @@ QEM_based=QEM_setting;
 
         if(done_new == 0) break;
         done += done_new;
+        cout<<"Simplified edge number in THIS ROUND:"<<done_new<<endl;
     }
+    cout<<"Simplified edge number: "<<done<<endl;
+
+    mesh->reorder_triangulation();
+    set_alive_simplexes();
 }
 
 

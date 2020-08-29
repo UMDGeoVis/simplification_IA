@@ -33,9 +33,14 @@ public:
 };
 
 struct sort_arcs_geom{
-    bool operator()(Geom_Sempl* a1, Geom_Sempl* a2){
+    bool operator()(Geom_Sempl* e1, Geom_Sempl* e2){
 
-        return a1->val > a2->val;
+       if(e1->val!=e2->val)
+      return e1->val>e2->val;
+      else if(e1->edge->EV(0)!=e2->edge->EV(0))
+      return e1->edge->EV(0)>e2->edge->EV(0);
+      else
+      return e1->edge->EV(1)>e2->edge->EV(1);
 
     }
 };
@@ -96,7 +101,7 @@ public:
     void build();
 
     DAG_GeomNode* half_edge_collapse(int v1, int v2, int t1, int t2, vector<double> new_v);
-    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue);
+    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit);
     bool convex_neighborhood(int v1, int v2, int t1, int t2);
 
 
@@ -110,6 +115,7 @@ public:
     void set_alive(int f){removed_triangle[f]=false;}
     void set_v_alive(int v){removed_vertex[v]=false;}
     list<DAG_GeomNode*>* reorder_triangulation(list<DAG_GeomNode*>*, vector<DAG_GeomNode*>*);
+    void reorder_triangulation();
     int getUpdateVertexIndex(int v_index);
 
     bool link_condition(int v1, int v2);
@@ -654,6 +660,8 @@ vector<int> Mesh<V,T>::VV(int center)
     vector<int> vertices;
     int pred = -1;
     int current = this->getVertex(center).VTstar();
+    if(current ==-1)
+    cout<<"VT star is -1"<<endl;
 
     int k=-1;
     //cerco la posizione del vertice nell'array dei vertici del triangolo
@@ -665,6 +673,7 @@ vector<int> Mesh<V,T>::VV(int center)
             break;
         }
     }    
+   
     vertices.push_back(this->getTopSimplex(current).TV((k+1)%3));
 
     //scelgo un giro a caso da prendere
@@ -903,6 +912,63 @@ list<DAG_GeomNode*>* Mesh<V,T> :: reorder_triangulation(list<DAG_GeomNode*>* dag
     return geom;
 }
 
+
+template<class V, class T> void  Mesh<V,T> :: reorder_triangulation(){
+    vector<V> new_vertices;
+    vector<T> new_triangle;
+        vector<int> new_vertex_index = vector<int>(getNumVertex(),-1);
+    vector<int> new_triangle_index = vector<int>(getTopSimplexesNum() ,-1);
+
+
+    int verticesNum=0;
+    int trianglesNum=0;
+    for(int i=0; i<getNumVertex(); i++){
+
+        if(!removed_vertex[i]){
+            new_vertices.push_back(getVertex(i));
+            //assert(is_alive(getVertex(i).VTstar()));
+            new_vertex_index[i]=verticesNum++;
+        }
+    }
+
+    for(int i=0; i<getTopSimplexesNum(); i++){
+
+        if(!removed_triangle[i]){
+            for(int j=0; j<3; j++){
+                //assert(getTopSimplex(i).TT(j)==-1 || is_alive(getTopSimplex(i).TT(j)));
+                //assert(!removed_vertex[getTopSimplex(i).TV(j)]);
+                if(new_vertex_index[getTopSimplex(i).TV(j)]==-1)
+                    {
+                        cout<<"Previous vertex index:"<<getTopSimplex(i).TV(j)<<endl;
+                        cout<<"This triangle index:"<<i<<endl;
+                        cout<<"Formed by:"<<getTopSimplex(i).TV(0)<<", "<<getTopSimplex(i).TV(1)<<", "<<getTopSimplex(i).TV(2)<<endl;
+
+                    }
+                getTopSimplex(i).setTV(j,new_vertex_index[getTopSimplex(i).TV(j)]);
+
+            }
+            new_triangle.push_back(getTopSimplex(i));
+            new_triangle_index[i]=trianglesNum++;
+        }
+    }
+    cout << "previous triangle number " << topSimplexes.size() << " updated:" << new_triangle.size() << endl;
+    cout << "previous vertices number " << vertices.size() << " updated:" << new_vertices.size() << endl;
+
+    vertices = new_vertices;
+    topSimplexes = new_triangle;
+
+
+        for(int i=0; i<getNumVertex(); i++){
+        getVertex(i).VTstar(new_triangle_index[getVertex(i).VTstar()]);
+    }
+
+    for(int i=0; i<getTopSimplexesNum(); i++){
+        for(int j=0; j<3; j++){
+            if(getTopSimplex(i).TT(j) != -1)
+                getTopSimplex(i).setTT(j, new_triangle_index[getTopSimplex(i).TT(j)]);
+        }
+    }
+}
 
 //return the index of vertex v in triangle t
 template< class V, class T> int Mesh<V,T>::VIndexInT(int v, int t)
@@ -1186,11 +1252,13 @@ template<class V, class T> bool Mesh<V,T>::link_condition(int v1, int v2){
     vector<int> vv2 = VV(v2);
     int counter=0;
     set<int> set_v1(vv1.begin(), vv1.end());
-
+    //cout<<v2<<"'s VV size: "<<vv2.size()<<endl;
     for(int i=0; i<vv2.size(); i++){
         if(set_v1.find(vv2[i]) != set_v1.end()){
+           // cout<<vv2[i];
             counter++;
         }
+        //cout<<endl;
     }
 
     return counter <= 2;

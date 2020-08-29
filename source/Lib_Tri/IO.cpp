@@ -755,7 +755,54 @@ void FormanGradientVector::output_mm(list<DAG_TopoNode*>* topodags, list<DAG_Geo
 
 
 
+void FormanGradientVector::write_mesh_VTK(string mesh_name ){
+    stringstream stream;
+    stream<<mesh_name<<".vtk";
+    ofstream output(stream.str().c_str());
+    output.unsetf( std::ios::floatfield ); // floatfield not set
+    output.precision(15);
 
+     output<<"# vtk DataFile Version 2.0" << endl << endl
+         << "ASCII" << endl << "DATASET UNSTRUCTURED_GRID " <<  endl << endl;
+
+    output<< "POINTS " << mesh->getNumVertex() << " float" << endl;
+
+ for(int v=0; v<mesh->getNumVertex(); v++)
+    {
+        Vertex3D& vert = mesh->getVertex(v);
+        output<<vert.getX()<<" "<<vert.getY()<<" "<<vert.getZ()<<endl;
+    }
+
+    output<<endl << "CELLS " << mesh->getTopSimplexesNum() << " " << (mesh->getTopSimplexesNum()*4) << endl;
+
+    for(int t=0; t<mesh->getTopSimplexesNum(); t++)
+    {
+        output<<"3 ";
+        for(int i=0; i< 3; i++)
+            output<<mesh->getTopSimplex(t).TV(i)<<" ";
+        output<<endl;
+    }
+
+    output<< endl << "CELL_TYPES " <<  mesh->getTopSimplexesNum()<< endl;
+    for (int i = 0; i <  mesh->getTopSimplexesNum(); ++i)
+        output<< "6 ";
+    output<< endl;
+
+    output<< "POINT_DATA " << mesh->getNumVertex() << endl << endl;
+    output<< "FIELD FieldData 1" << endl << endl;
+    output<< "fieldvalue 1 " << mesh->getNumVertex() << " float" << endl;
+
+    for (int i=0; i <mesh->getNumVertex(); ++i)
+        output<<mesh->getVertex(i).getZ()<< " ";
+    output<<endl;
+
+    output.close();
+
+
+
+
+
+}
 
 
 
