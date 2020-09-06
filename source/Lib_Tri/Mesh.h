@@ -102,6 +102,8 @@ public:
 
     DAG_GeomNode* half_edge_collapse(int v1, int v2, int t1, int t2, vector<double> new_v);
     void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit);
+    void half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit,vector<Matrix>* vQEM);
+
     bool convex_neighborhood(int v1, int v2, int t1, int t2);
 
 
@@ -131,6 +133,7 @@ public:
     void computeTrianglesPlane(vector<vector<double> >*);
     double vertex_error(Matrix q, double x, double y, double z);
     double compute_error(int v1, int v2, vector<Matrix>* vQEM, vector<double>* new_vertex);
+    double compute_error(int v1, int v2, vector<Matrix>* vQEM, int& new_vertex_pos);
 
     int VIndexInT(int v, int t);
     int NextTAroundV(int t, int v, versus verso);
@@ -1070,6 +1073,47 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
     return min_error;
 
 }
+
+
+
+template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vector<Matrix>* vQEM, int& new_vertex_pos){
+
+    double min_error;
+    Matrix q_bar;
+    Matrix q_delta;
+
+
+    /* computer quadric of virtual vertex vf */
+    q_bar = (*vQEM)[v1] + (*vQEM)[v2];
+
+
+    q_delta = Matrix( q_bar[0], q_bar[1],  q_bar[2],  q_bar[3],
+                      q_bar[4], q_bar[5],  q_bar[6],  q_bar[7],
+                      q_bar[8], q_bar[9], q_bar[10], q_bar[11],
+                             0,        0,	      0,        1);
+
+    double vx1 = vertices[v1].getX();
+    double vy1 = vertices[v1].getY();
+    double vz1 = vertices[v1].getZ();
+
+    double vx2 = vertices[v2].getX();
+    double vy2 = vertices[v2].getY();
+    double vz2 = vertices[v2].getZ();
+
+
+
+        double error1 = vertex_error(q_bar, vx1, vy1, vz1);
+        double error2 = vertex_error(q_bar, vx2, vy2, vz2);
+        //double error3 = vertex_error(q_bar, vx3, vy3, vz3);
+
+        min_error = std::min(error1, error2);
+        if (error1 == min_error) { new_vertex_pos=0; min_error=error1;}
+        else if (error2 == min_error) { new_vertex_pos=1; min_error=error2;}
+
+    return min_error;
+
+}
+
 
 template<class V, class T> void Mesh<V,T>::computeInitialQEM(vector<Matrix>* vQEM, vector<vector<double> >* planes)
 {

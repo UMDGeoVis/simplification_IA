@@ -146,8 +146,11 @@ int main(int argc, char* argv[])
             output_required=false;
              cout << "   Geometry simplification" << endl;
         gradient->write_mesh_VTK("orig_mesh");
-        gradient->simplify_geometry(false, atof(argv[4]));  
-
+        if(strcmp("-q",argv[4])==0)
+            gradient->simplify_geometry(true,atof(argv[5]));
+        else if(strcmp("-l",argv[4])==0){
+        gradient->simplify_geometry(false, atof(argv[5]));  
+        }
         gradient->write_mesh_VTK("simplified_mesh");
 
         }

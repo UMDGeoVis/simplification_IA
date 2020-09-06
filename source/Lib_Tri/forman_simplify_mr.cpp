@@ -277,9 +277,22 @@ QEM_based=QEM_setting;
     vector<bool> visited;
     vector<bool> visited_vertex;
     vector<Matrix> initialQuadric;
-    map<vector<int>, double> lengths;
+    map<vector<int>, double> values;
     vector<int> e;
     length_limit=limit;
+
+        if(QEM_based==true){
+    cout << "=========Calculate triangle plane========" << endl;
+
+    vector<vector<double> > trianglePlane = vector<vector<double> >(mesh->getTopSimplexesNum(),vector<double>(4,0));
+    mesh->computeTrianglesPlane(&trianglePlane);
+
+    cout << "=========Calculate initial QEM========" << endl;
+  
+    initialQuadric = vector<Matrix>(mesh->getNumVertex(),Matrix(0.0));
+    mesh->computeInitialQEM(&initialQuadric, &trianglePlane);
+
+    }
         while(true){
 
         visited = vector<bool>(mesh->getTopSimplexesNum(), false);
@@ -296,40 +309,48 @@ QEM_based=QEM_setting;
                    // if((getVE(edge->EV(0)) != NULL)||(getVE(edge->EV(1)) != NULL) ){
                       vector<double> new_vertex(3,0);
 
-                          double length;
+                          double value;
+                        if(QEM_based==true){
+                        e={edge->EV(0),edge->EV(1)};
+                        int new_vertex_pos=-1;
+                        value = mesh->compute_error(e[0],e[1],&initialQuadric,new_vertex_pos);
+                         assert(new_vertex_pos!=-1);
+                        if(new_vertex_pos==1)
+                        {
+                            int tmp=e[1];
+                            e[1]=e[0];
+                            e[0]=tmp;
+                        }
 
+                        map<vector<int>, double>::iterator it = values.find(e);
+                        if(it==values.end()){
+                        cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
+                        values[e]=value;
+                      if(value<limit){
+                           Edge * insert_edge=new Edge(e[0],e[1]);
+                      queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
+                                    }
+                     }
+
+                    }
+                        else{
                         e={edge->EV(0),edge->EV(1)};
                         sort(e.begin(),e.end());
                         Vertex3D v1=mesh->getVertex(e[0]);
                         Vertex3D v2=mesh->getVertex(e[1]);
-
-                        // if(v1.getZ()>v2.getZ()){
-                        //     int tmp=e[1];
-                        //     e[1]=e[0];
-                        //     e[0]=tmp;
-
-                        // }
-
-
-                          map<vector<int>, double>::iterator it = lengths.find(e);
-                        if(it==lengths.end()){    
-                          
-
-
-
-                     //     if(v1.getZ()>v2.getZ())
+                          map<vector<int>, double>::iterator it = values.find(e);
+                        if(it==values.end()){    
                             { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
-                       //     else
-                         //    { new_vertex[0] = v2.getX(); new_vertex[1] = v2.getY(), new_vertex[2] = v2.getZ(); }
                           vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
-                          length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                        cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<length<<endl;   
+                          value = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
+                        cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<value<<endl;   
 
-                           lengths[e]=length;
-                        if(length<limit){
+                           values[e]=value;
+                        if(value<limit){
                             Edge * insert_edge=new Edge(e[0],e[1]);
-                          queue->push(new Geom_Sempl(insert_edge, length,new_vertex));
+                          queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                          //cout<<"ENQUEUE"<<endl;
+                         }
                          }
                             delete edge;
                         
@@ -343,7 +364,7 @@ QEM_based=QEM_setting;
         vector<int> vv;
         cout<<"**** [Number] "<<queue->size()<<" edges enqueued. Start simplification.****"<<endl;
         while(!queue->empty()){
-
+            
             Geom_Sempl* sempl = queue->top();
             Edge* edge = sempl->edge;
             double qem_value = sempl->val;
@@ -388,24 +409,16 @@ QEM_based=QEM_setting;
                 bool to_switch_sin,to_switch_des;
                 to_switch_des=to_switch_sin=false;
 
-                if(v1==616||v2==616)
-                {
-                    vv=mesh->VV(v1);
-                         for(int k=0; k<vv.size(); k++){
-                        //   // if(vv[k]==-1)
-                        cout<<"VV of "<<v1<< ": "<<vv[k]<<endl;
-                         }
-                 vector<int> vv2=mesh->VV(v2);
-                         for(int k=0; k<vv2.size(); k++){
-                        //   // if(vv[k]==-1)
-                        cout<<"VV of "<<v2<< ": "<<vv2[k]<<endl;
-                         }
 
-                }
                 if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
+                     if(QEM_based==true){
+                      mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,*queue,limit,&initialQuadric);
+                     
+                     }
+                    else{
                    mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,*queue,limit);
-                
+                    }
                         done_new++;
 
                        vv = mesh->VV(v1);
@@ -417,6 +430,7 @@ QEM_based=QEM_setting;
                         // }
                     
                 }
+                cout<<"Number of edges remaining:"<<queue->size()<<endl;
             }
 
             delete edge;
