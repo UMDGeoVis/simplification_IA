@@ -55,17 +55,17 @@ public:
     }
 
     /* For test only */
-//    void print()
-//    {
-//        for (int i = 0; i < 16; )
-//        {
-//            printf("%.8lf ", m[i++]);
-//            if (i % 4 == 0)
-//            {
-//                printf("\n");
-//            }
-//        }
-//    }
+   void print()
+   {
+       for (int i = 0; i < 16; )
+       {
+           printf("%.8lf ", m[i++]);
+           if (i % 4 == 0)
+           {
+               printf("\n");
+           }
+       }
+   }
 
     const Matrix operator+(const Matrix& n) const
     {

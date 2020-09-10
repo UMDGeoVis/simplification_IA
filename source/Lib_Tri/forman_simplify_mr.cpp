@@ -277,6 +277,7 @@ QEM_based=QEM_setting;
     vector<bool> visited;
     vector<bool> visited_vertex;
     vector<Matrix> initialQuadric;
+     vector<vector<double> > trianglePlane ;
     map<vector<int>, double> values;
     vector<int> e;
     length_limit=limit;
@@ -284,7 +285,7 @@ QEM_based=QEM_setting;
         if(QEM_based==true){
     cout << "=========Calculate triangle plane========" << endl;
 
-    vector<vector<double> > trianglePlane = vector<vector<double> >(mesh->getTopSimplexesNum(),vector<double>(4,0));
+    trianglePlane = vector<vector<double> >(mesh->getTopSimplexesNum(),vector<double>(4,0));
     mesh->computeTrianglesPlane(&trianglePlane);
 
     cout << "=========Calculate initial QEM========" << endl;
@@ -297,10 +298,11 @@ QEM_based=QEM_setting;
 
         visited = vector<bool>(mesh->getTopSimplexesNum(), false);
         visited_vertex = vector<bool>(mesh->getNumVertex(), false);
-        
+        int t_count=0;
         for(int i=0; i<mesh->getTopSimplexesNum(); i++){
             visited[i]=true;
             if(!mesh->is_alive(i)) continue;
+            t_count++;
             for(int j=0; j<3; j++){
              //   if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
                 // Previous version: Used TT relation to avoid checking an edge repeatedly. Consider to be added later. 
@@ -358,7 +360,7 @@ QEM_based=QEM_setting;
                // }
             }
         }
-
+        cout<<"number of remaining triangles:"<<t_count<<endl;
         int done_new = 0;
         vector<int> et;
         vector<int> vv;
@@ -413,7 +415,7 @@ QEM_based=QEM_setting;
                 if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
-                      mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,*queue,limit,&initialQuadric);
+                      mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,*queue,limit,&initialQuadric,&trianglePlane);
                      
                      }
                     else{
@@ -421,7 +423,7 @@ QEM_based=QEM_setting;
                     }
                         done_new++;
 
-                       vv = mesh->VV(v1);
+                      
                         
                         // for(int k=0; k<vv.size(); k++){
                         //   // if(vv[k]==-1)

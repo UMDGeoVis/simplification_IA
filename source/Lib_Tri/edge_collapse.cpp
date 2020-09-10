@@ -293,7 +293,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     //return 0;
     }
 
- template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit,vector<Matrix>* vQEM){
+ template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl){
     cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
     removed_vertex[v2]=true;
     removed_triangle[t1]=true;
@@ -386,30 +386,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
             getTopSimplex(vt[i]).setTV(v2_id,v1);    }
     }
    //  cout<<"Update New edges.  VV size:"<<vv.size()<<endl;
-   ///TODO： Update the QEM before computing the error 
-
-
-    for(int i=0; i<vv.size(); i++){
-       // cout<<vv[i]<<endl;
-        if(vv[i] != v1 && vv[i] != v_sinistro && vv[i] != v_destro){
-            vector<double> new_vertex(3,0);
-            int new_vertex_pos=-1;
-            Edge * e=new Edge(v1,vv[i]);
-            double error = compute_error(v1,vv[i],vQEM,new_vertex_pos);
-            assert(new_vertex_pos!=-1);
-            if(new_vertex_pos==1)
-                {
-                *e= Edge(vv[i],v1); 
-                }
-
-            if(error<limit){
-            cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
-            queue.push(new Geom_Sempl(e,error,new_vertex));
-       //     cout<<"New edge updated"<<endl;
-            }
-              }
-    }
-
+  
     if(getVertex(v1).VTstar() == t1||getVertex(v1).VTstar() == t2){
         if(t3_sin!=-1)
         getVertex(v1).VTstar(t3_sin);
@@ -436,9 +413,65 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         else if(t3_adj_des!=-1)
         getVertex(v_destro).VTstar(t3_adj_des);
     }
-    getVertex(v1).setX((new_v)[0]);
-    getVertex(v1).setY((new_v)[1]);
-    getVertex(v1).setZ((new_v)[2]);
+
+ ///TODO： Update the QEM before computing the error 
+
+    for(int i=0; i<vv.size();i++){
+        updateTrianglePlane(triPl,vv[i]);
+
+    }
+    updateQEM(vQEM,triPl,vv);
+
+    for(int i=0; i<vt.size(); i++){
+    if(vt[i]==t1||vt[i]==t2)
+    continue;
+    int v1_pos=getTopSimplex(vt[i]).vertex_index(v1);
+            vector<double> new_vertex(3,0);
+            int new_vertex_pos=-1;
+            Edge* e=getTopSimplex(vt[i]).TE(v1_pos);
+            double error = compute_error(e->EV(0),e->EV(1),vQEM,new_vertex_pos);
+            assert(new_vertex_pos!=-1);
+           // Edge * edge=new Edge(e[0],e[1]);
+            if(new_vertex_pos==1)
+            {
+                int tmp0=e->EV(0);
+                int tmp1=e->EV(1);
+               *e= Edge(tmp1,tmp0);
+                }
+ 
+            if(error<limit){
+           cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+            queue.push(new Geom_Sempl(e,error,new_vertex));
+       //     cout<<"New edge updated"<<endl;
+            }
+
+    }
+    for(int i=0; i<vv.size(); i++){
+       // cout<<vv[i]<<endl;
+        if(vv[i] != v1/* && vv[i] != v_sinistro && vv[i] != v_destro*/){
+            vector<double> new_vertex(3,0);
+            int new_vertex_pos=-1;
+            Edge * e=new Edge(v1,vv[i]);
+            double error = compute_error(v1,vv[i],vQEM,new_vertex_pos);
+            assert(new_vertex_pos!=-1);
+            if(new_vertex_pos==1)
+                {
+                *e= Edge(vv[i],v1); 
+                }
+
+            if(error<limit){
+            cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+            queue.push(new Geom_Sempl(e,error,new_vertex));
+       //     cout<<"New edge updated"<<endl;
+            }
+              }
+    }
+
+
+
+    // getVertex(v1).setX((new_v)[0]);
+    // getVertex(v1).setY((new_v)[1]);
+    // getVertex(v1).setZ((new_v)[2]);
 
   cout<<"FINISHED EDGE CONTRACTION"<<endl;
 
