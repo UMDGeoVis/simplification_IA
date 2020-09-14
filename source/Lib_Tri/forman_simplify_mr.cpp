@@ -326,9 +326,9 @@ QEM_based=QEM_setting;
 
                         map<vector<int>, double>::iterator it = values.find(e);
                         if(it==values.end()){
-                        cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                         values[e]=value;
                       if(value<limit){
+                           cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                            Edge * insert_edge=new Edge(e[0],e[1]);
                       queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                                     }
@@ -373,9 +373,22 @@ QEM_based=QEM_setting;
             vector<double> new_v = sempl->new_v;
             queue->pop();
             delete sempl;
+            vector<int> sorted_e= {edge->EV(0), edge->EV(1)};
+            sort(sorted_e.begin(),sorted_e.end());
+            auto it= updated_edges.find(sorted_e);
+            if(it !=updated_edges.end()){
 
+                if(it->second!=qem_value)
+                    {
+                    //   cout<<"[DEBUG] edge: "<<sorted_e[0]<<", "<<sorted_e[1]<<"; updated error: "<<it->second<<"old error: "<<qem_value<<endl;
+                        delete edge;
+                    continue;
+                    }
 
+            }
             if(!mesh->is_v_alive(edge->EV(0)) || !mesh->is_v_alive(edge->EV(1))){
+              //    cout<<"[DEBUG] edge not complete: "<<edge->EV(0)<<", "<<edge->EV(1)<<endl;
+
                 delete edge;
                 continue;
             }
@@ -392,8 +405,11 @@ QEM_based=QEM_setting;
                 int t1,t2;
                 et = mesh->ET(*edge);
                 if(et.size()==0){
-                    delete edge;
-                    continue;
+               //     cout<<"Edge("<<v1<<", "<<v2<<") ET size is zero"<<endl;
+                   // delete edge;
+                   // continue;
+                   t1=-1;
+                   t2=-1;
                 }
                 else if(et.size() ==1){
                   //  cout<<v1<<" and "<<v2<<" are ignored due to no triangles"<<endl;
@@ -415,11 +431,11 @@ QEM_based=QEM_setting;
                 if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
-                      mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,*queue,limit,&initialQuadric,&trianglePlane);
+                      mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,queue,limit,&initialQuadric,&trianglePlane,updated_edges);
                      
                      }
                     else{
-                   mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,*queue,limit);
+                   mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,queue,limit);
                     }
                         done_new++;
 

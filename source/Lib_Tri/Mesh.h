@@ -101,8 +101,8 @@ public:
     void build();
 
     DAG_GeomNode* half_edge_collapse(int v1, int v2, int t1, int t2, vector<double> new_v);
-    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit);
-    void half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>& queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl );
+    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit);
+    void half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges );
 
     bool convex_neighborhood(int v1, int v2, int t1, int t2);
 
@@ -130,9 +130,7 @@ public:
     double TArea(int t);
     //compute edge lenght
     void computeInitialQEM(vector<Matrix>*, vector<vector<double> >*);
-    void updateQEM(vector<Matrix>*, vector<vector<double> >*,vector<int> updated_vertices);
     void computeTrianglesPlane(vector<vector<double> >*);
-    void updateTrianglePlane(vector<vector<double> >*,int updated_vertex);
     double vertex_error(Matrix q, double x, double y, double z);
     double compute_error(int v1, int v2, vector<Matrix>* vQEM, vector<double>* new_vertex);
     double compute_error(int v1, int v2, vector<Matrix>* vQEM, int& new_vertex_pos);
@@ -1118,30 +1116,6 @@ if(min_error<=0.00000001)
 
 }
 
-template<class V, class T> void Mesh<V,T>::updateQEM(vector<Matrix>* vQEM, vector<vector<double> >* planes,vector<int> updated_vertices)
-{
-   // vector<int> vv_new = VV(updated_vertex);
-    /* compute initial quadric */
-    for(auto it=updated_vertices.begin();it!=updated_vertices.end();it++){
-    vector<int> vt = VT(*it);
-    Matrix old=(*vQEM)[*it];
-     cout<<"Vertex "<<*it<<" old QEM: "<<endl;
-    old.print();
-    (*vQEM)[ *it]=Matrix(0.0); 
-    for (int i = 0; i < vt.size(); i++)
-    {
-        /* faces are triangles */
-
-            int tid=vt[i];
-            double* a = &((*planes)[tid][0]);
-            (*vQEM)[ *it] += Matrix(a);
-        
-    }
-    cout<<"Vertex "<<*it<<" new QEM: "<<endl;
-    (*vQEM)[ *it].print();
-    }
-}
-
 
 template<class V, class T> void Mesh<V,T>::computeInitialQEM(vector<Matrix>* vQEM, vector<vector<double> >* planes)
 {
@@ -1159,57 +1133,6 @@ template<class V, class T> void Mesh<V,T>::computeInitialQEM(vector<Matrix>* vQE
 
 }
 
-template<class V, class T> void Mesh<V,T>::updateTrianglePlane(vector< vector<double> >* trPl,int updated_vertex)
-{
-    double coords[3][3];
-
- 
-        vector<int> triangles = VT(updated_vertex);
-        for(auto j=triangles.begin(); j!=triangles.end();j++){
-        for(int v=0; v<3; v++){
-            coords[0][v] = getVertex(getTopSimplex(*j).TV(v)).getX();
-            coords[1][v] = getVertex(getTopSimplex(*j).TV(v)).getY();
-            coords[2][v] = getVertex(getTopSimplex(*j).TV(v)).getZ();
-        }
-        
-        double a,b,c,m;
-
-        a = (coords[1][1] - coords[1][0]) * (coords[2][2] - coords[2][0]) - (coords[2][1] - coords[2][0]) * (coords[1][2] - coords[1][0]);
-
-        b = (coords[2][1] - coords[2][0]) * (coords[0][2] - coords[0][0]) - (coords[0][1] - coords[0][0]) * (coords[2][2] - coords[2][0]);
-
-        c = (coords[0][1] - coords[0][0]) * (coords[1][2] - coords[1][0]) - (coords[1][1] - coords[1][0]) * (coords[0][2] - coords[0][0]);
-
-        m = sqrt(a*a + b*b + c*c);
-        if(m==0)
-        {
-            removed_triangle[*j]=true;
-    
-          for(int i=0;i<3;i++){
-              int tt=getTopSimplex(*j).TT(i);
-              if(tt!=-1)
-              for(int n=0;n<3;n++){
-              if(getTopSimplex(tt).TT(n)==*j)
-                getTopSimplex(tt).setTT(n,-1);
-              
-              }
-
-          }
-
-            continue;
-        }
-        a = a/m;
-        b = b/m;
-        c = c/m;
-
-        (*trPl)[*j][0]=a;
-        (*trPl)[*j][1]=b;
-        (*trPl)[*j][2]=c;
-        (*trPl)[*j][3]= -1*(a*coords[0][0] + b*coords[1][0] + c*coords[2][0]);
-        
-        }
-    
-}
 
 
 template<class V, class T> void Mesh<V,T>::computeTrianglesPlane(vector< vector<double> >* trPl)

@@ -106,7 +106,7 @@ class FormanGradientVector
 
     //For filtering. NEW
     vector<unsigned> filtration;
-
+    map<vector<int>,double> updated_edges;
     bool QEM_based;
 
     double length_limit;
