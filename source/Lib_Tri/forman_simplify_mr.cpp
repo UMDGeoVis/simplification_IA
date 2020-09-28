@@ -4,6 +4,7 @@
 
 #define PIGRECO      	 3.1415927
 #define THRESHOLDNORM    0.0001
+#define SMALL_TOLER (1e-7)
 
 
 void FormanGradientVector::simplify(bool output_model, char* nome_file){
@@ -314,6 +315,7 @@ QEM_based=QEM_setting;
                           double value;
                         if(QEM_based==true){
                         e={edge->EV(0),edge->EV(1)};
+                        sort(e.begin(),e.end());
                         int new_vertex_pos=-1;
                         value = mesh->compute_error(e[0],e[1],&initialQuadric,new_vertex_pos);
                          assert(new_vertex_pos!=-1);
@@ -327,8 +329,8 @@ QEM_based=QEM_setting;
                         map<vector<int>, double>::iterator it = values.find(e);
                         if(it==values.end()){
                         values[e]=value;
-                      if(value<limit){
-                           cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
+                      if((value-limit)<SMALL_TOLER){
+                          cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                            Edge * insert_edge=new Edge(e[0],e[1]);
                       queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                                     }
@@ -345,10 +347,10 @@ QEM_based=QEM_setting;
                             { new_vertex[0] = v1.getX(); new_vertex[1] = v1.getY(), new_vertex[2] = v1.getZ(); }
                           vector<double> dif = {v1.getX()-v2.getX(),v1.getY()-v2.getY(),v1.getZ()-v2.getZ()};
                           value = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-                        cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<value<<endl;   
+                      //  cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<value<<endl;   
 
                            values[e]=value;
-                        if(value<limit){
+                        if((value-limit)<SMALL_TOLER){
                             Edge * insert_edge=new Edge(e[0],e[1]);
                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                          //cout<<"ENQUEUE"<<endl;
@@ -366,7 +368,6 @@ QEM_based=QEM_setting;
         vector<int> vv;
         cout<<"**** [Number] "<<queue->size()<<" edges enqueued. Start simplification.****"<<endl;
         while(!queue->empty()){
-            
             Geom_Sempl* sempl = queue->top();
             Edge* edge = sempl->edge;
             double qem_value = sempl->val;
@@ -378,8 +379,9 @@ QEM_based=QEM_setting;
             auto it= updated_edges.find(sorted_e);
             if(it !=updated_edges.end()){
 
-                if(it->second!=qem_value)
+                if(fabs(it->second-qem_value)>SMALL_TOLER)
                     {
+                      //  cout<<"skip current edge."<<endl;
                     //   cout<<"[DEBUG] edge: "<<sorted_e[0]<<", "<<sorted_e[1]<<"; updated error: "<<it->second<<"old error: "<<qem_value<<endl;
                         delete edge;
                     continue;
@@ -388,7 +390,7 @@ QEM_based=QEM_setting;
             }
             if(!mesh->is_v_alive(edge->EV(0)) || !mesh->is_v_alive(edge->EV(1))){
               //    cout<<"[DEBUG] edge not complete: "<<edge->EV(0)<<", "<<edge->EV(1)<<endl;
-
+              //  cout<<"skip current edge."<<endl;
                 delete edge;
                 continue;
             }
@@ -427,25 +429,20 @@ QEM_based=QEM_setting;
                 bool to_switch_sin,to_switch_des;
                 to_switch_des=to_switch_sin=false;
 
-
+              //  cout<<"check condition"<<endl;
                 if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
+                  //       cout<<"before"<<endl;
                       mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,queue,limit,&initialQuadric,&trianglePlane,updated_edges);
-                     
+                    //   cout<<"after"<<endl;
                      }
                     else{
                    mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,queue,limit);
                     }
                         done_new++;
 
-                      
-                        
-                        // for(int k=0; k<vv.size(); k++){
-                        //   // if(vv[k]==-1)
-                        // cout<<"VV of "<<v1<< ": "<<vv[k]<<endl;
-                        // //     visited_vertex[vv[k]]=true;
-                        // }
+                
                     
                 }
                 cout<<"Number of edges remaining:"<<queue->size()<<endl;
@@ -472,7 +469,7 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
     list<DAG_GeomNode*>* performed_simpl = new list<DAG_GeomNode*>();
      QEM_based=true;
 
-    float edg_lenght=-1;
+    double edg_lenght=-1;
     vector<bool> visited;
     vector<bool> visited_vertex;
     vector<Matrix> initialQuadric;

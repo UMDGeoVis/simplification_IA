@@ -1,6 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
-
+#define SMALL_TOLER (1e-7)
 #include <vector>
 #include <string>
 #include <cstdlib>
@@ -35,8 +35,8 @@ public:
 struct sort_arcs_geom{
     bool operator()(Geom_Sempl* e1, Geom_Sempl* e2){
 
-       if(e1->val!=e2->val)
-      return e1->val>e2->val;
+       if(fabs(e1->val-e2->val)>SMALL_TOLER)
+      return (e1->val-e2->val)>SMALL_TOLER;
       else if(e1->edge->EV(0)!=e2->edge->EV(0))
       return e1->edge->EV(0)>e2->edge->EV(0);
       else
@@ -718,6 +718,7 @@ vector<int> Mesh<V,T>::VV(int center)
             pred = current;
             current = this->getTopSimplex(current).TT((k+1)%3);
         }
+     
     }
 
     //se sono in un bordo ciclo anche nell'altro senso per recuperare i triangoli mancanti
@@ -764,7 +765,9 @@ vector<int> Mesh<V,T>::VV(int center)
                 pred = current;
                 current = this->getTopSimplex(current).TT((k+1)%3);
             }
+          
         }
+
     }
 
     return vertices;
@@ -994,10 +997,14 @@ template<class V, class T> double Mesh<V,T>::cosAngle(int v1, int v2, int v3)
 }
 
 
-template<class V, class T> double Mesh<V,T>::vertex_error(Matrix q, double x, double y, double z)
+template<class V, class T> double Mesh<V,T>::vertex_error(Matrix q, double x,  double y, double z)
 {
-    return q[0]*x*x + 2*q[1]*x*y + 2*q[2]*x*z + 2*q[3]*x + q[5]*y*y
-        + 2*q[6]*y*z + 2*q[7]*y + q[10]*z*z + 2*q[11]*z + q[15];
+double result= q[0]*x*x;
+result+= 2*q[1]*x*y;result += 2*q[2]*x*z ;result += 2*q[3]*x ;result += q[5]*y*y;
+result += 2*q[6]*y*z ;result += 2*q[7]*y; result +=q[10]*z*z ;result += 2*q[11]*z ;result += q[15];
+//cout<<"calculated result: "<<result<<endl;
+result=round(result*1000000)/1000000.0;
+return result;
 }
 
 
@@ -1061,12 +1068,6 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 
 //    }
 
-//    printf("new vertex \n");
-//    printf("%lf %lf %lf\n", vx1, vy1, vz1);
-//    printf("%lf %lf %lf\n", vx2, vy2, vz2);
-//    //printf("%lf %lf %lf\n", vx3, vy3, vz3);
-//    printf("%lf %lf %lf\n", (*new_vertex)[0], (*new_vertex)[1], (*new_vertex)[2]);
-
 
     min_error = vertex_error(q_bar, (*new_vertex)[0], (*new_vertex)[1], (*new_vertex)[2]);
 
@@ -1104,13 +1105,14 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 
         double error1 = vertex_error(q_bar, vx1, vy1, vz1);
         double error2 = vertex_error(q_bar, vx2, vy2, vz2);
-        //double error3 = vertex_error(q_bar, vx3, vy3, vz3);
+
+     //   q_bar.print();
 
         min_error = std::min(error1, error2);
-        if (error1 == min_error) { new_vertex_pos=0; min_error=error1;}
-        else if (error2 == min_error) { new_vertex_pos=1; min_error=error2;}
+        if (fabs(error1-min_error)<SMALL_TOLER) { new_vertex_pos=0; min_error=error1;}
+        else { new_vertex_pos=1; min_error=error2;}
 
-if(min_error<=0.00000001)
+if(min_error<SMALL_TOLER)
     min_error=0;
     return min_error;
 
@@ -1160,10 +1162,10 @@ template<class V, class T> void Mesh<V,T>::computeTrianglesPlane(vector< vector<
         b = b/m;
         c = c/m;
 
-        (*trPl)[i][0]=a;
-        (*trPl)[i][1]=b;
-        (*trPl)[i][2]=c;
-        (*trPl)[i][3]= -1*(a*coords[0][0] + b*coords[1][0] + c*coords[2][0]);
+        (*trPl)[i][0]=round(a*1000000)/1000000.0;
+        (*trPl)[i][1]=round(b*1000000)/1000000.0;
+        (*trPl)[i][2]=round(c*1000000)/1000000.0;
+        (*trPl)[i][3]= -1*round((a*coords[0][0] + b*coords[1][0] + c*coords[2][0])*1000000)/1000000.0;
     }
 }
 

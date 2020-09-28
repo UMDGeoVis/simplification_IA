@@ -18,7 +18,9 @@ int Triangle::TV(int pos)
 
 Edge* Triangle::TE(int pos)
 {
-    return new Edge(vertices[(pos+1)%3],vertices[(pos+2)%3]);
+   int v1=(vertices[(pos+1)%3]<vertices[(pos+2)%3])?vertices[(pos+1)%3]:vertices[(pos+2)%3];
+    int v2=(vertices[(pos+1)%3]<vertices[(pos+2)%3])?vertices[(pos+2)%3]:vertices[(pos+1)%3];
+    return new Edge(v1,v2);
 }
 
 int Triangle::TT(int pos)

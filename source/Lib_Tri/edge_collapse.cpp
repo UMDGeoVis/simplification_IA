@@ -252,7 +252,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
 
             vector<double> dif = {va.getX()-vb.getX(),va.getY()-vb.getY(),va.getZ()-vb.getZ()};
             double length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
-            if(length<limit){
+            if((length-limit)<SMALL_TOLER){
             queue->push(new Geom_Sempl(e,length,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
@@ -300,6 +300,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
 
  template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges){
     cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
+    
     removed_vertex[v2]=true;
     if(t1!=-1)
     removed_triangle[t1]=true;
@@ -372,10 +373,6 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
             break;
         }
     }
- //  cout<<"v5_des: "<<v5_des <<endl;
-    //assert(t3_sin != t3_des);
-    //assert(t3_adj_sin != t3_adj_des);
-//cout<<"Set TT relations"<<endl;
     /*t3 adiacente a t1 e t2 si becca gli adiacenti di t1 e t2 dal corrispettivo lato*/
     }
     if(t3_sin!=-1)
@@ -408,6 +405,12 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         getVertex(v1).VTstar(t3_des);
         else if(t3_adj_des!=-1)
         getVertex(v1).VTstar(t3_adj_des);
+        // else
+        // {
+        //     cout<<"Cannot find triangle"<<endl;
+        //     int a;cin>>a;
+        // }
+        
     }
 
 
@@ -417,6 +420,12 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         getVertex(v_sinistro).VTstar(t3_sin);
         else if(t3_adj_sin!=-1)
         getVertex(v_sinistro).VTstar(t3_adj_sin);
+        else
+        {
+            removed_vertex[v_sinistro]=true;
+            getVertex(v_sinistro).VTstar(-1);
+        }
+        
     }
     if(v_destro!=-1)
     if(getVertex(v_destro).VTstar() == t2){
@@ -424,15 +433,13 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         getVertex(v_destro).VTstar(t3_des);
         else if(t3_adj_des!=-1)
         getVertex(v_destro).VTstar(t3_adj_des);
+        else{
+        removed_vertex[v_destro]=true;
+            getVertex(v_destro).VTstar(-1);
+        }
     }
 
- ///TODO： Update the QEM before computing the error 
 
-    // for(int i=0; i<vv.size();i++){
-    //     updateTrianglePlane(triPl,vv[i]);
-
-    // }
- //   updateQEM(vQEM,triPl,vv);
     (*vQEM)[v1] += (*vQEM)[v2];
     
 
@@ -441,16 +448,19 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         if(vv[i] != v1 && vv[i] != v_sinistro && vv[i] != v_destro){
             vector<double> new_vertex(3,0);
             int new_vertex_pos=-1;
-            Edge * e=new Edge(v1,vv[i]);
-            double error = compute_error(v1,vv[i],vQEM,new_vertex_pos);
+            int vl=(v1<vv[i])?v1:vv[i];
+            int vr=(v1<vv[i])?vv[i]:v1;
+            Edge * e=new Edge(vl,vr);
+            double error = compute_error(vl,vr,vQEM,new_vertex_pos);
             assert(new_vertex_pos!=-1);
             if(new_vertex_pos==1)
                 {
-                *e= Edge(vv[i],v1); 
+                *e= Edge(vr,vl); 
                 }
 
-            if(error<limit){
-            cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+
+            if((error-limit)<SMALL_TOLER){
+          cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
@@ -462,17 +472,19 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
         if(vv_v1[i] != v2 ){
             vector<double> new_vertex(3,0);
             int new_vertex_pos=-1;
-            Edge * e=new Edge(v1,vv_v1[i]);
-            double error = compute_error(v1,vv_v1[i],vQEM,new_vertex_pos);
+            int vl=(v1<vv_v1[i])?v1:vv_v1[i];
+            int vr=(v1<vv_v1[i])?vv_v1[i]:v1;
+            Edge * e=new Edge(vl,vr);
+            double error = compute_error(vl,vr,vQEM,new_vertex_pos);
             assert(new_vertex_pos!=-1);
             if(new_vertex_pos==1)
                 {
-                *e= Edge(vv_v1[i],v1); 
+                *e= Edge(vr,vl); 
                 }
        
-            if(error<limit){
-                vector<int> inserted_edge={e->EV(0),e->EV(1)};
-                sort(inserted_edge.begin(),inserted_edge.end());
+            if((error-limit)<SMALL_TOLER){
+                vector<int> inserted_edge={vl,vr};
+              //  sort(inserted_edge.begin(),inserted_edge.end());
                 updated_edges[inserted_edge]=error;
             cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
@@ -481,11 +493,8 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
               }
     }
 
-    // getVertex(v1).setX((new_v)[0]);
-    // getVertex(v1).setY((new_v)[1]);
-    // getVertex(v1).setZ((new_v)[2]);
 
-  //cout<<"FINISHED EDGE CONTRACTION"<<endl;
+  cout<<"FINISHED EDGE CONTRACTION"<<endl;
 
     //return 0;
     }
