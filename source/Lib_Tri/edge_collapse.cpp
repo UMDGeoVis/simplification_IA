@@ -449,7 +449,9 @@ cout<<"v5_sin: "<<v5_sin<<endl;
 
 
     (*vQEM)[v1] += (*vQEM)[v2];
-    
+    getVertex(v1).setX((new_v)[0]);
+    getVertex(v1).setY((new_v)[1]);
+    getVertex(v1).setZ((new_v)[2]);
 
     for(int i=0; i<vv.size(); i++){
        // cout<<vv[i]<<endl;
@@ -468,7 +470,7 @@ cout<<"v5_sin: "<<v5_sin<<endl;
 
             new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
             if((error-limit)<SMALL_TOLER){
-      //    cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+        cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
@@ -490,21 +492,19 @@ cout<<"v5_sin: "<<v5_sin<<endl;
                 *e= Edge(vr,vl); 
                 }
          new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
-
-            if((error-limit)<SMALL_TOLER){
                 vector<int> inserted_edge={vl,vr};
               //  sort(inserted_edge.begin(),inserted_edge.end());
                 updated_edges[inserted_edge]=error;
-       //     cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
+            if((error-limit)<SMALL_TOLER){
+
+            cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
               }
     }
 
-    getVertex(v1).setX((new_v)[0]);
-    getVertex(v1).setY((new_v)[1]);
-    getVertex(v1).setZ((new_v)[2]);
+
   cout<<"FINISHED EDGE CONTRACTION"<<endl;
 
     //return 0;

@@ -283,6 +283,8 @@ QEM_based=QEM_setting;
     vector<int> e;
     length_limit=limit;
 
+
+
         if(QEM_based==true){
     cout << "=========Calculate triangle plane========" << endl;
 
@@ -330,7 +332,7 @@ QEM_based=QEM_setting;
                         if(it==values.end()){
                         values[e]=value;
                       if((value-limit)<SMALL_TOLER){
-                        //  cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
+                          cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                            Edge * insert_edge=new Edge(e[0],e[1]);
                            Vertex3D v=mesh->getVertex(e[0]);
                            new_vertex={v.getX(),v.getY(),v.getZ()};
@@ -399,22 +401,30 @@ QEM_based=QEM_setting;
 
             Edge* e1 = getVE(edge->EV(0));
             int v1,v2; v1=v2=-1;
-            // if(e1 != NULL && *e1 == *edge){//v1 is paired with current edge
-            //     v2 = edge->EV(0);
-            //     v1 = edge->EV(1);// exchange v1 and v2, ensure the pair is deleted together 
-            //     delete e1;
-            // }
-            // else{
-            //     delete e1;
-            //     e1 = getVE(edge->EV(1)); //v2 is paired with current edge.
-            //     if(e1 != NULL && *e1 == *edge){
-            //         v2 = edge->EV(1);
-            //         v1 = edge->EV(0); //v2 and the edge should be removed together.
-            //     }
-            //     delete e1;
-            // }
-            v2 = edge->EV(1);
-            v1 = edge->EV(0); 
+
+            //One gradient check condition
+            if(e1 != NULL && *e1 == *edge){//v1 is paired with current edge
+                v2 = edge->EV(0);
+                v1 = edge->EV(1);// exchange v1 and v2, ensure the pair is deleted together 
+                cout<<"v1 is paired with current edge"<<endl;
+                delete e1;
+            }
+            else{
+                delete e1;
+                e1 = getVE(edge->EV(1)); //v2 is paired with current edge.
+                if(e1 != NULL && *e1 == *edge){
+                    cout<<"v2 is paired with current edge"<<endl;
+                    v2 = edge->EV(1);
+                    v1 = edge->EV(0); //v2 and the edge should be removed together.
+                }
+                else{
+                    cout<<"Edge "<<edge->EV(0)<<", "<<edge->EV(1)<<" cannot be removed"<<endl;
+                    cout<<"v1/v2 should be paired with edge"<<endl;
+                }
+                delete e1;
+            }
+            // v2 = edge->EV(1);
+            // v1 = edge->EV(0); 
             if(v1 != -1){
 
                 int t1,t2;
@@ -443,7 +453,7 @@ QEM_based=QEM_setting;
                 to_switch_des=to_switch_sin=false;
 
               
-                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)/*&& valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des)*//*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)&& valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
                         
@@ -693,9 +703,9 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
          {
             cout<<"edge is critical"<<endl;
             return false;}
-
-    if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) {cout<<"v3 sin pair is v2"<<endl;return false;}
-    if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) {cout<<"v3 des pair is v2"<<endl;return false;}
+//Why need this?
+    // if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) {cout<<"v3 sin pair is v2"<<endl;return false;}
+    // if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) {cout<<"v3 des pair is v2"<<endl;return false;}
 
 
     if(is_vertex_critical(v2))
@@ -706,8 +716,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
     //assert(*getVE(v2) == Edge(v1,v2));
 
     Edge* edge1=getVE(v3_sin);
-    if(v3_sin==94)
-        cout<<"v3_sin is paired with"<<edge1->EV(1)<<endl;
+
     Edge* edge2=getVE(v1);
     if(edge1 != NULL && *edge1==Edge(v3_sin,v2)){
 
