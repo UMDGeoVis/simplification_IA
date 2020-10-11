@@ -306,6 +306,7 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     removed_triangle[t1]=true;
     if(t2!=-1)
     removed_triangle[t2]=true;
+    cout<<"t1 and t2:"<<t1<<", "<<t2<<endl;
   // cout<<"=====Extract relations====="<<endl;
     vector<int> vt = VT(v2);
     vector<int> vv = VV(v2);
@@ -320,15 +321,14 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     {
     t3_sin = getTopSimplex(t1).TT(getTopSimplex(t1).vertex_index(v1));
     t3_adj_sin = getTopSimplex(t1).TT(getTopSimplex(t1).vertex_index(v2));
- //  cout<<"t3 sin and t3 adj sin: "<<t3_sin<<"; "<<t3_adj_sin<<endl;
-
+  
     for(int i=0; i<3; i++){
         if(getTopSimplex(t1).TV(i) != v1 && getTopSimplex(t1).TV(i) != v2){
             v_sinistro = getTopSimplex(t1).TV(i);
             break;
         }
     }
-  // cout<<"v_sinistro: "<<v_sinistro<<endl;
+  // 
      v5_sin=-1;
     for(int i=0; i<3; i++){
         if(t3_sin!=-1 && getTopSimplex(t3_sin).TV(i) != v2 && getTopSimplex(t3_sin).TV(i) != v_sinistro){
@@ -336,36 +336,40 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
             break;
         }
     }
- // cout<<"v_sinistro_sopra: "<<v_sinistro_sopra<<endl;
+ // 
     for(int i=0; i<3; i++){
         if(t3_adj_sin!=-1&&getTopSimplex(t3_adj_sin).TV(i) != v1 && getTopSimplex(t3_adj_sin).TV(i) != v_sinistro){
             v5_sin = getTopSimplex(t3_adj_sin).TV(i);
             break;
         }
     }
-  // cout<<"v5_sin: "<<v5_sin<<endl;
+  // 
   }
+ cout<<"t3 sin and t3 adj sin: "<<t3_sin<<"; "<<t3_adj_sin<<endl;
+cout<<"v_sinistro: "<<v_sinistro<<endl;
+cout<<"v_sinistro_sopra: "<<v_sinistro_sopra<<endl;
+cout<<"v5_sin: "<<v5_sin<<endl;
 
    int t3_des=-1,t3_adj_des=-1;
     int v5_des=-1;
     if(t2!=-1){
     t3_des = getTopSimplex(t2).TT(getTopSimplex(t2).vertex_index(v1));
     t3_adj_des = getTopSimplex(t2).TT(getTopSimplex(t2).vertex_index(v2));
-  // cout<<"t3 des and t3 adj des: "<<t3_des<<"; "<<t3_adj_des<<endl;
+
     for(int i=0; i<3; i++){
         if( getTopSimplex(t2).TV(i) != v1 && getTopSimplex(t2).TV(i) != v2){
             v_destro = getTopSimplex(t2).TV(i);
             break;
         }
     }
- //cout<<"v_destro: "<<v_destro<<endl;
+ //
     for(int i=0; i<3; i++){
         if(t3_des != -1 && getTopSimplex(t3_des).TV(i) != v2 && getTopSimplex(t3_des).TV(i) != v_destro){
             v_destro_sopra = getTopSimplex(t3_des).TV(i);
             break;
         }
     }
- //  cout<<"v_destro_sopra: "<<v_destro_sopra<<endl;
+ //  
    
     for(int i=0; i<3; i++){
         if(t3_adj_des != -1 &&getTopSimplex(t3_adj_des).TV(i) != v1 && getTopSimplex(t3_adj_des).TV(i) != v_destro){
@@ -375,6 +379,10 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     }
     /*t3 adiacente a t1 e t2 si becca gli adiacenti di t1 e t2 dal corrispettivo lato*/
     }
+        cout<<"v_destro: "<<v_destro<<endl;
+        cout<<"v_destro_sopra: "<<v_destro_sopra<<endl;
+       cout<<"t3 des and t3 adj des: "<<t3_des<<"; "<<t3_adj_des<<endl;
+       cout<<"v5_des: "<<v5_des<<endl;
     if(t3_sin!=-1)
         getTopSimplex(t3_sin).setTT(getTopSimplex(t3_sin).vertex_index(v_sinistro_sopra), t3_adj_sin);
     if(t3_adj_sin!=-1)
@@ -458,9 +466,9 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
                 *e= Edge(vr,vl); 
                 }
 
-
+            new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
             if((error-limit)<SMALL_TOLER){
-          cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+      //    cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
@@ -481,19 +489,22 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
                 {
                 *e= Edge(vr,vl); 
                 }
-       
+         new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
+
             if((error-limit)<SMALL_TOLER){
                 vector<int> inserted_edge={vl,vr};
               //  sort(inserted_edge.begin(),inserted_edge.end());
                 updated_edges[inserted_edge]=error;
-            cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
+       //     cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error,new_vertex));
        //     cout<<"New edge updated"<<endl;
             }
               }
     }
 
-
+    getVertex(v1).setX((new_v)[0]);
+    getVertex(v1).setY((new_v)[1]);
+    getVertex(v1).setZ((new_v)[2]);
   cout<<"FINISHED EDGE CONTRACTION"<<endl;
 
     //return 0;

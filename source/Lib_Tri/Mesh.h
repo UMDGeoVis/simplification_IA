@@ -120,7 +120,7 @@ public:
     void reorder_triangulation();
     int getUpdateVertexIndex(int v_index);
 
-    bool link_condition(int v1, int v2);
+    bool link_condition(int v1, int v2, int t1, int t2);
 
     //compute cosinus of angle formed by 3 vertices
     double cosAngle(int v1, int v2, int v3);
@@ -382,7 +382,7 @@ vector<int> Mesh<V,T>::VT(int center)
     int current = this->getVertex(center).VTstar();
     triangles.push_back(this->getVertex(center).VTstar());
     int k=-1;
-
+    
     //cerco la posizione del vertice nell'array dei vertici del triangolo
     for(int i=0;i<this->getTopSimplex(current).getVerticesNum();i++)
     {
@@ -400,6 +400,8 @@ vector<int> Mesh<V,T>::VT(int center)
     bool isBorder = false;
     while(1)
     {
+        if(center==87959 || center ==88281)
+           cout<<"[DEBUG][FIRST]current:"<<current<<endl;
         if(current == this->getVertex(center).VTstar())
             break;
         else if(current == -1)
@@ -450,6 +452,7 @@ vector<int> Mesh<V,T>::VT(int center)
 
         while(1)
         {
+   
             if(current == -1)
                 break;
             else
@@ -694,7 +697,7 @@ vector<int> Mesh<V,T>::VV(int center)
             isBorder = true;
             break;
         }
-
+        // cout<<"[DEBUG][FIRST]current:"<<current<<endl;
         k=-1;
         //cerco la posizione del vertice nell'array dei vertici del triangolo
         for(int i=0;i<this->getTopSimplex(current).getVerticesNum();i++)
@@ -741,7 +744,7 @@ vector<int> Mesh<V,T>::VV(int center)
         {
             if(current == -1)
                 break;
-
+   
             k=-1;
             //cerco la posizione del vertice nell'array dei vertici del triangolo
             for(int i=0;i<this->getTopSimplex(current).getVerticesNum();i++)
@@ -755,12 +758,14 @@ vector<int> Mesh<V,T>::VV(int center)
 
             if(this->getTopSimplex(current).TT((k+1)%3) == pred)
             {
+                
                 vertices.push_back(this->getTopSimplex(current).TV((k+1)%3));
                 pred = current;
                 current = this->getTopSimplex(current).TT((k+2)%3);
             }
             else if(this->getTopSimplex(current).TT((k+2)%3) == pred)
             {
+            
                 vertices.push_back(this->getTopSimplex(current).TV((k+2)%3));
                 pred = current;
                 current = this->getTopSimplex(current).TT((k+1)%3);
@@ -1003,7 +1008,7 @@ double result= q[0]*x*x;
 result+= 2*q[1]*x*y;result += 2*q[2]*x*z ;result += 2*q[3]*x ;result += q[5]*y*y;
 result += 2*q[6]*y*z ;result += 2*q[7]*y; result +=q[10]*z*z ;result += 2*q[11]*z ;result += q[15];
 //cout<<"calculated result: "<<result<<endl;
-result=round(result*1000000)/1000000.0;
+result=round(result*100000)/100000.0;
 return result;
 }
 
@@ -1296,22 +1301,40 @@ template<class V, class T> double Mesh<V,T>::VoronoiBarycentricArea(int v, int t
   }
 }
 
-template<class V, class T> bool Mesh<V,T>::link_condition(int v1, int v2){
+template<class V, class T> bool Mesh<V,T>::link_condition(int v1, int v2, int t1, int t2){
 
     vector<int> vv1 = VV(v1);
     vector<int> vv2 = VV(v2);
     int counter=0;
     set<int> set_v1(vv1.begin(), vv1.end());
     //cout<<v2<<"'s VV size: "<<vv2.size()<<endl;
+    set<int> link_ab;
     for(int i=0; i<vv2.size(); i++){
         if(set_v1.find(vv2[i]) != set_v1.end()){
            // cout<<vv2[i];
+           link_ab.insert(vv2[i]);
             counter++;
         }
         //cout<<endl;
     }
+    set<int> link_e;
+    if(t1!=-1){
+       T& tri1= this->getTopSimplex(t1);
+       for(int i=0;i<3;i++){
+           if(tri1.TV(i)!=v1&&tri1.TV(i)!=v2)
+           link_e.insert(tri1.TV(i));
+       }
+    }
 
-    return counter <= 2;
+        if(t2!=-1){
+       T& tri2= this->getTopSimplex(t2);
+       for(int i=0;i<3;i++){
+           if(tri2.TV(i)!=v1&&tri2.TV(i)!=v2)
+           link_e.insert(tri2.TV(i));
+       }
+    }
+
+    return link_ab.size()==link_e.size();
 }
 
 //template<class V, class T>

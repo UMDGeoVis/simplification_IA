@@ -330,8 +330,10 @@ QEM_based=QEM_setting;
                         if(it==values.end()){
                         values[e]=value;
                       if((value-limit)<SMALL_TOLER){
-                          cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
+                        //  cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                            Edge * insert_edge=new Edge(e[0],e[1]);
+                           Vertex3D v=mesh->getVertex(e[0]);
+                           new_vertex={v.getX(),v.getY(),v.getZ()};
                       queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                                     }
                      }
@@ -395,13 +397,24 @@ QEM_based=QEM_setting;
                 continue;
             }
 
-            //Edge* e1 = getVE(edge->EV(0));
+            Edge* e1 = getVE(edge->EV(0));
             int v1,v2; v1=v2=-1;
-
+            // if(e1 != NULL && *e1 == *edge){//v1 is paired with current edge
+            //     v2 = edge->EV(0);
+            //     v1 = edge->EV(1);// exchange v1 and v2, ensure the pair is deleted together 
+            //     delete e1;
+            // }
+            // else{
+            //     delete e1;
+            //     e1 = getVE(edge->EV(1)); //v2 is paired with current edge.
+            //     if(e1 != NULL && *e1 == *edge){
+            //         v2 = edge->EV(1);
+            //         v1 = edge->EV(0); //v2 and the edge should be removed together.
+            //     }
+            //     delete e1;
+            // }
             v2 = edge->EV(1);
-            v1 = edge->EV(0);
-
-
+            v1 = edge->EV(0); 
             if(v1 != -1){
 
                 int t1,t2;
@@ -429,13 +442,13 @@ QEM_based=QEM_setting;
                 bool to_switch_sin,to_switch_des;
                 to_switch_des=to_switch_sin=false;
 
-              //  cout<<"check condition"<<endl;
-                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+              
+                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)/*&& valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des)*//*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
-                  //       cout<<"before"<<endl;
+                        
                       mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,queue,limit,&initialQuadric,&trianglePlane,updated_edges);
-                    //   cout<<"after"<<endl;
+                      
                      }
                     else{
                    mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,queue,limit);
@@ -445,7 +458,7 @@ QEM_based=QEM_setting;
                 
                     
                 }
-                cout<<"Number of edges remaining:"<<queue->size()<<endl;
+             
             }
 
             delete edge;
@@ -501,7 +514,7 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
 //                        delete edge;
 //                        continue;
 //                    }
-                    if(getVE(edge->EV(0)) != NULL ){
+                    if(getVE(edge->EV(0)) != NULL ){  //v1 is not critical
                       vector<double> new_vertex(3,0);
          
                       double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
@@ -509,7 +522,7 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
                       
 
                     }
-                    else if(getVE(edge->EV(1)) != NULL){
+                    else if(getVE(edge->EV(1)) != NULL){ //v2 is not critical
                         vector<double> new_vertex(3,0);
 
                         double error = mesh->compute_error(edge->EV(0),edge->EV(1),&initialQuadric,&new_vertex);
@@ -544,17 +557,17 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
             Edge* e1 = getVE(edge->EV(0));
             int v1,v2; v1=v2=-1;
 
-            if(e1 != NULL && *e1 == *edge){
+            if(e1 != NULL && *e1 == *edge){//v1 is paired with current edge
                 v2 = edge->EV(0);
-                v1 = edge->EV(1);
+                v1 = edge->EV(1);// exchange v1 and v2, ensure the pair is deleted together 
                 delete e1;
             }
             else{
                 delete e1;
-                e1 = getVE(edge->EV(1));
+                e1 = getVE(edge->EV(1)); //v2 is paired with current edge.
                 if(e1 != NULL && *e1 == *edge){
                     v2 = edge->EV(1);
-                    v1 = edge->EV(0);
+                    v1 = edge->EV(0); //v2 and the edge should be removed together.
                 }
                 delete e1;
             }
@@ -576,7 +589,7 @@ list<DAG_GeomNode*>* FormanGradientVector::simplify_geometry(vector<DAG_GeomNode
                 to_switch_des=to_switch_sin=false;
 
 
-                if(!visited_vertex[v2] && mesh->link_condition(v1,v2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/
+                if(!visited_vertex[v2] && mesh->link_condition(v1,v2,t1,t2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/
                   && valid_gradient_configuration(v1,v2,t1,t2,&to_switch_sin,&to_switch_des)){
 
                     DAG_GeomNode* dagnode = mesh->half_edge_collapse(v1,v2,t1,t2,new_v);
@@ -616,29 +629,44 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
     //assert(mesh->is_alive(t1) && mesh->is_alive(t2));
     //assert(mesh->getTopSimplex(t1).contains(v1) && mesh->getTopSimplex(t1).contains(v2));
     //assert(mesh->getTopSimplex(t2).contains(v1) && mesh->getTopSimplex(t2).contains(v2));
-
+    cout<<"[debug]checking edge "<<v1<<", "<<v2<<endl;
     vector<int> vt1 = mesh->VT(v1);
     vector<int> vt = mesh->VT(v2);
-    if(mesh->isBoundary(v2) || mesh->isBoundary(v1)) return false;
-    if(vt.size() < 4 || vt1.size() < 4) return false;
-
-    if(is_face_critical(t1) || is_face_critical(t2)) return false;
-
+    if(mesh->isBoundary(v2) || mesh->isBoundary(v1)) {
+         cout<<"border edge"<<endl;
+        return false;}
+    if(vt.size() < 4 || vt1.size() < 4)
+    {
+        cout<<"less than 4 triangles"<<endl;
+         return false;
+    }
+    if(is_face_critical(t1) || is_face_critical(t2)) {
+        cout<<"t1 or t2 is critical"<<endl;
+        return false;
+    }
     int v3_sin, v3_des;
     v3_sin = v3_des = -1;
 
     //aggiunti ora
     for(int i=0; i<vt.size(); i++){
-        if(is_face_critical(vt[i])) return false;
-    }
+        if(is_face_critical(vt[i])) {
+            cout<<"[DEBUG]"<<vt[i]<<endl;
+             cout<<"vt2 is critical"<<endl;
+            return false;
+     } }
 
     for(int i=0; i<vt1.size(); i++){
-        if(is_face_critical(vt1[i])) return false;
+        if(is_face_critical(vt1[i])) {
+             cout<<"vt1 is critical"<<endl;
+            return false;}
     }
 
     vector<int> vv = mesh->VV(v2);
     for(int i=0; i<vv.size(); i++){
-        if(is_edge_critical(vv[i],v2)) return false;
+        if(is_edge_critical(vv[i],v2)) {
+       cout<<"vv(v2) has critical edge"<<endl;
+        return false;
+            }
     }
 
 
@@ -662,21 +690,28 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
        is_edge_critical(v2,v3_des) ||
        is_edge_critical(v1,v3_des) ||
        is_edge_critical(v1,v3_sin))
-        return false;
+         {
+            cout<<"edge is critical"<<endl;
+            return false;}
 
-    if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) return false;
-    if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) return false;
+    if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) {cout<<"v3 sin pair is v2"<<endl;return false;}
+    if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) {cout<<"v3 des pair is v2"<<endl;return false;}
 
 
     if(is_vertex_critical(v2))
-        return false;
-
+        {
+            cout<<"v2 is critical"<<endl;
+            return false;
+        }
     //assert(*getVE(v2) == Edge(v1,v2));
 
     Edge* edge1=getVE(v3_sin);
+    if(v3_sin==94)
+        cout<<"v3_sin is paired with"<<edge1->EV(1)<<endl;
     Edge* edge2=getVE(v1);
     if(edge1 != NULL && *edge1==Edge(v3_sin,v2)){
 
+        cout<<"v3_sin is paired with v2"<<endl;
         //devo fare l'update sul triangolo sotto t1
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
 
@@ -688,7 +723,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
         *to_switch_sin=true;
     }
     else if(edge1 != NULL && *edge1==Edge(v3_sin,v1)){
-
+            cout<<"v3_sin is paired with v1"<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
 
@@ -698,7 +733,8 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
     }
     else if(edge2 != NULL && *edge2==Edge(v3_sin,v1)){
-
+        cout<<"v1 is paired with v3_sin"<<endl;
+         cout<<"v1:"<<v1<<" v3_sin:"<<v3_sin<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
 
@@ -712,7 +748,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
     //lato destro
     edge1=getVE(v3_des);
     if(edge1 != NULL && *edge1==Edge(v3_des,v2)){
-
+    cout<<"v3_des is paired with v2"<<endl;
         //devo fare l'update sul triangolo sotto t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
 
@@ -724,7 +760,8 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
         *to_switch_des=true;
     }
     else if(edge1 != NULL && *edge1==Edge(v3_des,v1)){
-
+    cout<<"v3_des is paired with v1"<<endl;
+    cout<<"v1:"<<v1<<" v3_des:"<<v3_des<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
 
@@ -735,7 +772,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
 
     }
     else if(edge2 != NULL && *edge2==Edge(v3_des,v1)){
-
+    cout<<"v1 is paired with v3_des"<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
 
