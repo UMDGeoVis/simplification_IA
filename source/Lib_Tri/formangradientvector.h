@@ -173,6 +173,7 @@ public:
     void build_persistence_queue(priority_queue<Topo_Sempl*, vector<Topo_Sempl*>, sort_arcs_topo>*);
     bool valid_gradient_configuration(int v1,int v2,int t1,int t2, bool*,bool*);
     bool valid_gradient();
+    bool valid_gradient_configuration(int v1,int v2,int t1,int t2, int& v2_vtstar);
 
     DAG_TopoNode* contraction_mr(nNode*, iNode*, priority_queue<Topo_Sempl*, vector<Topo_Sempl*>, sort_arcs_topo>*);
     DAG_TopoNode* removal_mr(nNode*, iNode*, priority_queue<Topo_Sempl*, vector<Topo_Sempl*>, sort_arcs_topo>*);
