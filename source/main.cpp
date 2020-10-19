@@ -146,8 +146,14 @@ int main(int argc, char* argv[])
             output_required=false;
              cout << "   Geometry simplification" << endl;
         gradient->write_mesh_VTK("orig_mesh");
-        if(strcmp("-q",argv[4])==0)
+        if(strcmp("-q",argv[4])==0){
+            Timer simplify_timer;
+            simplify_timer.start();
             gradient->simplify_geometry(true,atof(argv[5]));
+            simplify_timer.stop();
+             cout << "       - time simplifications:      " << simplify_timer.getElapsedTime() << endl;
+
+        }
         else if(strcmp("-l",argv[4])==0){
         gradient->simplify_geometry(false, atof(argv[5]));  
         }
