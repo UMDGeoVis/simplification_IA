@@ -400,8 +400,7 @@ vector<int> Mesh<V,T>::VT(int center)
     bool isBorder = false;
     while(1)
     {
-        if(center==87959 || center ==88281)
-           cout<<"[DEBUG][FIRST]current:"<<current<<endl;
+
         if(current == this->getVertex(center).VTstar())
             break;
         else if(current == -1)

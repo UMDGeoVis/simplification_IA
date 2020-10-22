@@ -32,7 +32,8 @@ SOURCES += source/main.cpp \
     source/Lib_Tri/forman_refinement.cpp \
     source/Lib_Tri/forman_extraction_query.cpp \
     source/Lib_Tri/forman_simplify_mr.cpp \
-    source/Lib_Tri/forman_simplify.cpp
+    source/Lib_Tri/forman_simplify.cpp  \
+    source/Lib_Tri/string_management.cpp
 
 HEADERS += \
     source/Lib_Tri/Vertex3D.h \
@@ -47,6 +48,7 @@ HEADERS += \
     source/Lib_Tri/forman_arrow.h \
     source/Ig/ig.h \
     source/Dag/Dag.h \
-    source/Lib_Tri/Matrix.h
+    source/Lib_Tri/Matrix.h \
+    source/Lib_Tri/string_management.h
 
 

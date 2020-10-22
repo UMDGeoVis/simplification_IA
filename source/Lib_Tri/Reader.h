@@ -8,6 +8,7 @@
 #include "Vertex3D.h"
 #include "Mesh.h"
 #include "Triangle.h"
+#include "string_management.h"
 
 using namespace std;
 ///A class that read file and initializite some relevant library structures
@@ -21,6 +22,8 @@ public:
      */
     static bool readMeshFile(Mesh<Vertex2D,Triangle>& mesh, string path);
     static bool readMeshFile(Mesh<Vertex3D,Triangle>& mesh, string path);
+    static bool read_mesh_off(Mesh<Vertex3D,Triangle>& mesh, string path);
+    static bool read_mesh_tri(Mesh<Vertex3D,Triangle>& mesh, string path);
 private:
     ///A constructor method
     Reader();

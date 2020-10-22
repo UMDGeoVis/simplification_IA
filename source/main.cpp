@@ -148,6 +148,8 @@ int main(int argc, char* argv[])
         gradient->write_mesh_VTK("orig_mesh");
         if(strcmp("-q",argv[4])==0){
             Timer simplify_timer;
+              output_required=true;
+              gradient->writeVTK_gradient("orig_gradiente_doporefine.vtk");
             simplify_timer.start();
             gradient->simplify_geometry(true,atof(argv[5]));
             simplify_timer.stop();

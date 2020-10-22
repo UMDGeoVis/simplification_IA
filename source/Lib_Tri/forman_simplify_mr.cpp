@@ -492,7 +492,7 @@ QEM_based=QEM_setting;
         cout<<"Simplified edge number in THIS ROUND:"<<done_new<<endl;
     }
     cout<<"Simplified edge number: "<<done<<endl;
-
+    reorder_forman_gradient();
     mesh->reorder_triangulation();
     set_alive_simplexes();
 }
