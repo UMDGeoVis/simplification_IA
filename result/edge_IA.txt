@@ -1,4 +1,4 @@
-devil_0.tri+_+6
+devil_0.tri+_+-1
 Case 42 42 511
 Vertices number:32100
 24277; 333
@@ -10,25 +10,25 @@ Triangles: 63851
 =========Calculate triangle plane========
 =========Calculate initial QEM========
 number of remaining triangles:63851
-**** [Number] 93565 edges enqueued. Start simplification.****
-Simplified edge number in THIS ROUND:17102
-number of remaining triangles:29647
-**** [Number] 7991 edges enqueued. Start simplification.****
-Simplified edge number: 17102
-previous triangle number 63851 updated:29647
-previous vertices number 32100 updated:14998
-       - time simplifications:      1.29156
+**** [Number] 95950 edges enqueued. Start simplification.****
+Simplified edge number in THIS ROUND:20466
+number of remaining triangles:22919
+**** [Number] 18288 edges enqueued. Start simplification.****
+Simplified edge number: 20466
+previous triangle number 63851 updated:22919
+previous vertices number 32100 updated:11634
+       - time simplifications:      1.94513
 Printing output:
-2-cell extraction terminated in 0.04783
+2-cell extraction terminated in 0.053321
 arrivo qui
-1-cell extraction terminated in 0.037084
-6663
-2-cell ascending extraction terminated in 0.020539
-2-cell ascending extraction terminated in 0.092964
+1-cell extraction terminated in 0.040726
+5597
+2-cell ascending extraction terminated in 0.024436
+2-cell ascending extraction terminated in 0.098064
 Number of critical Points:
-1176 2233 1061
+1173 2233 1061
 Number of arcs:
 Saddle - Maximum: 4202
-Saddle - Minimum: 4317
-Level 2 arcs:278
+Saddle - Minimum: 4316
+Level 2 arcs:279
    - done

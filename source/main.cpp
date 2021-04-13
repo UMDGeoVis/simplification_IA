@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
         else if(strcmp("-c",argv[3])==0){
             output_required=false;
              cout << "   Geometry simplification" << endl;
-        gradient->write_mesh_VTK("orig_mesh");
+       // gradient->write_mesh_VTK("orig_mesh");
         if(strcmp("-q",argv[4])==0){
             Timer simplify_timer;
             output_required=true;
@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
     if(output_required){
         //multiresolution version
         cout << "Printing output:" << endl;
-
+       
         gradient->writeVTK_gradient("prove_gradiente_doporefine.vtk");
 
         gradient->descending_2cells_extraction(true);

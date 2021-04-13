@@ -8,7 +8,7 @@ OBJECTS_DIR = build/
 
 #LIBS += -fopenmp
 
-
+QMAKE_CXXFLAGS += -ggdb
 QMAKE_CXXFLAGS_RELEASE += -fpermissive
 QMAKE_CXXFLAGS_DEBUG += -fpermissive
 QMAKE_CXXFLAGS_RELEASE -= -O2

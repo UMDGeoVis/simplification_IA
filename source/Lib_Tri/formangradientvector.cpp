@@ -168,7 +168,22 @@ void FormanGradientVector::freeEF(int v, int f){
 }
 
 bool FormanGradientVector::is_vertex_critical(int v){
+
+//     // NEED TO CHANGE BACK TO LAST VERSION AFTER DEBUG
+//     vector<int> vt = mesh->VT(v);
+//    // cout<<"vertex"<<v<<" 's vt:"<<vt.size()<<endl;
+//   //cout<<": ";
+//     for (int i =0; i<vt.size();i++){
+//      //   cout<<vt[i]<<" ";
+//         if(!convert_compressed_to_expand(forman_gradient[vt[i]]).is_vertex_unpaired(mesh->getTopSimplex(vt[i]).vertex_index(v)))
+//         return false;
+//     }
+// //cout<<endl;
+//     return true;
+
     return convert_compressed_to_expand(forman_gradient[mesh->getVertex(v).VTstar()]).is_vertex_unpaired(mesh->getTopSimplex(mesh->getVertex(v).VTstar()).vertex_index(v));
+
+
 }
 
 bool FormanGradientVector::is_edge_critical(int v1, int v2){
@@ -186,6 +201,19 @@ bool FormanGradientVector::is_edge_critical(int v1, int v2){
         if(!(convert_compressed_to_expand(forman_gradient[et[i]]).is_edge_unpaired(mesh->getTopSimplex(et[i]).vertex_index(v1),mesh->getTopSimplex(et[i]).vertex_index(v2))))
             return false;
     }
+ 
+//      vector<int> vt1 = mesh->VT(v1);
+//      vector<int> vt2 = mesh->VT(v2);
+// //cout<<"edge:"<<vt1.size()<<", "<<vt2.size()<<endl;
+//     for (int i =0; i<vt1.size();i++){
+//         if(mesh->getTopSimplex(vt1[i]).contains(v2)&&!(convert_compressed_to_expand(forman_gradient[vt1[i]]).is_edge_unpaired(mesh->getTopSimplex(vt1[i]).vertex_index(v1),mesh->getTopSimplex(vt1[i]).vertex_index(v2))))
+//         return false;
+//     }
+
+//     for (int i =0; i<vt2.size();i++){
+//         if(mesh->getTopSimplex(vt2[i]).contains(v1)&&!(convert_compressed_to_expand(forman_gradient[vt2[i]]).is_edge_unpaired(mesh->getTopSimplex(vt2[i]).vertex_index(v2),mesh->getTopSimplex(vt2[i]).vertex_index(v1))))
+//         return false;
+//     }
 
     return true;
 }

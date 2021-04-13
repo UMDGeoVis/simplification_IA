@@ -114,7 +114,7 @@ class FormanGradientVector
     map<vector<int>, double> updated_edges;
     bool QEM_based;
 
-    double length_limit;
+  
 
 public:
     int refined_topo;
