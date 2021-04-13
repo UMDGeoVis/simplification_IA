@@ -1,0 +1,1309 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="gradient_simplification.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path4061"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-1"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-7"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-5"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-54"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-9"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-77"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-50"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-98"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-13"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-6"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-0"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-82"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-2"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-05"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-62"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-02"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-92"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4709"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4711"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4713"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4715"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4717"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4719"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4721"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4723"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4725"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4727"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4729"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4731"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4733"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4735"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4737"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4739"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4741"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4743"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4745"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4747"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4749"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4751"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-93"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-18"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-13"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-8"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-29"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4061-84"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="259.97432"
+     inkscape:cy="501.72532"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1025"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 44.240054,100.78616 66.842865,16.431316 131.559,81.147448 z"
+       id="path2985"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 43.571429,100.9336 69.285721,60 19.28571,-81.071422 80.71429,24.642852 -99.64286,56.07143"
+       id="path2987"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 112.50001,161.29074 127.14285,30 L 212.50001,104.50503 321.07143,98.076464 240.35715,190.57646 359.28572,200.9336 321.42858,98.076464 382.85715,77.005038 359.64286,200.9336 436.42858,83.433608 382.85715,76.647898"
+       id="path2989"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 28.571429,311.64789 107.857151,-30 -28.57143,84.28571 132.14286,-27.14286 -1.42858,-66.42857 62.14286,55.71429 -37.14286,52.14286 130.71429,2.14285"
+       id="path2991"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(15.450707,-196.99207)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-9"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(-7.6935913,-114.72902)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-1"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(80.189676,-133.41685)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-3"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(60.996785,-53.614792)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-92"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(161.50696,-109.67826)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-7"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(188.27601,-22.805138)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-71"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(270.09836,-115.2341)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-5"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(331.21259,-137.96253)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-52"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(56.956175,149.93094)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-2"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(187.77093,124.17205)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-01"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(186.76078,56.996912)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-90"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(248.88516,114.07052)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-4"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(212.01459,165.5883)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000080;stroke:#000080;stroke-width:0.68599999000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-09"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(342.32427,167.10353)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:#ff0000;stroke:#000000;stroke-width:0.34648231000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;opacity:0.4"
+       d="m 48.989784,97.989898 c -0.182879,-0.515602 -0.78703,-1.442675 -1.342557,-2.060166 l -1.010049,-1.122709 9.581212,-35.73449 9.581213,-35.73449 1.479356,-0.304471 c 0.813645,-0.167458 1.949018,-0.556887 2.523051,-0.865397 0.949842,-0.510486 3.571713,1.968285 29.156578,27.56522 22.183022,22.193491 28.010422,28.285954 27.627112,28.883762 -0.26717,0.416688 -0.48924,1.250786 -0.4935,1.853554 -0.007,0.942987 -0.50581,1.209223 -3.57667,1.907673 -1.96292,0.446457 -18.61149,4.196103 -36.996836,8.332546 -18.385343,4.136444 -34.050811,7.677321 -34.81215,7.868614 -1.085039,0.27263 -1.456127,0.145174 -1.71676,-0.589646 l 0,0 z"
+       id="path3206"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:#008000;stroke:#008000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 361.63461,198.78328 436.13336,83.625891"
+       id="path3210"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-94"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(308.43827,-14.459064)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-717"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(385.20987,-131.38422)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 89.990708,89.924877 93.868419,108.5498"
+       id="path3266"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 123.60426,116.3215 18.58808,4.05062"
+       id="path3266-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 165.1255,131.63425 9.52486,16.46821"
+       id="path3266-8"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 225.36959,145.95458 18.09281,-5.88"
+       id="path3266-66"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 278.04584,147.6498 15.03878,11.65158"
+       id="path3266-2"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 338.04617,142.11238 17.58433,-7.26056"
+       id="path3266-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 374.89607,121.27848 18.54817,4.22963"
+       id="path3266-5"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 124.89327,314.90683 -5.77296,18.12725"
+       id="path3266-83"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 163.12741,354.68212 18.66549,-3.6774"
+       id="path3266-25"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 258.99297,290.31767 14.2364,12.6194"
+       id="path3266-258"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 287.50362,346.39083 -11.23349,15.35361"
+       id="path3266-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 313.886,381.22805 19.0234,0.18592"
+       id="path3266-23"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:#008000;stroke:#008000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 30.535714,311.11218 135.35714,281.82647"
+       id="path4627"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-32"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(-23.92857,97.857145)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-0"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(85.357144,66.785717)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107.88512,557.8733 22.60281,-84.35485 64.71614,64.71613 z"
+       id="path2985-2"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 107.2165,558.02074 69.28572,59.99999 19.28571,-81.07142 80.71429,24.64286 -99.64286,56.07142"
+       id="path2987-9"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 176.14508,618.37787 127.14285,30 -27.14285,-86.7857 108.57142,-6.42857 -80.71428,92.49999 118.92857,10.35714 -37.85714,-102.85713 61.42857,-21.07143 -23.21429,123.92856 76.78572,-117.49999 -53.57143,-6.78571"
+       id="path2989-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 92.216495,768.73502 107.857155,-30 -28.57143,84.28571 132.14286,-27.14286 -1.42858,-66.42857 62.14286,55.71429 -37.14286,52.14286 130.71429,2.14285"
+       id="path2991-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-12"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(79.095773,260.09506)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-9-4"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(55.951475,342.35811)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-1-6"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(143.83474,323.67028)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-3-0"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(124.64185,403.47234)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-92-0"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(225.15203,347.40887)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-7-8"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(251.92108,434.282)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-71-5"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(333.74343,341.85303)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-5-2"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(394.85766,319.1246)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-52-8"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(120.60124,607.01807)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-2-7"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(251.416,581.25918)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-01-7"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(250.40585,514.08405)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-90-9"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(312.53023,571.15765)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-4-8"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(275.65966,622.67543)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-09-1"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(405.96934,624.19066)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-94-2"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(372.08334,442.62807)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-717-9"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(448.85494,325.70291)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 151.42308,548.40403 145.46882,530.3355"
+       id="path3266-3"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 228.43182,588.67108 216.69259,573.7006"
+       id="path3266-8-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 289.64559,604.78979 -17.59341,7.23851"
+       id="path3266-66-9"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 341.23054,605.38828 326.07676,593.88667"
+       id="path3266-2-8"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 403.25348,604.89716 -16.45993,9.53913"
+       id="path3266-4-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 436.40093,586.6809 -18.58581,-4.06101"
+       id="path3266-5-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 182.48238,790.59889 5.77296,-18.12725"
+       id="path3266-83-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 246.29763,807.74797 -18.66549,3.6774"
+       id="path3266-25-8"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 337.19213,760.27189 -14.2364,-12.6194"
+       id="path3266-258-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 339.74554,819.18439 11.23349,-15.35361"
+       id="path3266-7-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 397.07494,838.31518 -19.0234,0.18592"
+       id="path3266-23-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-32-3"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(39.716496,554.94428)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;stroke:#000000;stroke-width:0.68599999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2993-0-1"
+       sodipodi:cx="51.42857"
+       sodipodi:cy="214.50504"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       d="m 56.42857,214.50504 a 5,5 0 1 1 -10,0 5,5 0 1 1 10,0 z"
+       transform="translate(149.00221,523.87285)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 187.03151,575.4753 -18.50884,-4.39851"
+       id="path3266-6-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 468.75202,588.59607 453.11239,577.76434"
+       id="path3266-6-6-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.62848884px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 156.3088,751.18972 -18.49693,4.44843"
+       id="path3266-83-1-3"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,79.091136,-31.116)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111"><rect
+           id="rect3113"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115">p</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,413.43745,46.399375)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-0"><rect
+           id="rect3113-8"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-2">q</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-5"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,77.72235,185.85597)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-8"><rect
+           id="rect3113-1"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-1">p</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-4-3"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,405.28295,298.01421)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath-critical.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-0-1"><rect
+           id="rect3113-8-2"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-2-3">q</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-7"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,140.81887,421.89138)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-9"><rect
+           id="rect3113-3"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-6">p</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-4-9"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,475.16519,499.40676)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/twopath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-0-19"><rect
+           id="rect3113-8-5"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-2-0">q</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-8"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,139.80872,644.12494)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-7"><rect
+           id="rect3113-12"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-8">p</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3109-4-6"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.53501044,0,0,0.53501044,471.12457,752.95504)"
+       inkscape:export-filename="/home/ciccio/Dropbox/MM_gradient/Document/images/onepath.png"
+       inkscape:export-xdpi="126.8"
+       inkscape:export-ydpi="126.8"><flowRegion
+         id="flowRegion3111-0-4"><rect
+           id="rect3113-8-4"
+           width="86.428574"
+           height="76.428574"
+           x="-12.5"
+           y="149.86218" /></flowRegion><flowPara
+         id="flowPara3115-2-8">q</flowPara></flowRoot>  </g>
+</svg>

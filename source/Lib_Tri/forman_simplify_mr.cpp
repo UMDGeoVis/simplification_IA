@@ -281,6 +281,9 @@ QEM_based=QEM_setting;
      vector<vector<double> > trianglePlane ;
     map<vector<int>, double> values;
     vector<int> e;
+    bool delete_all=false;
+    if(limit<0)
+        delete_all = true;
     length_limit=limit;
 
 
@@ -308,7 +311,7 @@ QEM_based=QEM_setting;
             if(!mesh->is_alive(i)) continue;
             t_count++;
             for(int j=0; j<3; j++){
-               if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
+             //  if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
                 // Previous version: Used TT relation to avoid checking an edge repeatedly. Consider to be added later. 
                     Edge* edge = mesh->getTopSimplex(i).TE(j);
 
@@ -335,6 +338,13 @@ QEM_based=QEM_setting;
                         map<vector<int>, double>::iterator it = values.find(e);
                         if(it==values.end()){
                         values[e]=value;
+                        if(delete_all){
+                           Edge * insert_edge=new Edge(e[0],e[1]);
+                           Vertex3D v=mesh->getVertex(e[0]);
+                           new_vertex={v.getX(),v.getY(),v.getZ()};
+                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));      
+                        }
+                        else{
                       if((value-limit)<SMALL_TOLER){
                      //     cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl; 
                            Edge * insert_edge=new Edge(e[0],e[1]);
@@ -342,6 +352,7 @@ QEM_based=QEM_setting;
                            new_vertex={v.getX(),v.getY(),v.getZ()};
                       queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                                     }
+                     }
                      }
 
                     }
@@ -358,17 +369,24 @@ QEM_based=QEM_setting;
                       //  cout<<"["<<e[0]<<","<<e[1]<<"]  Edge length: "<<value<<endl;   
 
                            values[e]=value;
+                        if(delete_all){
+                          Edge * insert_edge=new Edge(e[0],e[1]);
+                          queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
+
+                        }
+                        else{
                         if((value-limit)<SMALL_TOLER){
                             Edge * insert_edge=new Edge(e[0],e[1]);
                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
                          //cout<<"ENQUEUE"<<endl;
                          }
                          }
+                         }
                             delete edge;
                         
                     }
                     }
-                }
+               // }
             }
         }
         cout<<"number of remaining triangles:"<<t_count<<endl;
@@ -462,20 +480,24 @@ QEM_based=QEM_setting;
                 bool to_switch_sin,to_switch_des;
                 to_switch_des=to_switch_sin=false;
                 int v2_vtstar=mesh->getVertex(v2).VTstar();
-               
+                vector<int> vt1;
+                vector<int> vt2;
+                vt1 = mesh->VT(v1);
+                vt2 = mesh->VT(v2);
 
-                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)&& valid_gradient_configuration(v1,v2,t1,t2,v2_vtstar)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)&&/* not_fold_over(v1,v2,vt1,vt2)&&*/ valid_gradient_configuration(v1,v2,t1,t2,vt1,vt2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
                         
                       mesh->half_edge_collapse_QEM(v1,v2,t1,t2,new_v,queue,limit,&initialQuadric,&trianglePlane,updated_edges);
-                      if(v1_pair_e&&v2_vtstar!=t1&&v2_vtstar!=t2){
-                      mesh->getVertex(v1).VTstar(v2_vtstar);
-                      }
+
                      }
                     else{
                    mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,queue,limit);
                     }
+                    if(v1_pair_e&&v2_vtstar!=t1&&v2_vtstar!=t2){
+                      mesh->getVertex(v1).VTstar(v2_vtstar);
+                      }
                         done_new++;
 
                 
@@ -652,7 +674,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
     //assert(mesh->is_alive(t1) && mesh->is_alive(t2));
     //assert(mesh->getTopSimplex(t1).contains(v1) && mesh->getTopSimplex(t1).contains(v2));
     //assert(mesh->getTopSimplex(t2).contains(v1) && mesh->getTopSimplex(t2).contains(v2));
-    //cout<<"[debug]checking edge "<<v1<<", "<<v2<<endl;
+ 
     vector<int> vt1 = mesh->VT(v1);
     vector<int> vt = mesh->VT(v2);
     if(mesh->isBoundary(v2) || mesh->isBoundary(v1)) {
@@ -840,14 +862,14 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
     return true;
 }
 
-bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int t2, int& v2_vtstar){
+bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int t2, vector<int>& vt,vector<int>& vt1 ){
     //assert(mesh->is_v_alive(v1) && mesh->is_v_alive(v2));
     //assert(mesh->is_alive(t1) && mesh->is_alive(t2));
     //assert(mesh->getTopSimplex(t1).contains(v1) && mesh->getTopSimplex(t1).contains(v2));
     //assert(mesh->getTopSimplex(t2).contains(v1) && mesh->getTopSimplex(t2).contains(v2));
- //   cout<<"[debug]checking edge "<<v1<<", "<<v2<<endl;
-    vector<int> vt1 = mesh->VT(v1);
-    vector<int> vt = mesh->VT(v2);
+   // cout<<"[debug]checking edge "<<v1<<", "<<v2<<endl;
+    // vt = mesh->VT(v1);
+    // vt1 = mesh->VT(v2);
     if(mesh->isBoundary(v2) || mesh->isBoundary(v1)) {
     //     cout<<"border edge"<<endl;
         return false;}
@@ -909,8 +931,8 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
          //   cout<<"edge is critical"<<endl;
             return false;}
 //Why need this?
-    // if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) {cout<<"v3 sin pair is v2"<<endl;return false;}
-    // if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) {cout<<"v3 des pair is v2"<<endl;return false;}
+    // if(getVE(v3_sin) != NULL && getVE(v3_sin)->EV(1) == v2) {return false;}
+    // if(getVE(v3_des) != NULL && getVE(v3_des)->EV(1) == v2) {return false;}
 
 
     if(is_vertex_critical(v2))
@@ -1418,3 +1440,30 @@ DAG_TopoNode* FormanGradientVector::removal_mr(nNode *extrema, iNode *saddle, pr
 
 
 
+bool FormanGradientVector::not_fold_over(int v1,int v2,vector<int>& vt1,vector<int>& vt2){
+
+
+    
+    vector<int> vt2_sub_et;
+    for(int i = 0; i<vt2.size();i++){
+        for(int j=0; j<3;j++){
+            if(v1==mesh->getTopSimplex(vt2[i]).TV(j))
+            vt2_sub_et.push_back(vt2[i]);
+        }
+    }
+
+    for (int i = 0; i < vt2_sub_et.size(); i++)
+    {
+        Triangle t = mesh->getTopSimplex(vt2_sub_et[i]);
+        int v2_pos = t.vertex_index(v2);
+        Edge e=*(t.TE(v2_pos));
+        bool same_side = same_side_of_edge(v1, v2, e.EV(0), e.EV(1));
+   
+        if (!same_side)
+            return false;
+            
+    }
+
+    return true;
+
+}

@@ -1,0 +1,57 @@
+\begin{thebibliography}{1}
+
+\bibitem{Comi11}
+Lidija Comic and Leila~De Floriani.
+\newblock Dimension-independent simplification and refinement of morse
+  complexes.
+\newblock {\em Graphical Models}, 73(5):261--285, 2011.
+
+\bibitem{Comi11a}
+Lidija Comic, Leila~De Floriani, and Federico Iuricich.
+\newblock Simplifying morphological representations of 2d and 3d scalar fields.
+\newblock In Isabel~F. Cruz, Divyakant Agrawal, Christian~S. Jensen, Eyal Ofek,
+  and Egemen Tanin, editors, {\em GIS}, pages 437--440. ACM, 2011.
+
+\bibitem{Comi13}
+Lidija Comic, Leila~De Floriani, and Federico Iuricich.
+\newblock Multi-resolution cell complexes based on homology-preserving euler
+  operators.
+\newblock In Roc\'{\i}o Gonz{\'a}lez-D\'{\i}az, Mar\'{\i}a~Jos{\'e}
+  Jim{\'e}nez, and Bel{\'e}n Medrano, editors, {\em DGCI}, volume 7749 of {\em
+  Lecture Notes in Computer Science}, pages 323--334. Springer, 2013.
+
+\bibitem{Comi13a}
+Lidija Comic, Leila~De Floriani, and Federico Iuricich.
+\newblock Simplification operators on a dimension-independent graph-based
+  representation of morse complexes.
+\newblock In Cris L.~Luengo Hendriks, Gunilla Borgefors, and Robin Strand,
+  editors, {\em ISMM}, volume 7883 of {\em Lecture Notes in Computer Science},
+  pages 13--24. Springer, 2013.
+
+\bibitem{Dey13}
+Tamal~K. Dey, Anil~N. Hirani, Bala Krishnamoorthy, and Gavin Smith.
+\newblock Edge contractions and simplicial homology.
+\newblock {\em CoRR}, abs/1304.0664, 2013.
+
+\bibitem{Niel97}
+G.~M. Nielson.
+\newblock Tools for triangulations and tetrahedralizations and constructing
+  functions defined over them.
+\newblock In G.~M. Nielson, H.~Hagen, and H.~M\"{u}ller, editors, {\em
+  Scientific Visualization: overviews, Methodologies and Techniques},
+  chapter~20, pages 429--525. IEEE Computer Society, Silver Spring, MD, 1997.
+
+\bibitem{Robin11}
+Vanessa Robins, Peter~John Wood, and Adrian~P. Sheppard.
+\newblock Theory and algorithms for constructing discrete morse complexes from
+  grayscale digital images.
+\newblock {\em IEEE Trans. Pattern Anal. Mach. Intell.}, 33(8):1646--1658,
+  2011.
+
+\bibitem{weiss13}
+Kenneth Weiss, Federico Iuricich, Riccardo Fellegara, and Leila~De Floriani.
+\newblock A primal/dual representation for discrete morse complexes on
+  tetrahedral meshes.
+\newblock {\em Comput. Graph. Forum}, 32(3):361--370, 2013.
+
+\end{thebibliography}
