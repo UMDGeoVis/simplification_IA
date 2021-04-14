@@ -285,8 +285,8 @@ QEM_based=QEM_setting;
     if(limit<0)
         delete_all = true;
     
-
-
+    Timer timer;
+    timer.start();
 
         if(QEM_based==true){
     cout << "=========Calculate triangle plane========" << endl;
@@ -300,6 +300,9 @@ QEM_based=QEM_setting;
     mesh->computeInitialQEM(&initialQuadric, &trianglePlane);
 
     }
+    timer.stop();
+    cout << "       - time building QEM:      " << timer.getElapsedTime() << endl;
+    timer.start();
         while(true){
 
 
@@ -311,9 +314,11 @@ QEM_based=QEM_setting;
             if(!mesh->is_alive(i)) continue;
             t_count++;
             for(int j=0; j<3; j++){
-             //  if(mesh->getTopSimplex(i).TT(j) != -1 && !visited[mesh->getTopSimplex(i).TT(j)] && mesh->is_alive(i) && mesh->is_alive(mesh->getTopSimplex(i).TT(j))){
-                // Previous version: Used TT relation to avoid checking an edge repeatedly. Consider to be added later. 
-                    Edge* edge = mesh->getTopSimplex(i).TE(j);
+               if((mesh->getTopSimplex(i).TT(j) != -1 && visited[mesh->getTopSimplex(i).TT(j)] ) ){
+                    continue;
+
+               }
+                  Edge* edge = mesh->getTopSimplex(i).TE(j);
 
                   if((getVE(edge->EV(0)) == NULL)&&(getVE(edge->EV(1)) == NULL) ){
                       delete edge;
@@ -386,8 +391,8 @@ QEM_based=QEM_setting;
                         
                     }
                     }
-               // }
-            }
+                }
+            
         }
         cout<<"number of remaining triangles:"<<t_count<<endl;
         int done_new = 0;
@@ -485,7 +490,7 @@ QEM_based=QEM_setting;
                 vt1 = mesh->VT(v1);
                 vt2 = mesh->VT(v2);
 
-                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)&&/* not_fold_over(v1,v2,vt1,vt2)&&*/ valid_gradient_configuration(v1,v2,t1,t2,vt1,vt2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
+                if(/*!visited_vertex[v2] &&*/ mesh->link_condition(v1,v2,t1,t2)&& not_fold_over(v1,v2,vt1,vt2)&& valid_gradient_configuration(v1,v2,t1,t2,vt1,vt2)/*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/){
 
                      if(QEM_based==true){
                         
@@ -496,9 +501,21 @@ QEM_based=QEM_setting;
                    mesh->half_edge_collapse_simple(v1,v2,t1,t2,new_v,queue,limit);
                     }
                     
-                    if(v1_pair_e&&v2_vtstar!=t1&&v2_vtstar!=t2){
-                      mesh->getVertex(v1).VTstar(v2_vtstar);
-                      }
+                    // if(v1_pair_e&&v2_vtstar!=t1&&v2_vtstar!=t2){
+                    //   mesh->getVertex(v1).VTstar(v2_vtstar);
+                    //   }
+            TriGradient grad;
+            vt1 = mesh->VT(v1);
+            for(int j=0; j<vt1.size(); j++){
+                if(vt1[j]==t1||vt1[j]==t2)
+                continue;
+                grad = convert_compressed_to_expand(forman_gradient[vt1[j]]);
+                if(!grad.is_vertex_unpaired(mesh->getTopSimplex(vt1[j]).vertex_index(v1))){
+                    mesh->getVertex(v1).VTstar(vt1[j]);
+                    break;
+                }
+            }
+
                         done_new++;
 
                 
@@ -513,7 +530,11 @@ QEM_based=QEM_setting;
         if(done_new == 0) break;
         done += done_new;
         cout<<"Simplified edge number in THIS ROUND:"<<done_new<<endl;
+
     }
+     timer.stop();
+    cout << "       - time simplification:      " << timer.getElapsedTime() << endl;
+ 
     cout<<"Simplified edge number: "<<done<<endl;
     reorder_forman_gradient();
     mesh->reorder_triangulation();
@@ -967,40 +988,40 @@ bool FormanGradientVector::valid_gradient_configuration(int v1,int v2,int t1,int
         // cout<<"v3_sin is paired with v2"<<endl;
         //devo fare l'update sul triangolo sotto t1
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
-        int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
+      //  int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_sin).VTstar(t4);
+      //  mesh->getVertex(v3_sin).VTstar(t4);
         
     }
     else if(edge1 != NULL && *edge1==Edge(v3_sin,v1)){
             // cout<<"v3_sin is paired with v1"<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
-        int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
+       // int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v2));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v2));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_sin).VTstar(t4);
+      //  mesh->getVertex(v3_sin).VTstar(t4);
     }
     else if(edge2 != NULL && *edge2==Edge(v1, v3_sin)){
         // cout<<"v1 is paired with v3_sin"<<endl;
         //  cout<<"v1:"<<v1<<" v3_sin:"<<v3_sin<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
-        int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
+       // int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v2), mesh->getTopSimplex(t3).vertex_index(v3_sin));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v2), mesh->getTopSimplex(t3).vertex_index(v3_sin));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v1).VTstar(t4);
+      //  mesh->getVertex(v1).VTstar(t4);
     }
     else if(edge2 != NULL &&*edge2==Edge(v1,v2)&&edge3!=NULL&&*edge3==Edge(v2,v3_sin)){
     int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
-int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
+    int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v1), mesh->getTopSimplex(t3).vertex_index(v3_sin));
@@ -1016,35 +1037,35 @@ int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
     // cout<<"v3_des is paired with v2"<<endl;
         //devo fare l'update sul triangolo sotto t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
-        int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
+     //   int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v1));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_des).VTstar(t4);
+      //  mesh->getVertex(v3_des).VTstar(t4);
     }
     else if(edge1 != NULL && *edge1==Edge(v3_des,v1)){
     // cout<<"v3_des is paired with v1"<<endl;
     // cout<<"v1:"<<v1<<" v3_des:"<<v3_des<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
-        int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));      
+      //  int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));      
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v2));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v2));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_des).VTstar(t4);
+    //    mesh->getVertex(v3_des).VTstar(t4);
     }
     else if(edge2 != NULL && *edge2==Edge(v1,v3_des)){
     // cout<<"v1 is paired with v3_des"<<endl;
         //devo fare l'update sul triangolo sopra t2
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
-        int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
+     //   int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
         TriGradient grad = convert_compressed_to_expand(forman_gradient[t3]);
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v2), mesh->getTopSimplex(t3).vertex_index(v3_des));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v2), mesh->getTopSimplex(t3).vertex_index(v3_des));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v1).VTstar(t4);
+      //  mesh->getVertex(v1).VTstar(t4);
     }
     else if(edge2 != NULL &&*edge2==Edge(v1,v2)&&edge3!=NULL&&*edge3==Edge(v2,v3_des)){
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
@@ -1455,10 +1476,15 @@ bool FormanGradientVector::not_fold_over(int v1,int v2,vector<int>& vt1,vector<i
     
     vector<int> vt2_sub_et;
     for(int i = 0; i<vt2.size();i++){
+        bool not_et = true;
         for(int j=0; j<3;j++){
             if(v1==mesh->getTopSimplex(vt2[i]).TV(j))
-            vt2_sub_et.push_back(vt2[i]);
+           { not_et = false;
+             break;
+                }
         }
+        if(not_et)
+        vt2_sub_et.push_back(vt2[i]);
     }
 
     for (int i = 0; i < vt2_sub_et.size(); i++)

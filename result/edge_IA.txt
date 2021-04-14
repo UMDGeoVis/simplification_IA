@@ -1,34 +1,39 @@
-devil_0.tri+_+-1
+827_monviso.off+_+-1
 Case 42 42 511
-Vertices number:32100
-24277; 333
-1173 2233 1061
-Vertices:  32100
-Triangles: 63851
-(0,0,29.1066)   (512,512,63.2321)
+Vertices number:263169
+230359; 222758
+1184 2572 1389
+Vertices:  263169
+Triangles: 524288
+(0,90,442)   (46080,46170,3760)
    Geometry simplification
 =========Calculate triangle plane========
 =========Calculate initial QEM========
-number of remaining triangles:63851
-**** [Number] 95950 edges enqueued. Start simplification.****
-Simplified edge number in THIS ROUND:20466
-number of remaining triangles:22919
-**** [Number] 18288 edges enqueued. Start simplification.****
-Simplified edge number: 20466
-previous triangle number 63851 updated:22919
-previous vertices number 32100 updated:11634
-       - time simplifications:      1.94513
+       - time building QEM:      0.09958
+number of remaining triangles:524288
+**** [Number] 787456 edges enqueued. Start simplification.****
+Simplified edge number in THIS ROUND:226998
+number of remaining triangles:70292
+**** [Number] 86079 edges enqueued. Start simplification.****
+Simplified edge number in THIS ROUND:486
+number of remaining triangles:69320
+**** [Number] 1624 edges enqueued. Start simplification.****
+       - time simplification:      31.5964
+Simplified edge number: 227484
+previous triangle number 524288 updated:69320
+previous vertices number 263169 updated:35685
+       - time simplifications:      32.3092
 Printing output:
-2-cell extraction terminated in 0.053321
+2-cell extraction terminated in 0.130944
 arrivo qui
-1-cell extraction terminated in 0.040726
-5597
-2-cell ascending extraction terminated in 0.024436
-2-cell ascending extraction terminated in 0.098064
+1-cell extraction terminated in 0.068126
+10054
+2-cell ascending extraction terminated in 0.03734
+2-cell ascending extraction terminated in 0.212979
 Number of critical Points:
-1173 2233 1061
+1184 2572 1389
 Number of arcs:
-Saddle - Maximum: 4202
-Saddle - Minimum: 4316
-Level 2 arcs:279
+Saddle - Maximum: 4868
+Saddle - Minimum: 5045
+Level 2 arcs:126
    - done
