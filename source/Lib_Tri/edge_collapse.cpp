@@ -487,7 +487,7 @@ queue->push(new Geom_Sempl(e,length,new_vertex));
             new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
             vector<int> inserted_edge={vl,vr};
 
-            updated_edges[inserted_edge]=error;
+            updated_edges.insert(pair<vector<int>,double>(inserted_edge,error));
             if(limit<0){
                 queue->push(new Geom_Sempl(e,error,new_vertex));
             }

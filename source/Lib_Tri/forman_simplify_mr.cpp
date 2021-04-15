@@ -298,7 +298,7 @@ QEM_based=QEM_setting;
   
     initialQuadric = vector<Matrix>(mesh->getNumVertex(),Matrix(0.0));
     mesh->computeInitialQEM(&initialQuadric, &trianglePlane);
-
+    vector<vector<double>>().swap(trianglePlane);
     }
     timer.stop();
     cout << "       - time building QEM:      " << timer.getElapsedTime() << endl;
@@ -347,7 +347,8 @@ QEM_based=QEM_setting;
                            Edge * insert_edge=new Edge(e[0],e[1]);
                            Vertex3D v=mesh->getVertex(e[0]);
                            new_vertex={v.getX(),v.getY(),v.getZ()};
-                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));      
+                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));  
+                           delete insert_edge;    
                         }
                         else{
                       if((value-limit)<SMALL_TOLER){
@@ -356,6 +357,7 @@ QEM_based=QEM_setting;
                            Vertex3D v=mesh->getVertex(e[0]);
                            new_vertex={v.getX(),v.getY(),v.getZ()};
                       queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
+                      delete insert_edge;
                                     }
                      }
                      }
@@ -377,19 +379,21 @@ QEM_based=QEM_setting;
                         if(delete_all){
                           Edge * insert_edge=new Edge(e[0],e[1]);
                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
-
+                        delete insert_edge;
                         }
                         else{
                         if((value-limit)<SMALL_TOLER){
                             Edge * insert_edge=new Edge(e[0],e[1]);
                           queue->push(new Geom_Sempl(insert_edge, value,new_vertex));
+                          delete insert_edge;
                          //cout<<"ENQUEUE"<<endl;
                          }
                          }
                          }
-                            delete edge;
+                          
                         
                     }
+                      delete edge;
                     }
                 }
             
@@ -482,8 +486,8 @@ QEM_based=QEM_setting;
                 }
 
                 //assert(t1 > -1 && t2 > -1);
-                bool to_switch_sin,to_switch_des;
-                to_switch_des=to_switch_sin=false;
+                // bool to_switch_sin,to_switch_des;
+                // to_switch_des=to_switch_sin=false;
                 int v2_vtstar=mesh->getVertex(v2).VTstar();
                 vector<int> vt1;
                 vector<int> vt2;
