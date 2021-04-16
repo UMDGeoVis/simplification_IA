@@ -134,8 +134,8 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
     return nodegeom;
 }
 
- template<class V, class T> void Mesh<V,T>::half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit){
-    cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
+ template<class V, class T> void Mesh<V,T>::half_edge_collapse_simple(int v1, int v2, int t1, int t2,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit){
+  //  cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1+1<<", "<<v2+1<<endl;
     removed_vertex[v2]=true;
     if(t1!=-1)
     removed_triangle[t1]=true;
@@ -259,11 +259,11 @@ DAG_GeomNode* Mesh<V,T>::half_edge_collapse(int v1, int v2, int t1, int t2, vect
             vector<double> dif = {va.getX()-vb.getX(),va.getY()-vb.getY(),va.getZ()-vb.getZ()};
             double length = sqrt(dif[0]*dif[0]+dif[1]*dif[1]+dif[2]*dif[2]);
             if(limit<0){
-queue->push(new Geom_Sempl(e,length,new_vertex));
+queue->push(new Geom_Sempl(e,length));
             }
             else if((length-limit)<SMALL_TOLER){
             //    cout<<"updated edge "<< e->EV(0)<<", "<<e->EV(1) <<" length:"<<length<<endl;
-            queue->push(new Geom_Sempl(e,length,new_vertex));
+            queue->push(new Geom_Sempl(e,length));
        //     cout<<"New edge updated"<<endl;
             }
               }
@@ -317,8 +317,8 @@ queue->push(new Geom_Sempl(e,length,new_vertex));
     //return 0;
     }
 
- template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges){
-    //cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
+ template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges){
+    // cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1+1<<", "<<v2+1<<endl;
     
     removed_vertex[v2]=true;
     if(t1!=-1)
@@ -487,13 +487,13 @@ queue->push(new Geom_Sempl(e,length,new_vertex));
             new_vertex={getVertex(e->EV(0)).getX(),getVertex(e->EV(0)).getY(),getVertex(e->EV(0)).getZ()};
             vector<int> inserted_edge={vl,vr};
 
-            updated_edges.insert(pair<vector<int>,double>(inserted_edge,error));
+            updated_edges[inserted_edge]=error;
             if(limit<0){
-                queue->push(new Geom_Sempl(e,error,new_vertex));
+                queue->push(new Geom_Sempl(e,error));
             }
             else if((error-limit)<SMALL_TOLER){
      //   cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
-            queue->push(new Geom_Sempl(e,error,new_vertex));
+            queue->push(new Geom_Sempl(e,error));
        //     cout<<"New edge updated"<<endl;
             }
               }
@@ -518,12 +518,12 @@ queue->push(new Geom_Sempl(e,length,new_vertex));
               //  sort(inserted_edge.begin(),inserted_edge.end());
                 updated_edges[inserted_edge]=error;
         if(limit<0){
-   queue->push(new Geom_Sempl(e,error,new_vertex));
+   queue->push(new Geom_Sempl(e,error));
         }
             else if((error-limit)<SMALL_TOLER){
 
          //   cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
-            queue->push(new Geom_Sempl(e,error,new_vertex));
+            queue->push(new Geom_Sempl(e,error));
        //     cout<<"New edge updated"<<endl;
             }
               }

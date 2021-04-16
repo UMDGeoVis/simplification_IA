@@ -22,14 +22,26 @@ Ritorna vero sse v e' un estremo del lato v1-v2
 enum versus { CW=0 , CCW=1 };
 using namespace std;
 
-struct Geom_Sempl{
+
+struct Geom_Sempl_old{
 
 public:
     Edge* edge;
     double val;
     vector<double> new_v;
 
-    inline Geom_Sempl(Edge* edge, double val, vector<double> new_v){ this->edge = edge; this->val=val; this->new_v = new_v;}
+    inline Geom_Sempl_old(Edge* edge, double val, vector<double> new_v){ this->edge = edge; this->val=val; this->new_v = new_v;}
+};
+
+
+struct Geom_Sempl{
+
+public:
+    Edge* edge;
+    double val;
+  
+
+    inline Geom_Sempl(Edge* edge, double val){ this->edge = edge; this->val=val; }
 };
 
 struct sort_arcs_geom{
@@ -44,7 +56,18 @@ struct sort_arcs_geom{
 
     }
 };
+struct sort_arcs_geom_old{
+    bool operator()(Geom_Sempl_old* e1, Geom_Sempl_old* e2){
 
+       if(fabs(e1->val-e2->val)>SMALL_TOLER)
+      return (e1->val-e2->val)>SMALL_TOLER;
+      else if(e1->edge->EV(0)!=e2->edge->EV(0))
+      return e1->edge->EV(0)>e2->edge->EV(0);
+      else
+      return e1->edge->EV(1)>e2->edge->EV(1);
+
+    }
+};
 
 ///A class representing a generic mesh parametrized by the type of top simplexes
 template<class V, class T>
@@ -101,8 +124,8 @@ public:
     void build();
 
     DAG_GeomNode* half_edge_collapse(int v1, int v2, int t1, int t2, vector<double> new_v);
-    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit);
-    void half_edge_collapse_QEM(int v1, int v2, int t1, int t2, vector<double> new_v,priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges );
+    void half_edge_collapse_simple(int v1, int v2, int t1, int t2, priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit);
+    void half_edge_collapse_QEM(int v1, int v2, int t1, int t2, priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges );
 
     bool convex_neighborhood(int v1, int v2, int t1, int t2);
 
@@ -380,6 +403,7 @@ vector<int> Mesh<V,T>::VT(int center)
     vector<int> triangles;
     int pred = -1;
     int current = this->getVertex(center).VTstar();
+    if(this->is_alive(current))
     triangles.push_back(this->getVertex(center).VTstar());
     int k=-1;
     
@@ -409,6 +433,7 @@ vector<int> Mesh<V,T>::VT(int center)
             break;
         }
         else{
+            if(this->is_alive(current))
             triangles.push_back(current);
         }
         k=-1;
@@ -455,8 +480,10 @@ vector<int> Mesh<V,T>::VT(int center)
             if(current == -1)
                 break;
             else
+            {
+                if(this->is_alive(current))
                 triangles.push_back(current);
-
+            }
             k=-1;
             //cerco la posizione del vertice nell'array dei vertici del triangolo
             for(int i=0;i<this->getTopSimplex(current).getVerticesNum();i++)
@@ -1007,7 +1034,7 @@ double result= q[0]*x*x;
 result+= 2*q[1]*x*y;result += 2*q[2]*x*z ;result += 2*q[3]*x ;result += q[5]*y*y;
 result += 2*q[6]*y*z ;result += 2*q[7]*y; result +=q[10]*z*z ;result += 2*q[11]*z ;result += q[15];
 //cout<<"calculated result: "<<result<<endl;
-result=round(result*100000)/100000.0;
+
 return result;
 }
 
@@ -1166,10 +1193,10 @@ template<class V, class T> void Mesh<V,T>::computeTrianglesPlane(vector< vector<
         b = b/m;
         c = c/m;
 
-        (*trPl)[i][0]=round(a*1000000)/1000000.0;
-        (*trPl)[i][1]=round(b*1000000)/1000000.0;
-        (*trPl)[i][2]=round(c*1000000)/1000000.0;
-        (*trPl)[i][3]= -1*round((a*coords[0][0] + b*coords[1][0] + c*coords[2][0])*1000000)/1000000.0;
+        (*trPl)[i][0]=a;
+        (*trPl)[i][1]=b;
+        (*trPl)[i][2]=c;
+        (*trPl)[i][3]= -1*(a*coords[0][0] + b*coords[1][0] + c*coords[2][0]);
     }
 }
 
@@ -1302,6 +1329,7 @@ template<class V, class T> double Mesh<V,T>::VoronoiBarycentricArea(int v, int t
 
 template<class V, class T> bool Mesh<V,T>::link_condition(int v1, int v2, int t1, int t2){
 
+
     vector<int> vv1 = VV(v1);
     vector<int> vv2 = VV(v2);
     int counter=0;
@@ -1316,24 +1344,25 @@ template<class V, class T> bool Mesh<V,T>::link_condition(int v1, int v2, int t1
         }
         //cout<<endl;
     }
-    set<int> link_e;
-    if(t1!=-1){
-       T& tri1= this->getTopSimplex(t1);
-       for(int i=0;i<3;i++){
-           if(tri1.TV(i)!=v1&&tri1.TV(i)!=v2)
-           link_e.insert(tri1.TV(i));
-       }
-    }
+    // set<int> link_e;
+    // if(t1!=-1){
+    //    T& tri1= this->getTopSimplex(t1);
+    //    for(int i=0;i<3;i++){
+    //        if(tri1.TV(i)!=v1&&tri1.TV(i)!=v2)
+    //        link_e.insert(tri1.TV(i));
+    //    }
+    // }
 
-        if(t2!=-1){
-       T& tri2= this->getTopSimplex(t2);
-       for(int i=0;i<3;i++){
-           if(tri2.TV(i)!=v1&&tri2.TV(i)!=v2)
-           link_e.insert(tri2.TV(i));
-       }
-    }
+    //     if(t2!=-1){
+    //    T& tri2= this->getTopSimplex(t2);
+    //    for(int i=0;i<3;i++){
+    //        if(tri2.TV(i)!=v1&&tri2.TV(i)!=v2)
+    //        link_e.insert(tri2.TV(i));
+    //    }
+    // }
 
-    return link_ab.size()==link_e.size();
+    // return link_ab.size()==link_e.size();
+    return counter<=2;
 }
 
 //template<class V, class T>

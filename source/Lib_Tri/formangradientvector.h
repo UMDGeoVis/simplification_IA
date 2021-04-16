@@ -21,6 +21,7 @@
 #include "../Dag/Dag.h"
 
 #define NON_VALID_CONF 1000
+#define ZERO 10e-14
 
 struct Simplex_Graph
 {
@@ -179,7 +180,7 @@ public:
     bool valid_gradient();
     bool valid_gradient_configuration(int v1, int v2, int t1, int t2, vector<int> &vt1, vector<int> &vt2);
 
-    bool not_fold_over(int v1, int v2, vector<int> &vt1, vector<int> &vt2);
+    bool not_fold_over(int v1, int v2, vector<int> vt1, vector<int> vt2);
     DAG_TopoNode *contraction_mr(nNode *, iNode *, priority_queue<Topo_Sempl *, vector<Topo_Sempl *>, sort_arcs_topo> *);
     DAG_TopoNode *removal_mr(nNode *, iNode *, priority_queue<Topo_Sempl *, vector<Topo_Sempl *>, sort_arcs_topo> *);
 
@@ -675,12 +676,12 @@ public:
 
         return l;
     }
-    inline bool point_turn_2D(double x, double y, double x1, double y1, double x2, double y2)
+    inline int point_turn_2D(double x, double y, double x1, double y1, double x2, double y2)
     {
 
-        if ((x - x1) * (y1 - y2) > (x1 - x2) * (y - y1) + SMALL_TOLER)
+        if ((x - x1) * (y1 - y2) >( (x1 - x2) * (y - y1) + ZERO))
             return 1;
-        else if ((x - x1) * (y1 - y2) + SMALL_TOLER < (x1 - x2) * (y - y1))
+        else if (((x - x1) * (y1 - y2) + ZERO) < (x1 - x2) * (y - y1))
             return -1;
         else
             return 0;
@@ -693,7 +694,7 @@ public:
         Vertex2D v2_obj = mesh->getVertex(v2);
         int turn_v1 = point_turn_2D(v1_obj.getX(), v1_obj.getY(), va.getX(), va.getY(), vb.getX(), vb.getY());
         int turn_v2 = point_turn_2D(v2_obj.getX(), v2_obj.getY(), va.getX(), va.getY(), vb.getX(), vb.getY());
-
+        
         if (turn_v1 * turn_v2 == 1) 
         return true;
         else 
