@@ -6,9 +6,8 @@
 /sources/*.directory
 /result/
 
-
-*.pro
-*.user
+.qmake.stash
+.vscode/settings.json
 *.user.*
 Doxyfile
 CMakeDoxyfile.in
