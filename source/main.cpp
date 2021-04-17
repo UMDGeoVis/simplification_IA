@@ -34,11 +34,14 @@ int main(int argc, char* argv[])
 
     Reader::readMeshFile(mesh,argv[2]);
     mesh.build();
-
+    Timer time;
+    time.start();
     gradient = new FormanGradientVector(&mesh, 0.0);
     gradient->initial_filtering();
     gradient->build();
     gradient->change_vtstar_mesh();
+    time.stop();
+    cout << "       - time gradient computation:      " << time.getElapsedTime() << endl;
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
     double minx,miny,minz,maxx,maxy,maxz;
@@ -63,6 +66,7 @@ int main(int argc, char* argv[])
     cout << "Triangles: " << mesh.getTopSimplexesNum() << endl;
     cout << "(" << minx << "," << miny << "," << minz << ")   (" << maxx << "," << maxy << "," << maxz << ")" << endl;
     //-----------------------------------------------------------------------------------------------------------------------------------------------
+    cerr << "[MEMORY] peak for computing gradient: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
 
 
     if(argc > 3){
@@ -148,8 +152,8 @@ int main(int argc, char* argv[])
        // gradient->write_mesh_VTK("orig_mesh");
         if(strcmp("-q",argv[4])==0){
             Timer simplify_timer;
-            output_required=true;
-            gradient->writeVTK_gradient("orig_gradiente_doporefine.vtk");
+            output_required=false;
+        //    gradient->writeVTK_gradient("orig_gradiente_doporefine.vtk");
             simplify_timer.start();
             gradient->simplify_geometry(true,atof(argv[5]));
             simplify_timer.stop();

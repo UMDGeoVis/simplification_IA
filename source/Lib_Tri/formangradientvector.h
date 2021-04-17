@@ -14,6 +14,7 @@
 #include <sstream>
 #include <queue>
 #include <iostream>
+#include "usage.h"
 
 #include "Mesh.h"
 #include "Vertex3D.h"

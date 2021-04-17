@@ -302,6 +302,8 @@ QEM_based=QEM_setting;
     }
     timer.stop();
     cout << "       - time building QEM:      " << timer.getElapsedTime() << endl;
+    
+    cerr << "[MEMORY] peak for computing QEM: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
     timer.start();
         while(true){
 
@@ -543,6 +545,8 @@ QEM_based=QEM_setting;
     cout << "       - time simplification:      " << timer.getElapsedTime() << endl;
  
     cout<<"Simplified edge number: "<<done<<endl;
+     cerr << "[MEMORY] peak for simplification: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
+
     reorder_forman_gradient();
     mesh->reorder_triangulation();
     set_alive_simplexes();
