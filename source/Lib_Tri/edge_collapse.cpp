@@ -318,7 +318,7 @@ queue->push(new Geom_Sempl(e,length));
     }
 
  template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges){
-    // cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1+1<<", "<<v2+1<<endl;
+     cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
     
     removed_vertex[v2]=true;
     if(t1!=-1)
