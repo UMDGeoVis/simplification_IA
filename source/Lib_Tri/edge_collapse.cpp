@@ -318,7 +318,7 @@ queue->push(new Geom_Sempl(e,length));
     }
 
  template<class V, class T> void Mesh<V,T>::half_edge_collapse_QEM(int v1, int v2, int t1, int t2, priority_queue<Geom_Sempl*, vector<Geom_Sempl*>, sort_arcs_geom>* queue,double limit,vector<Matrix>* vQEM,vector<vector<double> >* triPl, map<vector<int>,double>& updated_edges){
-     cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
+  //   cout<<"[EDGE CONTRACTION] v1 and v2:"<<v1<<", "<<v2<<endl;
     
     removed_vertex[v2]=true;
     if(t1!=-1)
@@ -464,10 +464,7 @@ queue->push(new Geom_Sempl(e,length));
 
     (*vQEM)[v1] += (*vQEM)[v2];
 
-    //Try a new way here to keep the same as the Terrain trees
-    // getVertex(v1).setX((new_v)[0]);
-    // getVertex(v1).setY((new_v)[1]);
-    // getVertex(v1).setZ((new_v)[2]);
+
 
     for(int i=0; i<vv.size(); i++){
        // cout<<vv[i]<<endl;
@@ -492,7 +489,7 @@ queue->push(new Geom_Sempl(e,length));
                 queue->push(new Geom_Sempl(e,error));
             }
             else if((error-limit)<SMALL_TOLER){
-     //   cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
+      //  cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced: "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error));
        //     cout<<"New edge updated"<<endl;
             }

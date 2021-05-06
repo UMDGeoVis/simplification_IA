@@ -1,6 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
-#define SMALL_TOLER (1e-7)
+#define SMALL_TOLER (1e-13)
 #include <vector>
 #include <string>
 #include <cstdlib>
@@ -1030,9 +1030,18 @@ template<class V, class T> double Mesh<V,T>::cosAngle(int v1, int v2, int v3)
 
 template<class V, class T> double Mesh<V,T>::vertex_error(Matrix q, double x,  double y, double z)
 {
-double result= q[0]*x*x;
-result+= 2*q[1]*x*y;result += 2*q[2]*x*z ;result += 2*q[3]*x ;result += q[5]*y*y;
-result += 2*q[6]*y*z ;result += 2*q[7]*y; result +=q[10]*z*z ;result += 2*q[11]*z ;result += q[15];
+    double result= q[0]*x*x;
+    result+= 2*q[1]*x*y;
+    result += 2*q[2]*x*z ;
+    result += 2*q[3]*x ;
+    result += q[5]*y*y;
+    result += 2*q[6]*y*z ;
+    result += 2*q[7]*y; 
+    result +=q[10]*z*z ;
+    result += 2*q[11]*z ;
+   // cout<<"result[8] "<<result<<endl;
+    result += q[15];        // floating point error is usually at this step
+   // cout<<"result[9] "<<result<<endl;   
 //cout<<"calculated result: "<<result<<endl;
 
 return result;
@@ -1043,7 +1052,7 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 
     double min_error;
     Matrix q_bar;
-    Matrix q_delta;
+    //Matrix q_delta;
     assert(new_vertex != NULL);
 
     /* computer quadric of virtual vertex vf */
@@ -1056,10 +1065,10 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 //        cout << "OKKIO NON E' SIMMETRICA" << endl;
 //    }
 
-    q_delta = Matrix( q_bar[0], q_bar[1],  q_bar[2],  q_bar[3],
-                      q_bar[4], q_bar[5],  q_bar[6],  q_bar[7],
-                      q_bar[8], q_bar[9], q_bar[10], q_bar[11],
-                             0,        0,	      0,        1);
+    // q_delta = Matrix( q_bar[0], q_bar[1],  q_bar[2],  q_bar[3],
+    //                   q_bar[4], q_bar[5],  q_bar[6],  q_bar[7],
+    //                   q_bar[8], q_bar[9], q_bar[10], q_bar[11],
+    //                          0,        0,	      0,        1);
 
     double vx1 = vertices[v1].getX();
     double vy1 = vertices[v1].getY();
@@ -1112,17 +1121,19 @@ template<class V, class T> double Mesh<V,T>::compute_error(int v1, int v2, vecto
 
     double min_error;
     Matrix q_bar;
-    Matrix q_delta;
+   // Matrix q_delta;
 
-
+//  cout<<"v1: "<<v1<<" and v2: "<<v2<<endl;
     /* computer quadric of virtual vertex vf */
     q_bar = (*vQEM)[v1] + (*vQEM)[v2];
+    // (*vQEM)[v1].print();
+    // (*vQEM)[v2].print();
+    // q_bar.print();
 
-
-    q_delta = Matrix( q_bar[0], q_bar[1],  q_bar[2],  q_bar[3],
-                      q_bar[4], q_bar[5],  q_bar[6],  q_bar[7],
-                      q_bar[8], q_bar[9], q_bar[10], q_bar[11],
-                             0,        0,	      0,        1);
+    // q_delta = Matrix( q_bar[0], q_bar[1],  q_bar[2],  q_bar[3],
+    //                   q_bar[4], q_bar[5],  q_bar[6],  q_bar[7],
+    //                   q_bar[8], q_bar[9], q_bar[10], q_bar[11],
+    //                          0,        0,	      0,        1);
 
     double vx1 = vertices[v1].getX();
     double vy1 = vertices[v1].getY();
@@ -1187,7 +1198,7 @@ template<class V, class T> void Mesh<V,T>::computeTrianglesPlane(vector< vector<
         b = (coords[2][1] - coords[2][0]) * (coords[0][2] - coords[0][0]) - (coords[0][1] - coords[0][0]) * (coords[2][2] - coords[2][0]);
 
         c = (coords[0][1] - coords[0][0]) * (coords[1][2] - coords[1][0]) - (coords[1][1] - coords[1][0]) * (coords[0][2] - coords[0][0]);
-
+        
         m = sqrt(a*a + b*b + c*c);
         a = a/m;
         b = b/m;
@@ -1197,6 +1208,7 @@ template<class V, class T> void Mesh<V,T>::computeTrianglesPlane(vector< vector<
         (*trPl)[i][1]=b;
         (*trPl)[i][2]=c;
         (*trPl)[i][3]= -1*(a*coords[0][0] + b*coords[1][0] + c*coords[2][0]);
+
     }
 }
 

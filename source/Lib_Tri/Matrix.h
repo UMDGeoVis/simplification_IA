@@ -62,7 +62,7 @@ public:
    {
        for (int i = 0; i < 16; )
        {
-           printf("%.10lf ", m[i++]);
+           printf("%.14lf ", m[i++]);
            if (i % 4 == 0)
            {
                printf("\n");

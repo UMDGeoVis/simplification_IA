@@ -4,7 +4,7 @@
 
 #define PIGRECO 3.1415927
 #define THRESHOLDNORM 0.0001
-#define SMALL_TOLER (1e-7)
+
 
 void FormanGradientVector::simplify(bool output_model, char *nome_file)
 {
@@ -319,12 +319,9 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
     if (QEM_based == true)
     {
         cout << "=========Calculate triangle plane========" << endl;
-
         trianglePlane = vector<vector<double>>(mesh->getTopSimplexesNum(), vector<double>(4, 0));
         mesh->computeTrianglesPlane(&trianglePlane);
-
         cout << "=========Calculate initial QEM========" << endl;
-
         initialQuadric = vector<Matrix>(mesh->getNumVertex(), Matrix(0.0));
         mesh->computeInitialQEM(&initialQuadric, &trianglePlane);
         vector<vector<double>>().swap(trianglePlane);
@@ -336,7 +333,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
     timer.start();
     while (true)
     {
-
         map<vector<int>, double> values;
         visited = vector<bool>(mesh->getTopSimplexesNum(), false);
         //visited_vertex = vector<bool>(mesh->getNumVertex(), false);
@@ -361,7 +357,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                 else
                 {
                     vector<double> new_vertex();
-
                     double value;
                     if (QEM_based == true)
                     {
@@ -383,9 +378,9 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                             values[e] = value;
                             if (delete_all)
                             {
-                                // cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl;
+           //                     cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl;
                                 Edge *insert_edge = new Edge(e[0], e[1]);
-                                Vertex3D v = mesh->getVertex(e[0]);
+                              //  Vertex3D v = mesh->getVertex(e[0]);
                                 //    new_vertex={v.getX(),v.getY(),v.getZ()};
                                 queue->push(new Geom_Sempl(insert_edge, value));
                             }
@@ -395,7 +390,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                                 {
                                     //     cout<<"["<<e[0]<<","<< e[1]<<"]  Error will be introduced: "<<value<<endl;
                                     Edge *insert_edge = new Edge(e[0], e[1]);
-                                    Vertex3D v = mesh->getVertex(e[0]);
+                              //      Vertex3D v = mesh->getVertex(e[0]);
                                     //    new_vertex={v.getX(),v.getY(),v.getZ()};
                                     queue->push(new Geom_Sempl(insert_edge, value));
                                 }
@@ -428,7 +423,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                                 {
                                     Edge *insert_edge = new Edge(e[0], e[1]);
                                     queue->push(new Geom_Sempl(insert_edge, value));
-
                                     //cout<<"ENQUEUE"<<endl;
                                 }
                             }
@@ -438,13 +432,19 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                 }
             }
         }
+        
+        values.clear();
+        vector<bool>().swap(visited);
         cout << "number of remaining triangles:" << t_count << endl;
         int done_new = 0;
-        vector<int> et;
-        vector<int> vv;
+        
+     //   vector<int> vv;
         cout << "**** [Number] " << queue->size() << " edges enqueued. Start simplification.****" << endl;
+        cerr << "[MEMORY] peak for finding edges: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
+
         while (!queue->empty())
         {
+            vector<int> et;
             Geom_Sempl *sempl = queue->top();
             Edge *edge = sempl->edge;
             double qem_value = sempl->val;
@@ -460,7 +460,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
 
                 if (fabs(it->second - qem_value) > SMALL_TOLER)
                 {
-                    //  cout<<"skip current edge."<<endl;
                     //   cout<<"[DEBUG] edge: "<<sorted_e[0]<<", "<<sorted_e[1]<<"; updated error: "<<it->second<<"old error: "<<qem_value<<endl;
                     delete edge;
                     continue;
@@ -469,7 +468,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
             if (!mesh->is_v_alive(edge->EV(0)) || !mesh->is_v_alive(edge->EV(1)))
             {
                 //    cout<<"[DEBUG] edge not complete: "<<edge->EV(0)<<", "<<edge->EV(1)<<endl;
-                //  cout<<"skip current edge."<<endl;
                 delete edge;
                 continue;
             }
@@ -508,7 +506,6 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
             v1 = edge->EV(0);
             if (v1 != -1)
             {
-
                 int t1, t2;
                 et = mesh->ET(*edge);
                 //  cout<<"Checking edge "<<v1+1<<", "<<v2+1<<endl;
@@ -517,16 +514,12 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                     //     cout<<"Edge("<<v1<<", "<<v2<<") ET size is zero"<<endl;
                     delete edge;
                     continue;
-                    //    t1=-1;
-                    //    t2=-1;
                 }
                 else if (et.size() == 1)
                 {
                     //  cout<<v1<<" and "<<v2<<" are ignored due to no triangles"<<endl;
                     delete edge;
                     continue;
-                    // t1=et[0];
-                    // t2=-1;
                 }
                 else
                 {
@@ -534,21 +527,14 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                     t2 = et[1];
                 }
 
-                //assert(t1 > -1 && t2 > -1);
-                // bool to_switch_sin,to_switch_des;
-                // to_switch_des=to_switch_sin=false;
-                int v2_vtstar = mesh->getVertex(v2).VTstar();
                 vector<int> vt1;
                 vector<int> vt2;
                 vt1 = mesh->VT(v1);
                 vt2 = mesh->VT(v2);
-
-                if (/*!visited_vertex[v2] &&*/ mesh->link_condition(v1, v2, t1, t2) && not_fold_over(v1, v2, vt1, vt2) && valid_gradient_configuration(v1, v2, t1, t2, vt1, vt2) /*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/)
+                if (/*!visited_vertex[v2] &&*/ mesh->link_condition(v1, v2, t1, t2) && not_fold_over(v1, v2, vt1, vt2)&& valid_gradient_configuration(v1, v2, t1, t2, vt1, vt2) /*&& mesh->convex_neighborhood(v1,v2,t1,t2) &&*/)
                 {
-
                     if (QEM_based == true)
                     {
-
                         mesh->half_edge_collapse_QEM(v1, v2, t1, t2, queue, limit, &initialQuadric, &trianglePlane, updated_edges);
                     }
                     else
@@ -579,18 +565,19 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
 
             delete edge;
         }
-
+        updated_edges.clear();
         if (done_new == 0)
             break;
         done += done_new;
         cout << "Simplified edge number in THIS ROUND:" << done_new << endl;
+        cerr << "[MEMORY] peak for simplification: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
+
         //change_vtstar_mesh();
     }
     timer.stop();
     cout << "       - time simplification:      " << timer.getElapsedTime() << endl;
 
     cout << "Simplified edge number: " << done << endl;
-    cerr << "[MEMORY] peak for simplification: " << to_string(MemoryUsage().get_Virtual_Memory_in_MB()) << " MBs" << std::endl;
 
     reorder_forman_gradient();
     mesh->reorder_triangulation();
@@ -1004,20 +991,20 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
     v3_sin = v3_des = -1;
 
     //aggiunti ora
-    for (int i = 0; i < vt.size(); i++)
-    {
-        if (is_face_critical(vt[i]))
-        {
+    // for (int i = 0; i < vt.size(); i++)
+    // {
+    //     if (is_face_critical(vt[i]))
+    //     {
 
-            return false;
-        }
-    }
-
-    // for(int i=0; i<vt1.size(); i++){
-    //     if(is_face_critical(vt1[i])) {
-    //  //        cout<<"vt1 is critical"<<endl;
-    //         return false;}
+    //         return false;
+    //     }
     // }
+
+    for(int i=0; i<vt1.size(); i++){
+        if(is_face_critical(vt1[i])) {
+     //        cout<<"vt1 is critical"<<endl;
+            return false;}
+    }
 
     vector<int> vv = mesh->VV(v2);
     for (int i = 0; i < vv.size(); i++)
@@ -1096,7 +1083,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_sin).VTstar(t4);
+      //  mesh->getVertex(v3_sin).VTstar(t4);
     }
     else if (edge1 != NULL && *edge1 == Edge(v3_sin, v1))
     {
@@ -1108,7 +1095,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v2));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v2));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_sin).VTstar(t4);
+    //    mesh->getVertex(v3_sin).VTstar(t4);
     }
     else if (edge2 != NULL && *edge2 == Edge(v1, v3_sin))
     {
@@ -1131,7 +1118,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_sin), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v1), mesh->getTopSimplex(t3).vertex_index(v3_sin));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v2).VTstar(t4);
+     //   mesh->getVertex(v2).VTstar(t4);
     }
     if (mesh->getVertex(v3_sin).VTstar() == t1)
         mesh->getVertex(v3_sin).VTstar(mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1)));
@@ -1148,7 +1135,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v1));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_des).VTstar(t4);
+      //  mesh->getVertex(v3_des).VTstar(t4);
     }
     else if (edge1 != NULL && *edge1 == Edge(v3_des, v1))
     {
@@ -1161,7 +1148,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v2));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v2));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v3_des).VTstar(t4);
+     //   mesh->getVertex(v3_des).VTstar(t4);
     }
     else if (edge2 != NULL && *edge2 == Edge(v1, v3_des))
     {
@@ -1183,7 +1170,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         grad.erase_edge_relation(mesh->getTopSimplex(t3).vertex_index(v3_des), mesh->getTopSimplex(t3).vertex_index(v1));
         grad.setVE(mesh->getTopSimplex(t3).vertex_index(v1), mesh->getTopSimplex(t3).vertex_index(v3_des));
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
-        mesh->getVertex(v2).VTstar(t4);
+     //   mesh->getVertex(v2).VTstar(t4);
     }
     if (mesh->getVertex(v3_des).VTstar() == t2)
         mesh->getVertex(v3_des).VTstar(mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2)));

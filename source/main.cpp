@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
         else if(strcmp("-l",argv[4])==0){
         gradient->simplify_geometry(false, atof(argv[5]));  
         }
-        gradient->write_mesh_VTK("simplified_mesh");
+      //  gradient->write_mesh_VTK("simplified_mesh");
 
         }
     }
@@ -172,7 +172,7 @@ int main(int argc, char* argv[])
         //multiresolution version
         cout << "Printing output:" << endl;
        
-        gradient->writeVTK_gradient("prove_gradiente_doporefine.vtk");
+   //     gradient->writeVTK_gradient("prove_gradiente_doporefine.vtk");
 
         gradient->descending_2cells_extraction(true);
         gradient->descending_1cells_extraction(true);
@@ -181,7 +181,7 @@ int main(int argc, char* argv[])
         gradient->ascending_1cells_extraction(true);
 
         gradient->compute_incidence_graph();
-        gradient->writeVTK_IG("ig_simplified.vtk");
+     //   gradient->writeVTK_IG("ig_simplified.vtk");
 
         cout << "   - done" << endl;
     }
