@@ -575,6 +575,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
 
         //change_vtstar_mesh();
     }
+    delete queue;
     timer.stop();
     cout << "       - time simplification:      " << timer.getElapsedTime() << endl;
 
@@ -1056,24 +1057,24 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
     }
     //assert(*getVE(v2) == Edge(v1,v2));
 
-    Edge *edge1 = getVE(v3_sin);
+    int pair_e1 = getVE_new(v3_sin);
 
-    Edge *edge2 = getVE(v1);
+    int pair_e2 = getVE_new(v1);
 
-    Edge *edge3 = getVE(v2);
-    if (edge2 == NULL && edge3 != NULL && edge3->EV(1) != v1)
+    int pair_e3 = getVE_new(v2);
+    if (pair_e2 == -1 && pair_e3 != -1 && pair_e3!= v1)
     {
         //       cout<<"edge is not paired with v1 or v2"<<endl;
         return false;
     }
-    else if (edge2 != NULL && edge2->EV(1) != v2 && edge3 != NULL && edge3->EV(1) != v1)
+    else if (pair_e2 != -1 && pair_e2 != v2 && pair_e3 != -1 && pair_e3 != v1)
     {
         //  cout<<"v1: "<<v1<<" v1_pair: "<<edge2->EV(1)<<endl;
         //  cout<<"v2: "<<v2<<" v2_pair: "<<edge3->EV(1)<<endl;
         //   cout<<"edge is not paired with v1 or v2"<<endl;
         return false;
     }
-    if (edge1 != NULL && *edge1 == Edge(v3_sin, v2))
+    if (pair_e1 != -1 && pair_e1 ==  v2)
     {
 
         // cout<<"v3_sin is paired with v2"<<endl;
@@ -1086,7 +1087,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
       //  mesh->getVertex(v3_sin).VTstar(t4);
     }
-    else if (edge1 != NULL && *edge1 == Edge(v3_sin, v1))
+    else if (pair_e1 != -1 && pair_e1 ==  v1)
     {
         // cout<<"v3_sin is paired with v1"<<endl;
         //devo fare l'update sul triangolo sopra t2
@@ -1098,7 +1099,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
     //    mesh->getVertex(v3_sin).VTstar(t4);
     }
-    else if (edge2 != NULL && *edge2 == Edge(v1, v3_sin))
+    else if (pair_e2 != -1 && pair_e2 ==  v3_sin)
     {
         // cout<<"v1 is paired with v3_sin"<<endl;
         //  cout<<"v1:"<<v1<<" v3_sin:"<<v3_sin<<endl;
@@ -1111,7 +1112,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
         //    mesh->getVertex(v1).VTstar(t4);
     }
-    else if (edge2 != NULL && *edge2 == Edge(v1, v2) && edge3 != NULL && *edge3 == Edge(v2, v3_sin))
+    else if (pair_e2 != -1 && pair_e2 == v2 && pair_e3 != -1 && pair_e3 == v3_sin)
     {
         int t3 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v2));
         int t4 = mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1));
@@ -1123,10 +1124,10 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
     }
     if (mesh->getVertex(v3_sin).VTstar() == t1)
         mesh->getVertex(v3_sin).VTstar(mesh->getTopSimplex(t1).TT(mesh->getTopSimplex(t1).vertex_index(v1)));
-    delete edge1;
+  
     //lato destro
-    edge1 = getVE(v3_des);
-    if (edge1 != NULL && *edge1 == Edge(v3_des, v2))
+    pair_e1 = getVE_new(v3_des);
+    if (pair_e1 != -1 && pair_e1 ==  v2)
     {
         // cout<<"v3_des is paired with v2"<<endl;
         //devo fare l'update sul triangolo sotto t2
@@ -1138,7 +1139,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
       //  mesh->getVertex(v3_des).VTstar(t4);
     }
-    else if (edge1 != NULL && *edge1 == Edge(v3_des, v1))
+    else if (pair_e1 != -1 && pair_e1 ==  v1)
     {
         // cout<<"v3_des is paired with v1"<<endl;
         // cout<<"v1:"<<v1<<" v3_des:"<<v3_des<<endl;
@@ -1151,7 +1152,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
      //   mesh->getVertex(v3_des).VTstar(t4);
     }
-    else if (edge2 != NULL && *edge2 == Edge(v1, v3_des))
+    else if (pair_e2 != -1 && pair_e2 ==  v3_des)
     {
         // cout<<"v1 is paired with v3_des"<<endl;
         //devo fare l'update sul triangolo sopra t2
@@ -1163,7 +1164,7 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
         forman_gradient[t3] = convert_expand_to_compressed(grad.getArrow());
         //  mesh->getVertex(v1).VTstar(t4);
     }
-    else if (edge2 != NULL && *edge2 == Edge(v1, v2) && edge3 != NULL && *edge3 == Edge(v2, v3_des))
+    else if (pair_e2 != -1 && pair_e2 == v2 && pair_e3 != -1 && pair_e3 ==  v3_des)
     {
         int t3 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2));
         int t4 = mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v1));
@@ -1175,9 +1176,9 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
     }
     if (mesh->getVertex(v3_des).VTstar() == t2)
         mesh->getVertex(v3_des).VTstar(mesh->getTopSimplex(t2).TT(mesh->getTopSimplex(t2).vertex_index(v2)));
-    delete edge1;
-    delete edge2;
-    delete edge3;
+    // delete edge1;
+    // delete edge2;
+    // delete edge3;
 
     return true;
 }
