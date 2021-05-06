@@ -13,6 +13,7 @@ public:
     int getVerticesNum();
 
     Edge* TE(int pos);
+    Edge TE_new(int pos);
 
     int TT(int pos);
     void setTT(int pos, int adjId);

@@ -349,10 +349,10 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                 {
                     continue;
                 }
-                Edge *edge = mesh->getTopSimplex(i).TE(j);
-                if ((getVE(edge->EV(0)) == NULL) && (getVE(edge->EV(1)) == NULL))
+                Edge edge = mesh->getTopSimplex(i).TE_new(j);
+                if ((getVE_new(edge.EV(0)) == -1) && (getVE_new(edge.EV(1)) == -1))
                 {
-                    delete edge;
+                   // delete edge;
                 }
                 else
                 {
@@ -360,7 +360,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                     double value;
                     if (QEM_based == true)
                     {
-                        e = {edge->EV(0), edge->EV(1)};
+                        e = {edge.EV(0), edge.EV(1)};
                         sort(e.begin(), e.end());
                         int new_vertex_pos = -1;
                         value = mesh->compute_error(e[0], e[1], &initialQuadric, new_vertex_pos);
@@ -399,7 +399,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                     }
                     else
                     {
-                        e = {edge->EV(0), edge->EV(1)};
+                        e = {edge.EV(0), edge.EV(1)};
                         sort(e.begin(), e.end());
                         Vertex3D v1 = mesh->getVertex(e[0]);
                         Vertex3D v2 = mesh->getVertex(e[1]);
@@ -428,7 +428,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                             }
                         }
                     }
-                    delete edge;
+                    //delete edge;
                 }
             }
         }
@@ -472,11 +472,12 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                 continue;
             }
 
-            Edge *e1 = getVE(edge->EV(0));
+            int paired_v = getVE_new(edge->EV(0));
+            
             int v1, v2;
             v1 = v2 = -1;
             bool v1_pair_e = false;
-            if (e1 != NULL && *e1 == *edge)
+            if (paired_v != -1 && paired_v ==edge->EV(1) )
             {
                 v1_pair_e = true;
             }
@@ -1627,7 +1628,7 @@ bool FormanGradientVector::not_fold_over(int v1, int v2, vector<int> vt1, vector
             continue;
         Triangle t = mesh->getTopSimplex(vt2_sub_et[i]);
         int v2_pos = t.vertex_index(v2);
-        Edge e = *(t.TE(v2_pos));
+        Edge e = t.TE_new(v2_pos);
         bool same_side = same_side_of_edge(v1, v2, e.EV(0), e.EV(1));
         //    cout<<"edge:"<<v1<<", "<<v2<<endl;
         // cout<<"result:"<<same_side<<endl;

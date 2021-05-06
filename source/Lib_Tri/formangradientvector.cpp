@@ -141,6 +141,25 @@ Edge* FormanGradientVector::getVE(int v){
     return NULL;
 }
 
+int FormanGradientVector::getVE_new(int v){
+
+    int t = mesh->getVertex(v).VTstar();
+    int v2 = convert_compressed_to_expand(forman_gradient[t]).get_vertex_pair(mesh->getTopSimplex(t).vertex_index(v));
+    int paired_v=-1;
+    if(v2!=-1)
+    {
+        paired_v=mesh->getTopSimplex(t).TV(v2);
+    }
+  
+    return paired_v;
+    // if(v2 != -1){
+    //     return new Edge(v, mesh->getTopSimplex(t).TV(v2));
+    // }
+
+    // return NULL;
+}
+
+
 int FormanGradientVector::getEF(Edge* e){
 
     vector<int> et = mesh->ET(*e);

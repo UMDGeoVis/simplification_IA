@@ -23,6 +23,14 @@ Edge* Triangle::TE(int pos)
     return new Edge(v1,v2);
 }
 
+Edge Triangle::TE_new(int pos)
+{
+   int v1=(vertices[(pos+1)%3]<vertices[(pos+2)%3])?vertices[(pos+1)%3]:vertices[(pos+2)%3];
+    int v2=(vertices[(pos+1)%3]<vertices[(pos+2)%3])?vertices[(pos+2)%3]:vertices[(pos+1)%3];
+    return Edge(v1,v2);
+}
+
+
 int Triangle::TT(int pos)
 {
     return this->adj[pos];

@@ -135,6 +135,7 @@ public:
     void setVE(int v, int v2);
     void setEF(int v, int f);
     Edge *getVE(int v);
+    int getVE_new(int v);
     int getEF(Edge *);
     void freeVE(int v1, int v2);
     void freeEF(int v, int f);
