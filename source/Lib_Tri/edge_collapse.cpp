@@ -517,7 +517,7 @@ queue->push(new Geom_Sempl(e,length));
         if(limit<0){
    queue->push(new Geom_Sempl(e,error));
         }
-            else if((error-limit)<SMALL_TOLER){
+            else if(error+SMALL_TOLER<limit){
 
          //   cout<<"["<<e->EV(0)<<","<<e->EV(1)<<"]  Error will be introduced (updated): "<<error<<endl; 
             queue->push(new Geom_Sempl(e,error));

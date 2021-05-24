@@ -419,7 +419,7 @@ void FormanGradientVector::simplify_geometry(bool QEM_setting, double limit)
                             }
                             else
                             {
-                                if ((value - limit) < SMALL_TOLER)
+                                if ((value + SMALL_TOLER<limit)
                                 {
                                     Edge *insert_edge = new Edge(e[0], e[1]);
                                     queue->push(new Geom_Sempl(insert_edge, value));
