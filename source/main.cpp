@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
         else if(strcmp("-l",argv[4])==0){
         gradient->simplify_geometry(false, atof(argv[5]));  
         }
-      //  gradient->write_mesh_VTK("simplified_mesh");
+        gradient->write_mesh_VTK("simplified_mesh");
 
         }
     }

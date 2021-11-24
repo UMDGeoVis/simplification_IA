@@ -10,6 +10,7 @@
 #include <map>
 #include <stdio.h>
 #include "Matrix.h"
+#include <cmath>
 
 #include "Sorting.h"
 #include "Edge.h"

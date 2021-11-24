@@ -1,5 +1,5 @@
-#include "mmformangradientvector.h"
+// #include "mmformangradientvector.h"
 
-MMFormanGradientVector::MMFormanGradientVector()
-{
-}
+// MMFormanGradientVector::MMFormanGradientVector()
+// {
+// }

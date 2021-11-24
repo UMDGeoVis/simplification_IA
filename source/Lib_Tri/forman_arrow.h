@@ -133,10 +133,9 @@ public:
 
     // flag is one of the named entities of the enum
     inline bool testArrow(Arrows flag )	const	{  return (arrow & flag) != ARROWS_EMPTY; }		//  return 0 if flag is not set and 1 if flag is set
-    inline void setArrow(Arrows flag )  		{  arrow |= flag; }  							//  sets bit in position corresponding to flag
-    inline void toggleArrow(Arrows flag )		{  arrow ^= flag; }								//  toggles bit in position corresponding to flag
-    inline void clearArrow( Arrows flag )  		{  arrow &= ~flag; }  							//  clears bit in position corresponding to flag
-
+    inline void setArrow(Arrows flag )  		{  arrow = static_cast<Arrows>(flag|arrow); }  							//  sets bit in position corresponding to flag
+    inline void toggleArrow(Arrows flag) {arrow = static_cast<Arrows>(flag ^ arrow); }                                   //  toggles bit in position corresponding to flag
+    inline void clearArrow(Arrows flag) {arrow = static_cast<Arrows>(arrow&(~flag)); }                                         //  clears bit in position corresponding to flag
 
     inline void erase_edge_relation(short int v1, short int v2){
 

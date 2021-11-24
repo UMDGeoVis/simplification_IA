@@ -69,9 +69,9 @@ struct gradient
     void erase(const vector<int> &key, map<vector<int>,int>::iterator it)
     {
         if(key.size() == 1)
-            return vertices_vector.erase(it);
+            vertices_vector.erase(it);
         else if(key.size() == 2)
-            return edges_vector.erase(it);
+            edges_vector.erase(it);
     }
 
     simplices_map::iterator find(const vector<int> &key)

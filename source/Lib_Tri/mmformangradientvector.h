@@ -1,18 +1,18 @@
-#ifndef MMFORMANGRADIENTVECTOR_H
-#define MMFORMANGRADIENTVECTOR_H
+// #ifndef MMFORMANGRADIENTVECTOR_H
+// #define MMFORMANGRADIENTVECTOR_H
 
-#include "formangradientvector.h"
-
-
-
-class MMFormanGradientVector : public FormanGradientVector
-{
-
-    list<>
+// #include "formangradientvector.h"
 
 
-public:
-    MMFormanGradientVector();
-};
 
-#endif // MMFORMANGRADIENTVECTOR_H
+// class MMFormanGradientVector : public FormanGradientVector
+// {
+
+//     list<>
+
+
+// public:
+//     MMFormanGradientVector();
+// };
+
+// #endif // MMFORMANGRADIENTVECTOR_H

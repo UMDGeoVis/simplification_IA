@@ -36,8 +36,8 @@ void FormanGradientVector::simplify_persistence(float pers_limit){
 
         if(sempl->lvl == 0){
             lvl0++;
-            saddle  = sempl->arc->getNode_j();
-            extrema = sempl->arc->getNode_i();
+            saddle  = (iNode*)sempl->arc->getNode_j();
+            extrema = (nNode *)sempl->arc->getNode_i();
 
             if(saddle->getArcs(true).size() != 2){ //In which case? Sometimes edge on the border. And some other cases
                 delete sempl;
@@ -51,8 +51,8 @@ void FormanGradientVector::simplify_persistence(float pers_limit){
         }
         else{
             lvl1++;
-            saddle  = sempl->arc->getNode_i();
-            extrema = sempl->arc->getNode_j();
+            saddle = (iNode *)sempl->arc->getNode_i();
+            extrema = (nNode *)sempl->arc->getNode_j();
 
             if(saddle->getArcs(false).size() != 2){
                 delete sempl;

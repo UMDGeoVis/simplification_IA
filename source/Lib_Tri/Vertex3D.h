@@ -1,7 +1,7 @@
 #ifndef _VERTEX3D_H
 #define	_VERTEX3D_H
 
-#include <math.h>
+#include <cmath>
 #include "Vertex2D.h"
 
 ///An inner-class, extending Vertex2D, representing a vertex in a tetrahedral mesh
@@ -63,7 +63,7 @@ public:
     }
 
 
-    inline double saliency()
+    inline double saliency() const
     {
         return this->vertexSaliency;
     }

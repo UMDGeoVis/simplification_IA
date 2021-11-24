@@ -256,8 +256,8 @@ list<DAG_TopoNode *> *FormanGradientVector::simplify_persistence(map<Node *, DAG
 
         if (sempl->lvl == 0)
         {
-            saddle = sempl->arc->getNode_j();
-            extrema = sempl->arc->getNode_i();
+            saddle = ((iNode*)sempl->arc->getNode_j());
+            extrema = ((nNode *)sempl->arc->getNode_i());
 
             if (saddle->getArcs(true).size() != 2)
                 continue;
@@ -273,8 +273,8 @@ list<DAG_TopoNode *> *FormanGradientVector::simplify_persistence(map<Node *, DAG
         }
         else
         {
-            saddle = sempl->arc->getNode_i();
-            extrema = sempl->arc->getNode_j();
+            saddle = ((iNode *)sempl->arc->getNode_i());
+            extrema = ((nNode *)sempl->arc->getNode_j());
 
             if (saddle->getArcs(false).size() != 2)
                 continue;
