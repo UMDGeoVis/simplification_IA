@@ -1,10 +1,9 @@
-import numpy as np
+\import numpy as np
 import os
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 from vtk import (vtkUnstructuredGridReader, vtkDataSetMapper, vtkActor,vtkRenderer, vtkRenderWindow, vtkRenderWindowInteractor)
 from mayavi import mlab
-from mayavi.modules.surface import Surface
 
 def vtk_plot(file_name):
     '''

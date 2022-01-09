@@ -4,7 +4,6 @@ import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 from vtk import (vtkUnstructuredGridReader, vtkDataSetMapper, vtkActor,vtkRenderer, vtkRenderWindow, vtkRenderWindowInteractor)
 from mayavi import mlab
-from mayavi.modules.surface import Surface
 
 def vtk_plot_net(file_name):
     # Read the source file.

@@ -1,11 +1,7 @@
 import sys
 import os
 import numpy as np
-import pandas as pd
 from mayavi import mlab
-from mayavi.modules.surface import Surface
-
-import numpy as np
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 from vtk import (vtkUnstructuredGridReader, vtkDataSetMapper, vtkActor,vtkRenderer, vtkRenderWindow, vtkRenderWindowInteractor)
