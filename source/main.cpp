@@ -43,6 +43,12 @@ int main(int argc, char* argv[])
     time.stop();
     cout << "       - time gradient computation:      " << time.getElapsedTime() << endl;
 
+    // gradient->descending_2cells_extraction(true);
+    // gradient->descending_1cells_extraction(true);
+
+    // gradient->ascending_2cells_extraction(true);
+    // gradient->ascending_1cells_extraction(true);
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------
     double minx,miny,minz,maxx,maxy,maxz;
     minx=mesh.getVertex(0).getX();
@@ -76,8 +82,7 @@ int main(int argc, char* argv[])
             //simplification version
             Timer time_refine_topo;
 
-            gradient->compute_incidence_graph();
-            gradient->writeVTK_IG("ig_orig.vtk");
+
             time_refine_topo.start();
             cout << "Simplification Version:" << endl;
             cout << "   - simplification step" << endl;
@@ -147,13 +152,15 @@ int main(int argc, char* argv[])
        }
         }
         else if(strcmp("-c",argv[3])==0){
-            output_required=false;
+            gradient->compute_incidence_graph();
+            gradient->writeVTK_IG("ig_orig.vtk");
+            
              cout << "   Geometry simplification" << endl;
-       // gradient->write_mesh_VTK("orig_mesh");
+        gradient->write_mesh_VTK("orig_mesh");
         if(strcmp("-q",argv[4])==0){
             Timer simplify_timer;
-            output_required=false;
-        //    gradient->writeVTK_gradient("orig_gradiente_doporefine.vtk");
+            output_required=true;
+           gradient->writeVTK_gradient("orig_gradiente_doporefine.vtk");
             simplify_timer.start();
             gradient->simplify_geometry(true,atof(argv[5]));
             simplify_timer.stop();
@@ -163,7 +170,7 @@ int main(int argc, char* argv[])
         else if(strcmp("-l",argv[4])==0){
         gradient->simplify_geometry(false, atof(argv[5]));  
         }
-      //  gradient->write_mesh_VTK("simplified_mesh");
+        gradient->write_mesh_VTK("simplified_mesh");
 
         }
     }
@@ -172,16 +179,17 @@ int main(int argc, char* argv[])
         //multiresolution version
         cout << "Printing output:" << endl;
        
-   //     gradient->writeVTK_gradient("prove_gradiente_doporefine.vtk");
+       gradient->writeVTK_gradient("prove_gradiente_doporefine.vtk");
 
-        gradient->descending_2cells_extraction(true);
-        gradient->descending_1cells_extraction(true);
+        // gradient->descending_2cells_extraction(true);
+        // gradient->descending_1cells_extraction(true);
 
-        gradient->ascending_2cells_extraction(true);
-        gradient->ascending_1cells_extraction(true);
+        // gradient->ascending_2cells_extraction(true);
+        // gradient->ascending_1cells_extraction(true);
+        gradient->initial_filtering();
 
         gradient->compute_incidence_graph();
-     //   gradient->writeVTK_IG("ig_simplified.vtk");
+        gradient->writeVTK_IG("ig_simplified.vtk");
 
         cout << "   - done" << endl;
     }

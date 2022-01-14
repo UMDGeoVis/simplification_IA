@@ -1064,11 +1064,14 @@ bool FormanGradientVector::valid_gradient_configuration(int v1, int v2, int t1, 
     int pair_e3 = getVE_new(v2);
     if (pair_e2 == -1 && pair_e3 != -1 && pair_e3!= v1)
     {
+        // when v1 is critical, and the edge is not paired with v2
         //       cout<<"edge is not paired with v1 or v2"<<endl;
         return false;
     }
     else if (pair_e2 != -1 && pair_e2 != v2 && pair_e3 != -1 && pair_e3 != v1)
     {
+        // when v1 is not critical, and both vertices are not paired with e. 
+        
         //  cout<<"v1: "<<v1<<" v1_pair: "<<edge2->EV(1)<<endl;
         //  cout<<"v2: "<<v2<<" v2_pair: "<<edge3->EV(1)<<endl;
         //   cout<<"edge is not paired with v1 or v2"<<endl;
